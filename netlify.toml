@@ -1,0 +1,11 @@
+[build]
+  command = "node build.mjs && node tools/check.mjs"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+  # Set the real origin here — it drives canonical, hreflang, OGP and sitemap.
+  SITE_URL = "https://www.tyo-lab.com"
+
+# dist/404.html is picked up automatically by Netlify.
+# Header rules live in public/_headers so they also apply on Cloudflare Pages.

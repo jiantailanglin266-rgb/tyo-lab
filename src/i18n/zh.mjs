@@ -1,0 +1,404 @@
+/**
+ * 简体中文 (zh-CN)
+ * 覆盖 en.mjs；未定义的键自动回退到英文。
+ * 有意保留英文的键：home.hero.line1/line2、home.backtest.lines、
+ * home.tech.words、home.final.*、about.philosophyNo/philosophyYes（品牌字体排版）。
+ */
+export default {
+  meta: {
+    brandLine: 'Algorithmic Trading Lab',
+    defaultDesc:
+      'TYO 是一间独立的算法交易研究室。我们以 AI 辅助研发、量化逻辑与严格的回测流程，开发 MetaTrader 5 智能交易系统（EA）。',
+  },
+
+  nav: {
+    home: '首页',
+    ea: 'EA 系统',
+    history: '开发历程',
+    technology: '技术',
+    lab: '回测实验室',
+    about: '关于 TYO',
+    contact: '联系我们',
+  },
+
+  ui: {
+    menu: '菜单',
+    close: '关闭',
+    language: '语言',
+    selectLanguage: '选择语言',
+    skipToContent: '跳到主要内容',
+    scroll: '滚动',
+    backToTop: '回到顶部',
+    exploreEAs: '查看我们的 EA',
+    ourStory: '我们的开发故事',
+    viewOnMql5: '在 MQL5 查看',
+    mql5Profile: 'MQL5 主页',
+    downloadEA: '下载 EA',
+    readMore: '阅读全文',
+    viewAll: '查看全部',
+    viewDetail: '查看详情',
+    free: '免费',
+    paid: '付费',
+    comingSoon: '即将发布',
+    inDevelopment: '开发中',
+    released: '已发布',
+    dataPending: '数据待公开',
+    dataPendingNote: '我们只公布经过验证的数据。相关测试报告确认后，本区块将会显示。',
+    notPublished: '未公开',
+    updated: '更新',
+    published: '发布',
+    version: '版本',
+    back: '返回',
+    externalLink: '在新标签页打开',
+    playVideo: '播放视频',
+    pauseVideo: '暂停视频',
+    reduceMotionNote: '已依照您的系统设定减少动态效果。',
+  },
+
+  home: {
+    hero: {
+      sub: 'AI 驱动的研究。量化的逻辑。自动化的执行。',
+      eyebrow: '独立算法交易研究室',
+    },
+    intro: {
+      eyebrow: '理念',
+      h1: '我们构建算法，',
+      h2: '而不是预言。',
+      body1: '没有人知道市场下一步会走向哪里，我们也不知道。真正可以被工程化的，是面对这种不确定性的流程。',
+      body2:
+        '数据、概率、规则、风险控制、自动执行。TYO 以算法而非情绪面对市场，并把每一个结果视为「证据」，而不是「证明」。',
+      pillars: [
+        { k: '数据', v: '来自观测，而非假设' },
+        { k: '概率', v: '是分布，而非定论' },
+        { k: '规则', v: '在下单之前写清楚' },
+        { k: '风险', v: '在进场之前先定义' },
+        { k: '执行', v: '自动化、可重复' },
+      ],
+    },
+    stats: {
+      eyebrow: '社群',
+      h: '全球交易者都在使用。',
+      body:
+        'TYO 的免费 EA 透过 MetaTrader 官方市集 MQL5 发布。每一次下载，都是一位独立交易者主动选择运行我们的代码。',
+      labels: {
+        downloads: '全球 EA 累计下载',
+        countries: '覆盖国家 / 地区',
+        releases: 'EA 发布数量',
+        backtests: '已执行回测次数',
+        years: '研究年数',
+      },
+      source: '数据来源：MQL5 市集，免费 EA 累计下载量。',
+    },
+    global: {
+      eyebrow: '全球社群',
+      h1: '在日本开发。',
+      h2: '由世界各地的交易者验证。',
+      body:
+        'TYO 在东京开发，但代码运行在印度、泰国、印尼、越南、中国等地的终端上。不同的经纪商、不同的点差、不同的交易时段——这种多样性，是一套算法所能得到最诚实的压力测试。',
+      legend: '活跃社群地区',
+    },
+    ai: {
+      eyebrow: 'AI Accelerated Development',
+      h1: 'AI 不是策略。',
+      h2: 'AI 是加速器。',
+      body:
+        '我们只在能真正提升工程产出的环节使用 AI：读取数据、起草代码、构建测试、汇总结果、探索参数空间。交易逻辑本身始终保持显式、可读、可审查。',
+      note: 'AI 不预测市场。本网站的任何模型输出，都不作为未来价格的预测。',
+      items: [
+        { k: '代码辅助', v: '加速 MQL5 的实现与重构' },
+        { k: '研究', v: '文献、市场结构与行为特征调研' },
+        { k: '数据分析', v: '大规模处理逐笔与 K 线数据' },
+        { k: '参数探索', v: '以系统性搜索取代凭感觉' },
+        { k: '测试', v: '跨条件的自动化测试矩阵' },
+        { k: '文档化', v: '一致且可复现的测试记录' },
+      ],
+    },
+    algorithm: {
+      eyebrow: 'From Idea to Algorithm',
+      body: '市场上的观察本身还不是策略。只有经过定义、量化、实现与测试，它才成为策略。',
+      steps: [
+        { n: '01', k: '市场数据', v: '原始价格、成交量与时间序列' },
+        { n: '02', k: '量化', v: '把观察到的行为转为可测量的条件' },
+        { n: '03', k: '逻辑', v: '进场、出场、仓位与风险规则' },
+        { n: '04', k: '代码', v: '确定性的 MQL5 实现' },
+        { n: '05', k: '算法', v: '完整且可测试的交易系统' },
+        { n: '06', k: 'EA', v: '在 MetaTrader 5 上自动执行' },
+      ],
+    },
+    ea: {
+      eyebrow: 'Expert Advisors',
+      h: '我们已发布的系统。',
+      body: '每一套 EA 都附有概念、逻辑、风险模型与测试条件的文档。没有黑箱，也没有无法解释的业绩。',
+      cta: '查看全部 EA',
+    },
+    backtest: {
+      eyebrow: 'Backtest Lab',
+      body:
+        '绝大多数想法都会失败，这正是重点。回测不是销售素材，而是告诉我们哪些想法值得投入更多时间的量测仪器。',
+      cta: '进入回测实验室',
+    },
+    history: {
+      eyebrow: 'Development History',
+      h: '每一套 EA，都始于一个问题。',
+      questions: ['这个行为能被量化吗？', '这个风险能被控制吗？', '这套逻辑能在不同的市场环境下存活吗？'],
+      body: '然后我们测试。再测试一次。然后重做。',
+      cta: '阅读开发时间轴',
+    },
+    tech: {
+      eyebrow: 'Technology',
+      h1: '市场存在于概率之中，',
+      h2: '而非确定之中。',
+      body:
+        '我们借用概率论的语言——分布、不确定性、结果的叠加——作为设计哲学，而不是预测引擎。一笔交易是分布中的一个位置，永远不是一个已知的结果。',
+      cta: '了解技术',
+    },
+  },
+
+  ea: {
+    index: {
+      eyebrow: 'Expert Advisors',
+      lead:
+        '为 MetaTrader 5 开发、并透过 MQL5 发布的自动交易系统。以下每一套系统都注明了所使用的逻辑、所承担的风险，以及测试时的条件。',
+      empty: '目前尚未发布 EA。新版本会最先出现在这里。',
+      filterAll: '全部',
+      count: '套系统',
+    },
+    labels: {
+      market: '市场',
+      symbol: '交易品种',
+      timeframe: '周期',
+      strategy: '策略类型',
+      risk: '风险等级',
+      version: '版本',
+      releaseDate: '发布日期',
+      price: '提供方式',
+      platform: '平台',
+      minDeposit: '建议最低入金',
+      accountType: '账户类型',
+      leverage: '杠杆',
+      vps: 'VPS',
+      status: '状态',
+    },
+    risk: { low: '低', medium: '中', high: '高', variable: '可配置' },
+    detail: {
+      overview: '概述',
+      concept: '概念',
+      strategy: '策略',
+      logic: '逻辑',
+      riskManagement: '风险管理',
+      backtest: '回测',
+      video: '回测影片',
+      parameters: '参数',
+      environment: '建议运行环境',
+      history: '开发历程',
+      versions: '版本记录',
+      download: '下载',
+      disclaimer: '免责声明',
+      paramName: '参数',
+      paramDefault: '默认值',
+      paramDesc: '说明',
+      versionCol: '版本',
+      dateCol: '日期',
+      changeCol: '变更内容',
+      downloadBody:
+        '本 EA 透过 MetaTrader 官方市集 MQL5 发布。下载、更新与评价皆在该平台完成。',
+      backToList: '全部 EA',
+      nextEa: '下一套系统',
+    },
+    metrics: {
+      title: '回测摘要',
+      period: '回测期间',
+      initialDeposit: '初始资金',
+      netProfit: '净利润',
+      maxDrawdown: '最大回撤',
+      profitFactor: '获利因子',
+      totalTrades: '总交易次数',
+      winRate: '胜率',
+      recoveryFactor: '恢复因子',
+      expectedPayoff: '期望收益',
+      sharpe: '夏普比率',
+      broker: '经纪商 / 服务器',
+      spread: '点差',
+      commission: '手续费',
+      modeling: '建模方式',
+      dataSource: '数据来源',
+      quality: '建模质量',
+      conditions: '测试条件',
+    },
+  },
+
+  history: {
+    eyebrow: 'Development History',
+    lead: '这不是公司沿革，而是一套交易系统真实的诞生过程——包括那些没有成功的部分。',
+    processTitle: '每一套系统都要跑一遍的循环',
+    failureTitle: '失败也是记录的一部分',
+    failureBody:
+      '只展示胜利的研究品牌，其实是营销品牌。我们列出被淘汰的模型、重写的逻辑与放弃的假设，因为它们正是现存系统存在的理由。',
+    milestonesTitle: '重要里程碑',
+    stage: '阶段',
+  },
+
+  technology: {
+    eyebrow: 'Technology',
+    lead:
+      '这是支撑每一套 TYO 系统的技术与思维。这里没有独门魔法，只是把标准的工程纪律，一致地套用在交易软件上。',
+    aiTitle: '人工智能',
+    aiLead: '在 TYO，AI 是开发的加速器，而不是预测的神谕。它缩短了从想法到可测试实现之间的距离。',
+    aiWarning: '我们不使用 AI 预测价格，也不会把任何模型输出当作对未来市场方向的预测来呈现。',
+    quantumTitle: '是概率，不是确定',
+    quantumLead:
+      '我们的视觉与概念语言来自概率论——分布、不确定性、叠加的结果、粒子系统。它决定了我们如何设计与呈现结果。这是一种对未来保持谦逊的哲学，而不是对物理预测能力的宣称。',
+    quantumPoints: [
+      { k: '概率', v: '每一笔交易都是分布中的一次抽样。' },
+      { k: '不确定性', v: '思考的是置信区间，不是价格目标。' },
+      { k: '分布', v: '评估结果的形状，而不是单一结果。' },
+      { k: '方差', v: '回撤是系统的设计特性，不是意外。' },
+    ],
+    csTitle: '交易系统就是软件。',
+    csTitle2: '软件必须被工程化。',
+    csLead:
+      'EA 是一支在延迟、信息不完整与严苛边界条件下处理资金的实时程序。我们把它当作生产级软件来对待。',
+    csItems: [
+      { k: '算法', v: '显式、可读的决策流程' },
+      { k: '逻辑', v: '没有隐藏状态的确定性条件' },
+      { k: '状态', v: '持仓、订单与断线后的恢复' },
+      { k: '执行', v: '处理滑点、重新报价与部分成交' },
+      { k: '延迟', v: '不阻塞终端的 tick 处理' },
+      { k: '数据', v: '标注质量的逐笔历史数据' },
+      { k: '自动化', v: '可复现的测试与发布流程' },
+    ],
+    stackTitle: '技术栈与专业领域',
+    stack: [
+      { k: 'MetaTrader 5', v: '执行与测试的目标平台' },
+      { k: 'MQL5', v: '所有已发布系统的实现语言' },
+      { k: '策略测试器', v: '逐笔级别的回测与优化' },
+      { k: '量化分析', v: '对结果进行统计评估' },
+      { k: '机器学习研究', v: '仅限探索性的研究阶段' },
+      { k: '风险管理', v: '仓位规模、敞口与止损设计' },
+      { k: '自动化', v: '脚本化的测试矩阵与报告生成' },
+      { k: '版本控制', v: '每次发布都可追溯到源代码' },
+    ],
+  },
+
+  lab: {
+    eyebrow: 'Backtest Lab',
+    lead: '研究笔记、测试报告与实验记录。原样公开——包括那些以假设被否定收场的记录。',
+    empty: '首批研究笔记正在整理中。',
+    labels: {
+      date: '日期',
+      ea: '对象系统',
+      market: '市场',
+      period: '测试期间',
+      hypothesis: '假设',
+      method: '方法',
+      result: '结果',
+      conclusion: '结论',
+      type: '类型',
+      readingTime: '分钟阅读',
+    },
+    types: {
+      backtestReport: '回测报告',
+      optimization: '优化实验',
+      parameterStudy: '参数研究',
+      marketResearch: '市场研究',
+      comparison: 'EA 比较',
+      versionTest: '版本测试',
+    },
+    backToList: '全部研究笔记',
+  },
+
+  about: {
+    eyebrow: 'About TYO',
+    lead:
+      'TYO 是位于日本的小型独立团队，专注于构建自动交易系统。我们首先是工程师与研究者；我们公开自己的工作，是为了让它以文档而非承诺被检验。',
+    whoTitle: '我们是谁',
+    whoBody:
+      '一支精简的独立团队——不是基金、不是经纪商、也不是信号服务。我们结合软件工程、AI 辅助开发、量化研究与算法交易，为 MetaTrader 5 设计、测试并发布 EA。',
+    whoNote: '我们刻意不把自己包装得比实际更大。价值在于方法与记录，而不在于组织的规模。',
+    philosophyTitle: '我们的理念',
+    philosophyBody:
+      '任何人都能贴出一条资金曲线。但很少有人会同时公开它是在什么条件下产生的、在它之前有哪些版本失败了，以及它承担着什么风险。这个差别，就是这个品牌的全部。',
+    principlesTitle: '我们的工作方式',
+    principles: [
+      { k: '写明条件', v: '没有测试条件的结果，不算结果。' },
+      { k: '公开失败', v: '被淘汰的模型，解释了存活下来的模型。' },
+      { k: '绝不保证结果', v: '没有系统做得到；宣称做得到的品牌，卖的是别的东西。' },
+      { k: '让逻辑保持可读', v: '如果我们无法解释一笔交易为何成立，就不会发布它。' },
+      { k: '先尊重风险', v: '在衡量利润之前，先设计回撤。' },
+    ],
+    contactCta: '联系我们',
+  },
+
+  contact: {
+    eyebrow: 'Contact',
+    lead:
+      '关于某套系统、某份测试报告或合作洽谈，欢迎来信。下载、更新与产品支持皆在 MQL5 上处理。',
+    mql5Title: 'MQL5',
+    mql5Body:
+      'TYO 的每一套 EA 都发布在 MetaTrader 官方市集 MQL5 上。下载、版本更新、评价与产品留言都在那里。',
+    formTitle: '发送讯息',
+    formName: '姓名',
+    formEmail: '电子邮箱',
+    formSubject: '主题',
+    formMessage: '内容',
+    formSend: '发送',
+    formSubjects: ['一般咨询', '关于某套 EA', '回测 / 研究', '合作洽谈', '其他'],
+    formNote: '我们以英文与日文回复。请勿发送账户凭证、经纪商密码或交易账户资料。',
+    emailTitle: '电子邮件',
+    noSupportTitle: '我们无法提供的服务',
+    noSupportBody:
+      '我们不提供投资建议、代客操作、信号订阅或利润保证，也无法判断某套系统是否适合您的个人财务状况。',
+  },
+
+  footer: {
+    tagline: 'Algorithmic Trading Lab',
+    navTitle: '导航',
+    langTitle: '语言',
+    linksTitle: '链接',
+    madeIn: '于日本东京开发。',
+    rights: '版权所有。',
+    disclaimerTitle: '风险披露',
+    disclaimer: [
+      '外汇、差价合约与加密货币交易具有高度风险，并不适合所有投资者。您可能损失超过初始入金的金额。杠杆会同时放大盈利与亏损。',
+      'TYO 开发并发布自动交易软件。我们不提供投资建议、资产管理或交易信号，本网站的任何内容都不构成买卖任何金融工具的推荐。',
+      '任何 EA、算法或参数优化都不保证盈利。本网站显示的任何业绩数据均为历史数据，不保证、不暗示、也不预测未来结果。',
+      '回测结果是模拟结果。实盘结果会因点差、滑点、手续费、流动性、执行速度、重新报价、经纪商环境与市场状态变化而不同。',
+      '评估任何系统是否适合您的处境，以及基于该系统所做的任何决定，完全由您自行负责。必要时请咨询具备资质的独立专业人士。',
+    ],
+    backtestDisclaimerTitle: '关于回测结果',
+    backtestDisclaimer:
+      '过往表现不保证未来结果。由于点差、滑点、流动性、执行条件与经纪商环境的差异，回测结果可能与实盘交易不同。',
+  },
+
+  seo: {
+    home: {
+      title: 'TYO — Algorithmic Trading, Engineered Differently',
+      desc:
+        '独立算法交易研究室。AI 加速的研发、量化逻辑与 MetaTrader 5 自动执行。免费 EA 全球累计下载量已超过 5,000 次。',
+    },
+    ea: {
+      title: 'EA 系统 — TYO Algorithmic Trading Lab',
+      desc: 'TYO 开发的 MetaTrader 5 智能交易系统。每套系统均公开概念、逻辑、风险模型与回测条件。',
+    },
+    history: {
+      title: '开发历程 — TYO Algorithmic Trading Lab',
+      desc: '一套 TYO EA 的真实诞生过程：构想、研究、原型、回测、失败、重建、优化、前进测试与发布。',
+    },
+    technology: {
+      title: '技术 — TYO Algorithmic Trading Lab',
+      desc: '支撑 TYO EA 的 AI 辅助开发、量化分析、计算机科学与风险工程。',
+    },
+    lab: {
+      title: '回测实验室 — TYO Algorithmic Trading Lab',
+      desc: 'TYO 公开的回测报告、优化实验、参数研究与市场研究。',
+    },
+    about: {
+      title: '关于 TYO — Algorithmic Trading Lab',
+      desc: 'TYO 是日本的小型独立团队。没有魔法，没有预言，也没有保证。',
+    },
+    contact: {
+      title: '联系我们 / MQL5 — TYO Algorithmic Trading Lab',
+      desc: '联系 TYO，或在 MQL5 市集查看我们的 EA。',
+    },
+  },
+};
