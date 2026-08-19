@@ -116,7 +116,7 @@ export const EA = [
     name: 'GALOA',
     number: '05',
     spec: { symbol: 'USDJPY', strategy: 'Japan Original Scalping' },
-    /** 21-minute chart replay with the equity curve in the lower pane. */
+    /** 21-minute chart replay, TYO title card in, equity curve in the lower pane. */
     video: { type: 'file', src: '/assets/videos/ea/galoa.mp4', poster: '/assets/posters/ea/galoa.jpg' },
   }),
 

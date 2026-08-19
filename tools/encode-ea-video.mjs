@@ -47,9 +47,19 @@ const CRF = Number(flag('crf', 24));
 const POSTER_AT = Number(flag('poster-at', 3));
 /** Silent screen captures carry no audio worth 96 kbps for 20 minutes. */
 const MUTE = argv.includes('--mute');
+/**
+ * Chart replays hold still between ticks, so 24 fps looks identical to 30 and
+ * costs ~20% fewer bits. Only worth forcing on long recordings.
+ */
+const FPS = flag('fps', null);
+/** Background music survives 64k fine; dialogue would not. */
+const ABR = flag('abr', '96k');
 
 if (!slug || !source) {
-  console.error('usage: node tools/encode-ea-video.mjs <slug> <source.mp4> [--width 1280] [--crf 24] [--poster-at 3]');
+  console.error(
+    'usage: node tools/encode-ea-video.mjs <slug> <source.mp4>\n' +
+      '       [--width 1280] [--crf 24] [--fps 24] [--abr 96k] [--mute] [--poster-at 3]'
+  );
   process.exit(1);
 }
 
@@ -93,6 +103,7 @@ await run(
     // -2 keeps the height even, which H.264 requires; these recordings are
     // often an odd pixel size straight off the desktop.
     '-vf', `scale=${WIDTH}:-2`,
+    ...(FPS ? ['-r', String(FPS)] : []),
     '-c:v', 'libx264',
     '-crf', String(CRF),
     '-preset', 'slow',
@@ -100,7 +111,7 @@ await run(
     '-pix_fmt', 'yuv420p',
     // Start playback before the whole file arrives.
     '-movflags', '+faststart',
-    ...(MUTE ? ['-an'] : ['-c:a', 'aac', '-b:a', '96k', '-ac', '2']),
+    ...(MUTE ? ['-an'] : ['-c:a', 'aac', '-b:a', ABR, '-ac', '2']),
     VIDEO_OUT,
   ],
   'video'
