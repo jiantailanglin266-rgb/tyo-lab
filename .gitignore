@@ -19,3 +19,6 @@ data/forward/raw/
 data/forward/normalized/
 data/forward/exports/
 data/forward/audit-log.jsonl
+
+# python bytecode
+__pycache__/
