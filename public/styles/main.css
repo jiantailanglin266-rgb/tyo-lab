@@ -3582,6 +3582,351 @@ table {
   margin-top: 0;
 }
 
+/* 10d ─ Backtest Lab dashboard ───────────────────────────────────────── */
+
+.labsec {
+  max-width: 74ch;
+  margin-bottom: clamp(28px, 4vw, 44px);
+}
+
+.labsec__lead {
+  color: var(--fg-2);
+  font-size: 0.95rem;
+  line-height: 1.72;
+  text-wrap: pretty;
+}
+
+/* Aggregate counters --------------------------------------------------- */
+
+.labstats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.labstats li {
+  display: grid;
+  gap: 6px;
+  padding: clamp(18px, 2.4vw, 26px);
+  background: var(--bg-1);
+}
+
+.labstats__v {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.7rem, 4vw, 2.6rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.labstats__k {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-4);
+}
+
+/* Rankings ------------------------------------------------------------- */
+
+.ranks {
+  display: grid;
+  gap: clamp(26px, 3.4vw, 40px);
+}
+
+.rank__title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--s-cyan);
+  font-weight: 400;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.rank__list {
+  display: grid;
+}
+
+.rank__row {
+  display: grid;
+  grid-template-columns: 26px minmax(80px, 1fr) minmax(60px, 3fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.rank__pos {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--fg-4);
+}
+
+.rank__name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.92rem;
+  letter-spacing: -0.01em;
+  color: var(--fg-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rank__name:hover {
+  color: var(--s-cyan);
+}
+
+.rank__bar {
+  height: 4px;
+  background: var(--bg-3);
+  overflow: hidden;
+}
+
+.rank__bar i {
+  display: block;
+  height: 100%;
+  width: var(--v);
+  background: linear-gradient(90deg, var(--s-blue), var(--s-cyan));
+}
+
+.rank__row.is-top .rank__bar i {
+  background: linear-gradient(90deg, var(--s-cyan), var(--s-green));
+}
+
+.rank__row.is-top .rank__name {
+  color: var(--fg);
+}
+
+.rank__v {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-1);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Risk / return scatter ------------------------------------------------ */
+
+.scatter {
+  margin: 0;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--bg-2), var(--bg-1));
+  min-width: 0;
+  overflow: hidden;
+}
+
+.scatter svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.scatter__band {
+  fill: var(--s-orange);
+  opacity: 0.04;
+}
+
+.scatter__band.is-danger {
+  fill: var(--s-red);
+  opacity: 0.06;
+}
+
+.scatter__tick line {
+  stroke: rgba(255, 255, 255, 0.07);
+  stroke-width: 1;
+}
+
+.scatter__tick text,
+.scatter__axis {
+  fill: var(--fg-4);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.scatter__axis {
+  fill: var(--fg-3);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.scatter__pt circle {
+  fill: rgba(64, 224, 208, 0.22);
+  stroke: var(--s-cyan);
+  stroke-width: 1.4;
+  transition: fill 0.25s;
+}
+
+/* Hollow ring = balance-basis drawdown, i.e. plotted more favourably than a
+   like-for-like comparison would place it. */
+.scatter__pt.is-balance circle {
+  fill: transparent;
+  stroke: var(--s-orange);
+  stroke-dasharray: 3 3;
+}
+
+.scatter__caret {
+  fill: var(--s-orange);
+  font-size: 10px;
+}
+
+.scatter__pt.is-clamped circle {
+  stroke-dasharray: 2 2;
+}
+
+.scatter__pt text {
+  fill: var(--fg-2);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+
+.scatter__pt:hover circle {
+  fill: rgba(64, 224, 208, 0.45);
+}
+
+.scatter__pt:hover text {
+  fill: var(--fg);
+}
+
+.scatter figcaption {
+  padding: 14px 16px;
+  border-top: 1px solid var(--line);
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: var(--fg-4);
+}
+
+.dtable--matrix {
+  min-width: 720px;
+}
+
+.dtable--matrix th[scope='row'] a {
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.dtable--matrix th[scope='row'] a:hover {
+  color: var(--s-cyan);
+}
+
+/* Switcher ------------------------------------------------------------- */
+
+.switch__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.switch__tab {
+  padding: 7px 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--fg-3);
+  transition: color 0.25s, border-color 0.25s, background 0.25s;
+}
+
+.switch__tab:hover {
+  color: var(--fg-1);
+  border-color: var(--line-2);
+}
+
+.switch__tab.is-on {
+  color: #000;
+  background: var(--fg);
+  border-color: var(--fg);
+}
+
+.switch__panel[hidden] {
+  display: none;
+}
+
+/* High Risk Lab -------------------------------------------------------- */
+
+.hrisk {
+  display: grid;
+  gap: clamp(14px, 2vw, 20px);
+}
+
+.hrisk__item a {
+  display: block;
+  padding: clamp(18px, 2.4vw, 24px);
+  border: 1px solid rgba(255, 59, 48, 0.32);
+  border-left-width: 2px;
+  background: rgba(255, 59, 48, 0.045);
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.hrisk__item a:hover {
+  border-color: rgba(255, 59, 48, 0.6);
+  background: rgba(255, 59, 48, 0.08);
+}
+
+.hrisk__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 59, 48, 0.2);
+}
+
+.hrisk__name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+
+.hrisk__dd {
+  font-family: var(--font-mono);
+  font-size: clamp(1.1rem, 2.6vw, 1.5rem);
+  color: var(--s-red);
+  font-variant-numeric: tabular-nums;
+}
+
+.hrisk__facts {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.hrisk__facts > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.hrisk__facts dt {
+  color: var(--fg-4);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.hrisk__facts dd {
+  color: var(--fg-1);
+  text-align: right;
+}
+
 /* 11 ─ lab / article ─────────────────────────────────────────────────── */
 
 .artlist {
@@ -4559,6 +4904,15 @@ table {
   }
   .snap {
     grid-template-columns: repeat(3, 1fr);
+  }
+  .labstats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .ranks {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .hrisk {
+    grid-template-columns: repeat(2, 1fr);
   }
   .statgrid {
     grid-template-columns: repeat(3, 1fr);

@@ -15,6 +15,7 @@
    10 EA browse (filter / sort / search)
    11 EA compare selection
    12 Compare table narrowing
+   13 Tab switcher (lab)
    ========================================================================== */
 
 (function () {
@@ -1061,5 +1062,48 @@
       status.appendChild(span);
       status.appendChild(a);
     }
+  })();
+
+  /* 13 ─ tab switcher (lab equity / monthly) ───────────────────────── */
+  /* Panels are all in the HTML, so the whole dataset is crawlable and works
+     with scripting off — every panel simply shows in sequence. The switcher
+     just hides the ones that are not selected.                            */
+
+  (function switcher() {
+    $$('[data-switch]').forEach(function (box) {
+      var tabs = $$('[data-switch-tab]', box);
+      var panels = $$('[data-switch-panel]', box);
+      if (tabs.length < 2) return;
+
+      function select(slug, focus) {
+        tabs.forEach(function (b) {
+          var on_ = b.dataset.switchTab === slug;
+          b.classList.toggle('is-on', on_);
+          b.setAttribute('aria-selected', String(on_));
+          b.tabIndex = on_ ? 0 : -1;
+        });
+        panels.forEach(function (p) {
+          p.hidden = p.dataset.switchPanel !== slug;
+        });
+        if (focus) {
+          var el = box.querySelector('[data-switch-tab="' + slug + '"]');
+          if (el) el.focus();
+        }
+      }
+
+      tabs.forEach(function (b, i) {
+        b.tabIndex = i === 0 ? 0 : -1;
+        on(b, 'click', function () {
+          select(b.dataset.switchTab, false);
+        });
+        on(b, 'keydown', function (e) {
+          var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+          if (!d) return;
+          e.preventDefault();
+          var next = tabs[(i + d + tabs.length) % tabs.length];
+          select(next.dataset.switchTab, true);
+        });
+      });
+    });
   })();
 })();

@@ -407,7 +407,7 @@ for (const loc of LOCALES) {
             { name: t.nav.lab, path: ROUTES.lab() },
           ]),
         ],
-        children: LabIndex({ ...ctx, articles }),
+        children: LabIndex({ ...ctx, articles, ea }),
       })
     );
 
