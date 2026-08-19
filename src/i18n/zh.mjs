@@ -224,6 +224,11 @@ export default {
       dataSource: '数据来源',
       quality: '建模质量',
       conditions: '测试条件',
+      curveAlt: '来自测试报告的余额与净值曲线',
+      curveCaption: '直接从策略测试报告导出的余额／净值曲线。',
+      ddBasis: '回撤基准',
+      ddBasis_equity: '净值基准（含浮动亏损）',
+      ddBasis_balance: '余额基准（仅已平仓）',
     },
   },
 

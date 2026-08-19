@@ -233,6 +233,11 @@ export default {
       dataSource: 'Nguồn dữ liệu',
       quality: 'Chất lượng mô phỏng',
       conditions: 'Điều kiện kiểm thử',
+      curveAlt: 'Đường số dư và vốn chủ sở hữu từ báo cáo kiểm thử',
+      curveCaption: 'Đường số dư / vốn chủ sở hữu xuất trực tiếp từ báo cáo Strategy Tester.',
+      ddBasis: 'Cơ sở tính sụt giảm',
+      ddBasis_equity: 'Vốn chủ sở hữu (gồm vị thế đang mở)',
+      ddBasis_balance: 'Số dư (chỉ lệnh đã đóng)',
     },
   },
 

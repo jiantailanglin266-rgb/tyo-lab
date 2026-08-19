@@ -11,6 +11,29 @@ function badges(ea, t) {
   return out;
 }
 
+/**
+ * Three headline figures from the system's own tester report, shown on the
+ * card so the index is browsable on evidence rather than artwork alone.
+ * Unit-free metrics only — nothing here depends on knowing the account
+ * currency, so every card can carry them.
+ */
+function EACardStats({ ea, t }) {
+  const bt = (ea.backtests || [])[0];
+  if (!bt) return '';
+  const m = t.ea.metrics;
+  const cells = [
+    [m.profitFactor, bt.profitFactor],
+    [m.maxDrawdown, bt.maxDrawdown && /%/.test(bt.maxDrawdown) ? bt.maxDrawdown.split(' ')[0] : null],
+    [m.totalTrades, bt.totalTrades],
+  ].filter(([, v]) => v);
+  if (!cells.length) return '';
+  return html`
+    <ul class="eacard__stats">
+      ${cells.map(([k, v]) => html`<li><span class="eacard__stat-v">${v}</span><span class="eacard__stat-k">${k}</span></li>`)}
+    </ul>
+  `;
+}
+
 /** Card used on the EA index and on the home page. */
 export function EACard({ ea, locale, t, index = 0 }) {
   const c = entryI18n(ea, locale);
@@ -48,6 +71,7 @@ export function EACard({ ea, locale, t, index = 0 }) {
             ([k, v]) => html`<div class="eacard__row"><dt>${k}</dt><dd>${v}</dd></div>`
           )}
         </dl>
+        ${EACardStats({ ea, t })}
         <span class="eacard__cta"><span>${t.ui.viewDetail}</span><span aria-hidden="true">→</span></span>
       </a>
     </article>
@@ -77,8 +101,9 @@ export function EASpecs({ ea, locale, t }) {
 
 /** Recommended environment block. */
 export function EAEnvironment({ ea, t, text }) {
+  // Platform is deliberately absent: it already sits in the spec rail, and a
+  // section whose only row repeats the rail reads as padding.
   const rows = [
-    [t.ea.labels.platform, ea.spec.platform],
     [t.ea.labels.minDeposit, ea.spec.minDeposit],
     [t.ea.labels.accountType, ea.spec.accountType],
     [t.ea.labels.leverage, ea.spec.leverage],
@@ -115,6 +140,7 @@ export function EAMetrics({ bt, t, locale }) {
   ].filter(([, v]) => v !== null && v !== undefined && v !== '');
 
   const cond = bt.conditions || {};
+  const basis = cond.drawdownBasis ? m[`ddBasis_${cond.drawdownBasis}`] || null : null;
   const conditions = [
     [m.broker, cond.broker],
     [m.spread, cond.spread],
@@ -122,6 +148,7 @@ export function EAMetrics({ bt, t, locale }) {
     [m.modeling, cond.modeling],
     [m.dataSource, cond.dataSource],
     [m.quality, cond.quality],
+    [m.ddBasis, basis],
   ].filter(([, v]) => v !== null && v !== undefined && v !== '');
 
   if (!primary.length && !conditions.length) {
@@ -136,6 +163,13 @@ export function EAMetrics({ bt, t, locale }) {
   return html`
     <div class="metrics" data-reveal>
       ${when(bt.label, () => html`<p class="metrics__label">${bt.label}</p>`)}
+      ${when(
+        bt.curve,
+        () => html`<figure class="curve">
+          <img src="${asset(bt.curve)}" alt="${t.ea.metrics.curveAlt}" loading="lazy" decoding="async" />
+          <figcaption>${t.ea.metrics.curveCaption}</figcaption>
+        </figure>`
+      )}
       ${when(
         primary.length,
         () => html`<ul class="metrics__grid">

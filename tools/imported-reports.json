@@ -1,0 +1,1677 @@
+{
+  "cosmos": {
+    "symbol": "BTCUSD",
+    "timeframe": "M5",
+    "period": "2018.01.01 – 2026.03.28",
+    "backtest": {
+      "id": "bt-full",
+      "label": "BTCUSD · M5 · 2018–2026",
+      "period": "2018.01.01 – 2026.03.28",
+      "initialDeposit": "10,000 USD",
+      "netProfit": "1,931.84 USD",
+      "maxDrawdown": "19.80% (2,028.18 USD)",
+      "profitFactor": "1.80",
+      "totalTrades": "4,144",
+      "winRate": "95.08%",
+      "recoveryFactor": "0.95",
+      "expectedPayoff": "0.47 USD",
+      "sharpe": "0.71",
+      "conditions": {
+        "broker": "Raw Trading Ltd",
+        "spread": null,
+        "commission": null,
+        "modeling": null,
+        "dataSource": "BTCUSD",
+        "quality": "15,160,026 ticks · 767,240 bars",
+        "drawdownBasis": "equity"
+      },
+      "report": null
+    },
+    "parameters": [
+      {
+        "name": "InpLots",
+        "default": "0.01",
+        "descKey": null
+      },
+      {
+        "name": "maxposition",
+        "default": "100",
+        "descKey": null
+      },
+      {
+        "name": "MaxSpread",
+        "default": "20.0",
+        "descKey": null
+      },
+      {
+        "name": "Slippage",
+        "default": "300",
+        "descKey": null
+      },
+      {
+        "name": "MM_ONOFF",
+        "default": "false",
+        "descKey": null
+      },
+      {
+        "name": "CODE3_ONOFF",
+        "default": "true",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber3",
+        "default": "19877468",
+        "descKey": null
+      },
+      {
+        "name": "CandleCountB",
+        "default": "3",
+        "descKey": null
+      },
+      {
+        "name": "CandleCountS",
+        "default": "3",
+        "descKey": null
+      },
+      {
+        "name": "Rikaku3",
+        "default": "0",
+        "descKey": null
+      },
+      {
+        "name": "Songiri3",
+        "default": "0",
+        "descKey": null
+      },
+      {
+        "name": "Trail_ONOFF3",
+        "default": "true",
+        "descKey": null
+      },
+      {
+        "name": "TrailStartPips3",
+        "default": "8",
+        "descKey": null
+      },
+      {
+        "name": "TrailPips3",
+        "default": "5",
+        "descKey": null
+      },
+      {
+        "name": "Martin_ONOFF3",
+        "default": "true",
+        "descKey": null
+      },
+      {
+        "name": "martin_point3",
+        "default": "2.0",
+        "descKey": null
+      },
+      {
+        "name": "Nanpin_ONOFF3",
+        "default": "true",
+        "descKey": null
+      },
+      {
+        "name": "Nanpin_Pips3",
+        "default": "45",
+        "descKey": null
+      },
+      {
+        "name": "CODE_ONOFF3",
+        "default": "true",
+        "descKey": null
+      }
+    ],
+    "curve": "/assets/images/backtest/cosmos.png",
+    "source": "cosmosfullbt.html",
+    "encoding": "utf-16le",
+    "alternates": 0
+  },
+  "galoa": {
+    "symbol": "USDJPY",
+    "timeframe": "M5",
+    "period": "2003.05.05 – 2026.02.05",
+    "backtest": {
+      "id": "bt-full",
+      "label": "USDJPY · M5 · 2003–2026",
+      "period": "2003.05.05 – 2026.02.05",
+      "initialDeposit": null,
+      "netProfit": null,
+      "maxDrawdown": "17.80%",
+      "profitFactor": "8.07",
+      "totalTrades": "1,098",
+      "winRate": "92.35%",
+      "recoveryFactor": null,
+      "expectedPayoff": null,
+      "sharpe": null,
+      "conditions": {
+        "broker": "XMTrading-Real 37",
+        "spread": "Variable (as recorded in the tick data)",
+        "commission": null,
+        "modeling": "Every tick",
+        "dataSource": "USDJPY (US Dollar vs Japanese Yen)",
+        "quality": "99.90% · 382,470,644 ticks · 1,699,760 bars",
+        "drawdownBasis": "balance"
+      },
+      "report": null
+    },
+    "parameters": [
+      {
+        "name": "Slippage",
+        "default": "30",
+        "descKey": null
+      },
+      {
+        "name": "MaxSpread",
+        "default": "5",
+        "descKey": null
+      },
+      {
+        "name": "maxposition",
+        "default": "6",
+        "descKey": null
+      },
+      {
+        "name": "UseCompoundLot",
+        "default": "false",
+        "descKey": null
+      },
+      {
+        "name": "BaseLot",
+        "default": "3",
+        "descKey": null
+      },
+      {
+        "name": "BaseEquity",
+        "default": "200000",
+        "descKey": null
+      },
+      {
+        "name": "MinLot",
+        "default": "0.01",
+        "descKey": null
+      },
+      {
+        "name": "MaxLot",
+        "default": "200",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber",
+        "default": "99887766",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber2",
+        "default": "88776655",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber3",
+        "default": "77665544",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber4",
+        "default": "66554433",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber5",
+        "default": "55443322",
+        "descKey": null
+      }
+    ],
+    "curve": "/assets/images/backtest/galoa.gif",
+    "source": "GALOABT20032026TDS変動.htm",
+    "encoding": "shift_jis",
+    "alternates": 2
+  },
+  "godspeed": {
+    "symbol": "GBPJPY",
+    "timeframe": "M5",
+    "period": "2003.08.04 – 2026.02.05",
+    "backtest": {
+      "id": "bt-full",
+      "label": "GBPJPY · M5 · 2003–2026",
+      "period": "2003.08.04 – 2026.02.05",
+      "initialDeposit": null,
+      "netProfit": null,
+      "maxDrawdown": "38.38%",
+      "profitFactor": "1.70",
+      "totalTrades": "2,552",
+      "winRate": "91.42%",
+      "recoveryFactor": null,
+      "expectedPayoff": null,
+      "sharpe": null,
+      "conditions": {
+        "broker": "XMTrading-Real 37",
+        "spread": "Variable (as recorded in the tick data)",
+        "commission": null,
+        "modeling": "Every tick",
+        "dataSource": "GBPJPY (Great Britain Pound vs Japanese Yen)",
+        "quality": "99.90% · 555,231,677 ticks · 1,684,903 bars",
+        "drawdownBasis": "balance"
+      },
+      "report": null
+    },
+    "parameters": [
+      {
+        "name": "Slippage",
+        "default": "30",
+        "descKey": null
+      },
+      {
+        "name": "MaxSpread",
+        "default": "5",
+        "descKey": null
+      },
+      {
+        "name": "maxposition",
+        "default": "2",
+        "descKey": null
+      },
+      {
+        "name": "UseCompoundLot",
+        "default": "false",
+        "descKey": null
+      },
+      {
+        "name": "BaseLot",
+        "default": "1",
+        "descKey": null
+      },
+      {
+        "name": "BaseEquity",
+        "default": "200000",
+        "descKey": null
+      },
+      {
+        "name": "MinLot",
+        "default": "0.01",
+        "descKey": null
+      },
+      {
+        "name": "MaxLot",
+        "default": "200",
+        "descKey": null
+      },
+      {
+        "name": "GMT",
+        "default": "2",
+        "descKey": null
+      },
+      {
+        "name": "Summertime",
+        "default": "0",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber",
+        "default": "5656829",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber2",
+        "default": "5656674",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber3",
+        "default": "5656456",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber4",
+        "default": "5656298",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber5",
+        "default": "5656369",
+        "descKey": null
+      }
+    ],
+    "curve": "/assets/images/backtest/godspeed.gif",
+    "source": "GODSPEED.htm",
+    "encoding": "shift_jis",
+    "alternates": 1
+  },
+  "grandslam": {
+    "symbol": "BTCUSD",
+    "timeframe": "M5",
+    "period": "2024.01.01 – 2026.03.28",
+    "backtest": {
+      "id": "bt-full",
+      "label": "BTCUSD · M5 · 2024–2026",
+      "period": "2024.01.01 – 2026.03.28",
+      "initialDeposit": "10,000 USD",
+      "netProfit": "10,965.54 USD",
+      "maxDrawdown": "21.56% (3,077.73 USD)",
+      "profitFactor": "2.83",
+      "totalTrades": "12,404",
+      "winRate": "95.40%",
+      "recoveryFactor": "3.56",
+      "expectedPayoff": "0.88 USD",
+      "sharpe": "1.64",
+      "conditions": {
+        "broker": "Raw Trading Ltd",
+        "spread": null,
+        "commission": null,
+        "modeling": null,
+        "dataSource": "BTCUSD",
+        "quality": "4,644,306 ticks · 232,982 bars",
+        "drawdownBasis": "equity"
+      },
+      "report": null
+    },
+    "parameters": [
+      {
+        "name": "MaxSpread",
+        "default": "20",
+        "descKey": null
+      },
+      {
+        "name": "Slippage",
+        "default": "300",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber",
+        "default": "73877387",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber2",
+        "default": "48729534",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber3",
+        "default": "19877468",
+        "descKey": null
+      }
+    ],
+    "curve": "/assets/images/backtest/grandslam.png",
+    "source": "GDXBT.html",
+    "encoding": "utf-16le",
+    "alternates": 1
+  },
+  "jayro": {
+    "symbol": "GBPUSD",
+    "timeframe": "M5",
+    "period": "2024.01.02 – 2025.12.31",
+    "backtest": {
+      "id": "bt-full",
+      "label": "GBPUSD · M5 · 2024–2025",
+      "period": "2024.01.02 – 2025.12.31",
+      "initialDeposit": null,
+      "netProfit": null,
+      "maxDrawdown": "70.83%",
+      "profitFactor": "2.84",
+      "totalTrades": "5,460",
+      "winRate": "69.41%",
+      "recoveryFactor": null,
+      "expectedPayoff": null,
+      "sharpe": null,
+      "conditions": {
+        "broker": "XMTrading-Real 37",
+        "spread": "Variable (as recorded in the tick data)",
+        "commission": null,
+        "modeling": "Every tick",
+        "dataSource": "GBPUSD (Great Britain Pound vs US Dollar)",
+        "quality": "99.90% · 46,239,322 ticks · 149,634 bars",
+        "drawdownBasis": "balance"
+      },
+      "report": null
+    },
+    "parameters": [
+      {
+        "name": "Lots",
+        "default": "0.01",
+        "descKey": null
+      },
+      {
+        "name": "Summertime",
+        "default": "1",
+        "descKey": null
+      },
+      {
+        "name": "GMT",
+        "default": "2",
+        "descKey": null
+      },
+      {
+        "name": "StartTime1",
+        "default": "0",
+        "descKey": null
+      },
+      {
+        "name": "EndTime1",
+        "default": "24",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber",
+        "default": "73877387",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber2",
+        "default": "48729534",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber3",
+        "default": "19877468",
+        "descKey": null
+      }
+    ],
+    "curve": "/assets/images/backtest/jayro.gif",
+    "source": "JAYROBT2024-2025変動.htm",
+    "encoding": "shift_jis",
+    "alternates": 0
+  },
+  "joker": {
+    "symbol": "XAUUSD",
+    "timeframe": "M5",
+    "period": "2016.01.01 – 2026.03.02",
+    "backtest": {
+      "id": "bt-full",
+      "label": "XAUUSD · M5 · 2016–2026",
+      "period": "2016.01.01 – 2026.03.02",
+      "initialDeposit": "1,000,000 JPY",
+      "netProfit": "114,488.00 JPY",
+      "maxDrawdown": "2.00% (21,094.00 JPY)",
+      "profitFactor": "1.71",
+      "totalTrades": "1,258",
+      "winRate": "86.49%",
+      "recoveryFactor": "5.43",
+      "expectedPayoff": "91.01 JPY",
+      "sharpe": "9.25",
+      "conditions": {
+        "broker": "Raw Trading Ltd",
+        "spread": null,
+        "commission": null,
+        "modeling": null,
+        "dataSource": "XAUUSD",
+        "quality": "360,273,870 ticks · 638,044 bars",
+        "drawdownBasis": "equity"
+      },
+      "report": null
+    },
+    "parameters": [
+      {
+        "name": "InpSlippagePoints",
+        "default": "30",
+        "descKey": null
+      },
+      {
+        "name": "InpMaxSpreadPips",
+        "default": "2.0",
+        "descKey": null
+      },
+      {
+        "name": "InpMaxPositions",
+        "default": "2",
+        "descKey": null
+      },
+      {
+        "name": "InpMagicRSI",
+        "default": "1230000",
+        "descKey": null
+      },
+      {
+        "name": "InpMagicBB",
+        "default": "2340000",
+        "descKey": null
+      },
+      {
+        "name": "InpMagicCCI",
+        "default": "3450000",
+        "descKey": null
+      },
+      {
+        "name": "InpMagicSTO",
+        "default": "4560000",
+        "descKey": null
+      },
+      {
+        "name": "InpMagicMFI",
+        "default": "5670000",
+        "descKey": null
+      }
+    ],
+    "curve": "/assets/images/backtest/joker.png",
+    "source": "joker520btmt5.html",
+    "encoding": "utf-16le",
+    "alternates": 2
+  },
+  "kokomo": {
+    "symbol": "EURUSD",
+    "timeframe": "M5",
+    "period": "2003.05.05 – 2026.02.05",
+    "backtest": {
+      "id": "bt-full",
+      "label": "EURUSD · M5 · 2003–2026",
+      "period": "2003.05.05 – 2026.02.05",
+      "initialDeposit": null,
+      "netProfit": null,
+      "maxDrawdown": "25.32%",
+      "profitFactor": "2.44",
+      "totalTrades": "1,489",
+      "winRate": "95.63%",
+      "recoveryFactor": null,
+      "expectedPayoff": null,
+      "sharpe": null,
+      "conditions": {
+        "broker": "XMTrading-Real 37",
+        "spread": "Variable (as recorded in the tick data)",
+        "commission": null,
+        "modeling": "Every tick",
+        "dataSource": "EURUSD (Euro vs US Dollar)",
+        "quality": "99.90% · 446,468,802 ticks · 1,704,456 bars",
+        "drawdownBasis": "balance"
+      },
+      "report": null
+    },
+    "parameters": [
+      {
+        "name": "Slippage",
+        "default": "30",
+        "descKey": null
+      },
+      {
+        "name": "MaxSpread",
+        "default": "5",
+        "descKey": null
+      },
+      {
+        "name": "maxposition",
+        "default": "2",
+        "descKey": null
+      },
+      {
+        "name": "UseCompoundLot",
+        "default": "false",
+        "descKey": null
+      },
+      {
+        "name": "BaseLot",
+        "default": "1.5",
+        "descKey": null
+      },
+      {
+        "name": "BaseEquity",
+        "default": "200000",
+        "descKey": null
+      },
+      {
+        "name": "MinLot",
+        "default": "0.01",
+        "descKey": null
+      },
+      {
+        "name": "MaxLot",
+        "default": "200",
+        "descKey": null
+      },
+      {
+        "name": "GMT",
+        "default": "2",
+        "descKey": null
+      },
+      {
+        "name": "Summertime",
+        "default": "0",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber",
+        "default": "865910",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber2",
+        "default": "862132",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber3",
+        "default": "869633",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber4",
+        "default": "865648",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber5",
+        "default": "867036",
+        "descKey": null
+      }
+    ],
+    "curve": "/assets/images/backtest/kokomo.gif",
+    "source": "KOKOMO20032026BT.htm",
+    "encoding": "shift_jis",
+    "alternates": 0
+  },
+  "metro": {
+    "symbol": "GBPUSD",
+    "timeframe": "M5",
+    "period": "2003.05.05 – 2026.02.05",
+    "backtest": {
+      "id": "bt-full",
+      "label": "GBPUSD · M5 · 2003–2026",
+      "period": "2003.05.05 – 2026.02.05",
+      "initialDeposit": null,
+      "netProfit": null,
+      "maxDrawdown": "43.39%",
+      "profitFactor": "1.95",
+      "totalTrades": "2,457",
+      "winRate": "94.51%",
+      "recoveryFactor": null,
+      "expectedPayoff": null,
+      "sharpe": null,
+      "conditions": {
+        "broker": "XMTrading-Real 37",
+        "spread": "Variable (as recorded in the tick data)",
+        "commission": null,
+        "modeling": "Every tick",
+        "dataSource": "GBPUSD (Great Britain Pound vs US Dollar)",
+        "quality": "99.90% · 403,790,611 ticks · 1,704,150 bars",
+        "drawdownBasis": "balance"
+      },
+      "report": null
+    },
+    "parameters": [
+      {
+        "name": "Slippage",
+        "default": "30",
+        "descKey": null
+      },
+      {
+        "name": "MaxSpread",
+        "default": "5",
+        "descKey": null
+      },
+      {
+        "name": "maxposition",
+        "default": "2",
+        "descKey": null
+      },
+      {
+        "name": "UseCompoundLot",
+        "default": "false",
+        "descKey": null
+      },
+      {
+        "name": "BaseLot",
+        "default": "1",
+        "descKey": null
+      },
+      {
+        "name": "BaseEquity",
+        "default": "200000",
+        "descKey": null
+      },
+      {
+        "name": "MinLot",
+        "default": "0.01",
+        "descKey": null
+      },
+      {
+        "name": "MaxLot",
+        "default": "200",
+        "descKey": null
+      },
+      {
+        "name": "GMT",
+        "default": "2",
+        "descKey": null
+      },
+      {
+        "name": "Summertime",
+        "default": "0",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber",
+        "default": "865910",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber2",
+        "default": "862132",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber3",
+        "default": "869633",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber4",
+        "default": "865648",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber5",
+        "default": "867036",
+        "descKey": null
+      }
+    ],
+    "curve": "/assets/images/backtest/metro.gif",
+    "source": "METRO20032026BT.htm",
+    "encoding": "shift_jis",
+    "alternates": 0
+  },
+  "mirumo": {
+    "symbol": "USDJPY",
+    "timeframe": "M5",
+    "period": "2003.05.05 – 2026.02.05",
+    "backtest": {
+      "id": "bt-full",
+      "label": "USDJPY · M5 · 2003–2026",
+      "period": "2003.05.05 – 2026.02.05",
+      "initialDeposit": null,
+      "netProfit": null,
+      "maxDrawdown": "35.97%",
+      "profitFactor": "2.90",
+      "totalTrades": "1,694",
+      "winRate": "94.04%",
+      "recoveryFactor": null,
+      "expectedPayoff": null,
+      "sharpe": null,
+      "conditions": {
+        "broker": "XMTrading-Real 37",
+        "spread": "Variable (as recorded in the tick data)",
+        "commission": null,
+        "modeling": "Every tick",
+        "dataSource": "USDJPY (US Dollar vs Japanese Yen)",
+        "quality": "99.90% · 382,470,644 ticks · 1,699,760 bars",
+        "drawdownBasis": "balance"
+      },
+      "report": null
+    },
+    "parameters": [
+      {
+        "name": "Slippage",
+        "default": "30",
+        "descKey": null
+      },
+      {
+        "name": "MaxSpread",
+        "default": "5",
+        "descKey": null
+      },
+      {
+        "name": "maxposition",
+        "default": "2",
+        "descKey": null
+      },
+      {
+        "name": "UseCompoundLot",
+        "default": "false",
+        "descKey": null
+      },
+      {
+        "name": "BaseLot",
+        "default": "1.5",
+        "descKey": null
+      },
+      {
+        "name": "BaseEquity",
+        "default": "200000",
+        "descKey": null
+      },
+      {
+        "name": "MinLot",
+        "default": "0.01",
+        "descKey": null
+      },
+      {
+        "name": "MaxLot",
+        "default": "200",
+        "descKey": null
+      },
+      {
+        "name": "GMT",
+        "default": "2",
+        "descKey": null
+      },
+      {
+        "name": "Summertime",
+        "default": "0",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber",
+        "default": "1003",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber2",
+        "default": "5006",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber3",
+        "default": "2001",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber4",
+        "default": "5009",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber5",
+        "default": "7003",
+        "descKey": null
+      }
+    ],
+    "curve": "/assets/images/backtest/mirumo.gif",
+    "source": "MIRUMO20032026BT.htm",
+    "encoding": "shift_jis",
+    "alternates": 0
+  },
+  "nexus": {
+    "symbol": "BTCUSD",
+    "timeframe": "M5",
+    "period": "2018.01.01 – 2026.03.28",
+    "backtest": {
+      "id": "bt-full",
+      "label": "BTCUSD · M5 · 2018–2026",
+      "period": "2018.01.01 – 2026.03.28",
+      "initialDeposit": "10,000 USD",
+      "netProfit": "17,513.80 USD",
+      "maxDrawdown": "2.60% (434.34 USD)",
+      "profitFactor": "1.52",
+      "totalTrades": "19,968",
+      "winRate": "66.52%",
+      "recoveryFactor": "40.32",
+      "expectedPayoff": "0.88 USD",
+      "sharpe": "30.58",
+      "conditions": {
+        "broker": "Raw Trading Ltd",
+        "spread": null,
+        "commission": null,
+        "modeling": null,
+        "dataSource": "BTCUSD",
+        "quality": "15,160,026 ticks · 767,240 bars",
+        "drawdownBasis": "equity"
+      },
+      "report": null
+    },
+    "parameters": [
+      {
+        "name": "MaxSpread",
+        "default": "20.0",
+        "descKey": null
+      },
+      {
+        "name": "Slippage",
+        "default": "300",
+        "descKey": null
+      },
+      {
+        "name": "Lots",
+        "default": "0.1",
+        "descKey": null
+      },
+      {
+        "name": "UseCompoundLot",
+        "default": "false",
+        "descKey": null
+      },
+      {
+        "name": "BaseLot",
+        "default": "0.1",
+        "descKey": null
+      },
+      {
+        "name": "BaseEquity",
+        "default": "1000000.0",
+        "descKey": null
+      },
+      {
+        "name": "MinLot",
+        "default": "0.01",
+        "descKey": null
+      },
+      {
+        "name": "MaxLot",
+        "default": "200.0",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber",
+        "default": "6660000",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber2",
+        "default": "7770000",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber3",
+        "default": "8880000",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber4",
+        "default": "9990000",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber5",
+        "default": "1110000",
+        "descKey": null
+      },
+      {
+        "name": "TrendHour",
+        "default": "20",
+        "descKey": null
+      },
+      {
+        "name": "Trend_TF",
+        "default": "15",
+        "descKey": null
+      },
+      {
+        "name": "MA_Period",
+        "default": "50",
+        "descKey": null
+      },
+      {
+        "name": "MA_Diff",
+        "default": "15",
+        "descKey": null
+      },
+      {
+        "name": "MA_Diff2",
+        "default": "75",
+        "descKey": null
+      },
+      {
+        "name": "RSI_ONOFF",
+        "default": "true",
+        "descKey": null
+      },
+      {
+        "name": "RSI_TFen",
+        "default": "15",
+        "descKey": null
+      },
+      {
+        "name": "RSI_Perioden",
+        "default": "4",
+        "descKey": null
+      },
+      {
+        "name": "RSI_TFex",
+        "default": "5",
+        "descKey": null
+      },
+      {
+        "name": "RSI_Periodex",
+        "default": "3",
+        "descKey": null
+      },
+      {
+        "name": "BB_ONOFF",
+        "default": "true",
+        "descKey": null
+      },
+      {
+        "name": "BB_TFen",
+        "default": "15",
+        "descKey": null
+      },
+      {
+        "name": "BB_Perioden",
+        "default": "14",
+        "descKey": null
+      },
+      {
+        "name": "BB_Hensaen",
+        "default": "2.0",
+        "descKey": null
+      },
+      {
+        "name": "BB_TFex",
+        "default": "5",
+        "descKey": null
+      },
+      {
+        "name": "BB_Periodex",
+        "default": "14",
+        "descKey": null
+      },
+      {
+        "name": "BB_Hensaex",
+        "default": "2.5",
+        "descKey": null
+      },
+      {
+        "name": "CCI_ONOFF",
+        "default": "true",
+        "descKey": null
+      },
+      {
+        "name": "CCI_TFen",
+        "default": "15",
+        "descKey": null
+      },
+      {
+        "name": "CCI_Perioden",
+        "default": "15",
+        "descKey": null
+      },
+      {
+        "name": "CCI_Lineen",
+        "default": "199",
+        "descKey": null
+      },
+      {
+        "name": "CCI_TFex",
+        "default": "5",
+        "descKey": null
+      },
+      {
+        "name": "CCI_Periodex",
+        "default": "15",
+        "descKey": null
+      },
+      {
+        "name": "CCI_Lineex",
+        "default": "196",
+        "descKey": null
+      },
+      {
+        "name": "STO_ONOFF",
+        "default": "true",
+        "descKey": null
+      },
+      {
+        "name": "isUseSlowD",
+        "default": "false",
+        "descKey": null
+      },
+      {
+        "name": "STO_TFen",
+        "default": "15",
+        "descKey": null
+      },
+      {
+        "name": "PercentK_Perioden",
+        "default": "5",
+        "descKey": null
+      },
+      {
+        "name": "PercentD_Perioden",
+        "default": "3",
+        "descKey": null
+      },
+      {
+        "name": "Slow_Perioden",
+        "default": "3",
+        "descKey": null
+      },
+      {
+        "name": "Stochastics_LINEen",
+        "default": "87",
+        "descKey": null
+      },
+      {
+        "name": "STO_TFex",
+        "default": "5",
+        "descKey": null
+      },
+      {
+        "name": "PercentK_Periodex",
+        "default": "5",
+        "descKey": null
+      },
+      {
+        "name": "PercentD_Periodex",
+        "default": "3",
+        "descKey": null
+      },
+      {
+        "name": "Slow_Periodex",
+        "default": "3",
+        "descKey": null
+      },
+      {
+        "name": "Stochastics_LINEex",
+        "default": "83",
+        "descKey": null
+      },
+      {
+        "name": "MFI_ONOFF",
+        "default": "true",
+        "descKey": null
+      },
+      {
+        "name": "MFI_TFen",
+        "default": "15",
+        "descKey": null
+      },
+      {
+        "name": "MFI_Perioden",
+        "default": "14",
+        "descKey": null
+      },
+      {
+        "name": "MFI_LineBen",
+        "default": "21",
+        "descKey": null
+      },
+      {
+        "name": "MFI_LineSen",
+        "default": "76",
+        "descKey": null
+      },
+      {
+        "name": "MFI_TFex",
+        "default": "15",
+        "descKey": null
+      },
+      {
+        "name": "MFI_Periodex",
+        "default": "14",
+        "descKey": null
+      },
+      {
+        "name": "MFI_LineBex",
+        "default": "21",
+        "descKey": null
+      },
+      {
+        "name": "MFI_LineSex",
+        "default": "79",
+        "descKey": null
+      }
+    ],
+    "curve": "/assets/images/backtest/nexus.png",
+    "source": "Engish-fullbt.html",
+    "encoding": "utf-16le",
+    "alternates": 6
+  },
+  "rina": {
+    "symbol": "GOLD",
+    "timeframe": "M5",
+    "period": "2006.01.02 – 2026.02.05",
+    "backtest": {
+      "id": "bt-full",
+      "label": "GOLD · M5 · 2006–2026",
+      "period": "2006.01.02 – 2026.02.05",
+      "initialDeposit": null,
+      "netProfit": null,
+      "maxDrawdown": "56.05%",
+      "profitFactor": "3.89",
+      "totalTrades": "687",
+      "winRate": "91.85%",
+      "recoveryFactor": null,
+      "expectedPayoff": null,
+      "sharpe": null,
+      "conditions": {
+        "broker": "XMTrading-Real 37",
+        "spread": "Variable (as recorded in the tick data)",
+        "commission": null,
+        "modeling": "Every tick",
+        "dataSource": "GOLD (GOLD)",
+        "quality": "99.90% · 650,474,669 ticks · 1,447,274 bars",
+        "drawdownBasis": "balance"
+      },
+      "report": null
+    },
+    "parameters": [
+      {
+        "name": "Slippage",
+        "default": "30",
+        "descKey": null
+      },
+      {
+        "name": "MaxSpread",
+        "default": "5",
+        "descKey": null
+      },
+      {
+        "name": "maxposition",
+        "default": "2",
+        "descKey": null
+      },
+      {
+        "name": "UseCompoundLot",
+        "default": "false",
+        "descKey": null
+      },
+      {
+        "name": "BaseLot",
+        "default": "3",
+        "descKey": null
+      },
+      {
+        "name": "BaseEquity",
+        "default": "200000",
+        "descKey": null
+      },
+      {
+        "name": "MinLot",
+        "default": "0.01",
+        "descKey": null
+      },
+      {
+        "name": "MaxLot",
+        "default": "200",
+        "descKey": null
+      },
+      {
+        "name": "GMT",
+        "default": "2",
+        "descKey": null
+      },
+      {
+        "name": "Summertime",
+        "default": "0",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber",
+        "default": "2525565",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber2",
+        "default": "252549",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber3",
+        "default": "252546",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber4",
+        "default": "25250101",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber5",
+        "default": "25254646",
+        "descKey": null
+      }
+    ],
+    "curve": "/assets/images/backtest/rina.gif",
+    "source": "RINA20032026BT.htm",
+    "encoding": "shift_jis",
+    "alternates": 0
+  },
+  "sena": {
+    "symbol": "GOLD",
+    "timeframe": "M5",
+    "period": "2003.05.05 – 2026.02.05",
+    "backtest": {
+      "id": "bt-full",
+      "label": "GOLD · M5 · 2003–2026",
+      "period": "2003.05.05 – 2026.02.05",
+      "initialDeposit": null,
+      "netProfit": null,
+      "maxDrawdown": "22.68%",
+      "profitFactor": "2.54",
+      "totalTrades": "961",
+      "winRate": "93.96%",
+      "recoveryFactor": null,
+      "expectedPayoff": null,
+      "sharpe": null,
+      "conditions": {
+        "broker": "XMTrading-Real 37",
+        "spread": "Variable (as recorded in the tick data)",
+        "commission": null,
+        "modeling": "Every tick",
+        "dataSource": "GOLD (GOLD)",
+        "quality": "99.90% · 671,026,661 ticks · 1,619,531 bars",
+        "drawdownBasis": "balance"
+      },
+      "report": null
+    },
+    "parameters": [
+      {
+        "name": "Slippage",
+        "default": "30",
+        "descKey": null
+      },
+      {
+        "name": "MaxSpread",
+        "default": "5",
+        "descKey": null
+      },
+      {
+        "name": "maxposition",
+        "default": "2",
+        "descKey": null
+      },
+      {
+        "name": "UseCompoundLot",
+        "default": "false",
+        "descKey": null
+      },
+      {
+        "name": "BaseLot",
+        "default": "1",
+        "descKey": null
+      },
+      {
+        "name": "BaseEquity",
+        "default": "200000",
+        "descKey": null
+      },
+      {
+        "name": "MinLot",
+        "default": "0.01",
+        "descKey": null
+      },
+      {
+        "name": "MaxLot",
+        "default": "200",
+        "descKey": null
+      },
+      {
+        "name": "GMT",
+        "default": "2",
+        "descKey": null
+      },
+      {
+        "name": "Summertime",
+        "default": "0",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber",
+        "default": "2525565",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber2",
+        "default": "252549",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber3",
+        "default": "252546",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber4",
+        "default": "25250101",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber5",
+        "default": "25254646",
+        "descKey": null
+      }
+    ],
+    "curve": "/assets/images/backtest/sena.gif",
+    "source": "SENA20032026.htm",
+    "encoding": "shift_jis",
+    "alternates": 0
+  },
+  "supremacy": {
+    "symbol": "BTCUSD",
+    "timeframe": "M5",
+    "period": "2020.01.01 – 2026.03.28",
+    "backtest": {
+      "id": "bt-full",
+      "label": "BTCUSD · M5 · 2020–2026",
+      "period": "2020.01.01 – 2026.03.28",
+      "initialDeposit": "10,000 USD",
+      "netProfit": "12,015.39 USD",
+      "maxDrawdown": "48.82% (6,681.39 USD)",
+      "profitFactor": "2.38",
+      "totalTrades": "19,246",
+      "winRate": "93.91%",
+      "recoveryFactor": "1.80",
+      "expectedPayoff": "0.62 USD",
+      "sharpe": "0.96",
+      "conditions": {
+        "broker": "Raw Trading Ltd",
+        "spread": null,
+        "commission": null,
+        "modeling": null,
+        "dataSource": "BTCUSD",
+        "quality": "12,205,999 ticks · 612,538 bars",
+        "drawdownBasis": "equity"
+      },
+      "report": null
+    },
+    "parameters": [
+      {
+        "name": "InpLots",
+        "default": "0.01",
+        "descKey": null
+      },
+      {
+        "name": "maxposition",
+        "default": "100",
+        "descKey": null
+      },
+      {
+        "name": "MaxSpread",
+        "default": "20.0",
+        "descKey": null
+      },
+      {
+        "name": "Slippage",
+        "default": "300",
+        "descKey": null
+      },
+      {
+        "name": "MM_ONOFF",
+        "default": "false",
+        "descKey": null
+      },
+      {
+        "name": "CODE1_ONOFF",
+        "default": "true",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber",
+        "default": "73877387",
+        "descKey": null
+      },
+      {
+        "name": "BB_Period",
+        "default": "21",
+        "descKey": null
+      },
+      {
+        "name": "BB_Hensa",
+        "default": "2.0",
+        "descKey": null
+      },
+      {
+        "name": "RSI_Period",
+        "default": "9",
+        "descKey": null
+      },
+      {
+        "name": "RSI_Line",
+        "default": "30.0",
+        "descKey": null
+      },
+      {
+        "name": "Rikaku",
+        "default": "0",
+        "descKey": null
+      },
+      {
+        "name": "Songiri",
+        "default": "0",
+        "descKey": null
+      },
+      {
+        "name": "Trail_ONOFF",
+        "default": "true",
+        "descKey": null
+      },
+      {
+        "name": "TrailStartPips",
+        "default": "8",
+        "descKey": null
+      },
+      {
+        "name": "TrailPips",
+        "default": "5",
+        "descKey": null
+      },
+      {
+        "name": "Martin_ONOFF",
+        "default": "true",
+        "descKey": null
+      },
+      {
+        "name": "martin_point",
+        "default": "1.85",
+        "descKey": null
+      },
+      {
+        "name": "Nanpin_ONOFF",
+        "default": "true",
+        "descKey": null
+      },
+      {
+        "name": "Nanpin_Pips",
+        "default": "25",
+        "descKey": null
+      },
+      {
+        "name": "CODE_ONOFF",
+        "default": "true",
+        "descKey": null
+      }
+    ],
+    "curve": "/assets/images/backtest/supremacy.png",
+    "source": "SPRYBTFULL.html",
+    "encoding": "utf-16le",
+    "alternates": 0
+  },
+  "evergreen": {
+    "symbol": "EURJPY",
+    "timeframe": "M5",
+    "period": "2003.08.04 – 2025.08.29",
+    "backtest": {
+      "id": "bt-full",
+      "label": "EURJPY · M5 · 2003–2025",
+      "period": "2003.08.04 – 2025.08.29",
+      "initialDeposit": null,
+      "netProfit": null,
+      "maxDrawdown": "40.98%",
+      "profitFactor": "1.78",
+      "totalTrades": "1,748",
+      "winRate": "95.31%",
+      "recoveryFactor": null,
+      "expectedPayoff": null,
+      "sharpe": null,
+      "conditions": {
+        "broker": "XMTrading-Real 37",
+        "spread": "Variable (as recorded in the tick data)",
+        "commission": null,
+        "modeling": "Every tick",
+        "dataSource": "EURJPY (Euro vs Japanese Yen)",
+        "quality": "99.90% · 571,599,733 ticks · 1,648,385 bars",
+        "drawdownBasis": "balance"
+      },
+      "report": null
+    },
+    "parameters": [
+      {
+        "name": "Slippage",
+        "default": "30",
+        "descKey": null
+      },
+      {
+        "name": "MaxSpread",
+        "default": "5",
+        "descKey": null
+      },
+      {
+        "name": "maxposition",
+        "default": "1",
+        "descKey": null
+      },
+      {
+        "name": "UseCompoundLot",
+        "default": "false",
+        "descKey": null
+      },
+      {
+        "name": "BaseLot",
+        "default": "1.5",
+        "descKey": null
+      },
+      {
+        "name": "BaseEquity",
+        "default": "200000",
+        "descKey": null
+      },
+      {
+        "name": "MinLot",
+        "default": "0.01",
+        "descKey": null
+      },
+      {
+        "name": "MaxLot",
+        "default": "200",
+        "descKey": null
+      },
+      {
+        "name": "GMT",
+        "default": "2",
+        "descKey": null
+      },
+      {
+        "name": "Summertime",
+        "default": "0",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber",
+        "default": "198001",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber2",
+        "default": "198101",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber3",
+        "default": "198201",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber4",
+        "default": "198303",
+        "descKey": null
+      },
+      {
+        "name": "MagicNumber5",
+        "default": "198401",
+        "descKey": null
+      }
+    ],
+    "curve": "/assets/images/backtest/evergreen.gif",
+    "source": "EVERGREEN20032026BT.htm",
+    "encoding": "shift_jis",
+    "alternates": 0
+  }
+}

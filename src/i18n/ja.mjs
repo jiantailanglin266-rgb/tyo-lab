@@ -234,6 +234,11 @@ export default {
       dataSource: '使用データ',
       quality: 'モデリング品質',
       conditions: 'テスト条件',
+      curveAlt: 'テスターレポートの残高・有効証拠金カーブ',
+      curveCaption: 'ストラテジーテスターのレポートからそのまま書き出した残高／有効証拠金カーブ。',
+      ddBasis: 'ドローダウン基準',
+      ddBasis_equity: '有効証拠金ベース（含み損を含む）',
+      ddBasis_balance: '残高ベース（決済済みのみ）',
     },
   },
 

@@ -271,6 +271,11 @@ export default {
       dataSource: 'Data Source',
       quality: 'Modeling Quality',
       conditions: 'Test Conditions',
+      curveAlt: 'Balance and equity curve from the tester report',
+      curveCaption: 'Balance / equity curve exported directly from the Strategy Tester report.',
+      ddBasis: 'Drawdown Basis',
+      ddBasis_equity: 'Equity (includes open positions)',
+      ddBasis_balance: 'Balance (closed trades only)',
     },
   },
 

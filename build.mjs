@@ -16,7 +16,7 @@
  * ============================================================================
  */
 
-import { mkdir, writeFile, readdir, cp, rm, access } from 'node:fs/promises';
+import { mkdir, writeFile, readFile, readdir, cp, rm, access } from 'node:fs/promises';
 import { constants } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -131,6 +131,48 @@ for (const e of ea) {
   }
 }
 console.log(`  · EA covers    ${coverCount}/${ea.length} found in public/assets/images/ea/`);
+
+/**
+ * Merge evidenced backtest data produced by tools/import-reports.mjs.
+ * Hand-written values in src/data/ea.mjs always win; the import only fills
+ * gaps. If the JSON is absent the site simply renders without metrics.
+ */
+{
+  let imported = null;
+  try {
+    imported = JSON.parse(await readFile(join(ROOT, 'tools', 'imported-reports.json'), 'utf8'));
+  } catch {
+    warnings.push('No tools/imported-reports.json — run `npm run import -- <folder>` to attach tester results.');
+  }
+
+  if (imported) {
+    let attached = 0;
+    const noCurrency = [];
+    for (const e of ea) {
+      const rec = imported[e.slug];
+      if (!rec) continue;
+
+      if (!e.backtests.length && rec.backtest) {
+        e.backtests = [{ ...rec.backtest, curve: rec.curve || null }];
+        attached++;
+        // The importer drops money figures whose account currency the report
+        // never stated, so a missing deposit means "unit unknown", not "no
+        // data". Surface it: those pages show ratios only.
+        if (!rec.backtest.initialDeposit) noCurrency.push(e.slug);
+      }
+      if (!e.parameters.length && rec.parameters?.length) e.parameters = rec.parameters;
+      if (!e.spec.timeframe && rec.timeframe) e.spec.timeframe = rec.timeframe;
+      if (!e.spec.symbol && rec.symbol) e.spec.symbol = rec.symbol;
+    }
+    console.log(`  · backtests    ${attached}/${ea.length} attached from tester reports`);
+    if (noCurrency.length)
+      warnings.push(
+        `Money figures hidden (tester report states no account currency) for: ${noCurrency.join(', ')}. ` +
+          `Those pages show percentages and ratios only. Fill in CURRENCY in tools/import-reports.mjs ` +
+          `and re-run the importer to publish the amounts.`
+      );
+  }
+}
 if (coverCount < ea.length)
   warnings.push(
     `${ea.length - coverCount} EA cover image(s) missing — drop <slug>.png into public/assets/images/ea/ (` +

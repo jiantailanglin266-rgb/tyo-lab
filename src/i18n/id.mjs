@@ -234,6 +234,11 @@ export default {
       dataSource: 'Sumber Data',
       quality: 'Kualitas Pemodelan',
       conditions: 'Kondisi Pengujian',
+      curveAlt: 'Kurva saldo dan ekuitas dari laporan tester',
+      curveCaption: 'Kurva saldo / ekuitas yang diekspor langsung dari laporan Strategy Tester.',
+      ddBasis: 'Dasar Drawdown',
+      ddBasis_equity: 'Ekuitas (termasuk posisi terbuka)',
+      ddBasis_balance: 'Saldo (hanya transaksi tertutup)',
     },
   },
 

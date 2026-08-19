@@ -1882,6 +1882,40 @@ table {
   text-align: right;
 }
 
+/* Headline tester figures on the card. */
+.eacard__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: 4px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.eacard__stats li {
+  display: grid;
+  gap: 3px;
+  padding: 11px 10px;
+  background: var(--bg-1);
+  text-align: center;
+}
+
+.eacard__stat-v {
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.eacard__stat-k {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-4);
+  line-height: 1.35;
+}
+
 .eacard__cta {
   display: flex;
   align-items: center;
@@ -2154,6 +2188,33 @@ table {
   text-transform: uppercase;
   color: var(--s-cyan);
   margin-bottom: 18px;
+}
+
+/* Equity curve straight from the tester report. The source PNG/GIF is a
+   light-background MetaTrader chart, so it is inverted to sit in the dark
+   page without re-rendering the data. */
+.curve {
+  margin: 0 0 22px;
+  border: 1px solid var(--line);
+  background: #0f0f10;
+  overflow: hidden;
+}
+
+.curve img {
+  width: 100%;
+  height: auto;
+  filter: invert(1) hue-rotate(180deg) saturate(0.85) contrast(0.92);
+  mix-blend-mode: screen;
+}
+
+.curve figcaption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--fg-4);
+  line-height: 1.6;
 }
 
 .metrics__grid {

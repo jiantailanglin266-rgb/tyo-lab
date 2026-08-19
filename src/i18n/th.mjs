@@ -232,6 +232,11 @@ export default {
       dataSource: 'แหล่งข้อมูล',
       quality: 'คุณภาพการจำลอง',
       conditions: 'เงื่อนไขการทดสอบ',
+      curveAlt: 'กราฟ Balance และ Equity จากรายงานการทดสอบ',
+      curveCaption: 'กราฟ Balance / Equity ที่ส่งออกโดยตรงจากรายงาน Strategy Tester',
+      ddBasis: 'เกณฑ์ Drawdown',
+      ddBasis_equity: 'Equity (รวมสถานะที่ยังเปิดอยู่)',
+      ddBasis_balance: 'Balance (เฉพาะที่ปิดแล้ว)',
     },
   },
 

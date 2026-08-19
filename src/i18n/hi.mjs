@@ -233,6 +233,11 @@ export default {
       dataSource: 'डेटा स्रोत',
       quality: 'मॉडलिंग गुणवत्ता',
       conditions: 'टेस्ट शर्तें',
+      curveAlt: 'टेस्टर रिपोर्ट से बैलेंस और इक्विटी कर्व',
+      curveCaption: 'Strategy Tester रिपोर्ट से सीधे निर्यात किया गया बैलेंस / इक्विटी कर्व।',
+      ddBasis: 'ड्रॉडाउन आधार',
+      ddBasis_equity: 'इक्विटी (खुली पोज़िशन सहित)',
+      ddBasis_balance: 'बैलेंस (केवल बंद ट्रेड)',
     },
   },
 
