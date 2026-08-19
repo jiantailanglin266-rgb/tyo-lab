@@ -9,6 +9,7 @@
     "check": "node tools/check.mjs",
     "assets": "node tools/make-placeholders.mjs",
     "import": "node tools/import-reports.mjs",
+    "trades": "node --max-old-space-size=4096 tools/extract-trades.mjs",
     "serve": "node tools/serve.mjs",
     "dev": "node build.mjs && node tools/serve.mjs",
     "release": "node build.mjs && node tools/check.mjs",

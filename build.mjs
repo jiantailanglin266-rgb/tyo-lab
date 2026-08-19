@@ -25,6 +25,7 @@ import { LOCALES, DEFAULT_LOCALE, SITE_URL, BASE_PATH, VIDEOS, BRAND, LINKS, FEA
 import { loadDictionaries, entryI18n } from './src/lib/i18n.mjs';
 import { localePath, outPath, absolute, asset, ROUTES } from './src/lib/url.mjs';
 import { buildMask } from './src/lib/worldmap.mjs';
+import { buildEAModels } from './src/lib/ea-model.mjs';
 import { Document } from './src/components/layout.mjs';
 
 import { publishedEA, EA } from './src/data/ea.mjs';
@@ -107,7 +108,7 @@ for (const [key, v] of Object.entries(VIDEOS)) {
 const videoCount = Object.values(has).filter((h) => h.any).length;
 console.log(`  · video slots  ${videoCount}/${Object.keys(VIDEOS).length} encoded (missing slots fall back to poster + particles)`);
 
-const ea = publishedEA();
+const eaRaw = publishedEA();
 const articles = publishedArticles();
 
 /**
@@ -116,7 +117,7 @@ const articles = publishedArticles();
  * found on disk is used; nothing found leaves image = null (art-less layout).
  */
 let coverCount = 0;
-for (const e of ea) {
+for (const e of eaRaw) {
   if (e.image) {
     coverCount++;
     continue;
@@ -130,7 +131,7 @@ for (const e of ea) {
     }
   }
 }
-console.log(`  · EA covers    ${coverCount}/${ea.length} found in public/assets/images/ea/`);
+console.log(`  · EA covers    ${coverCount}/${eaRaw.length} found in public/assets/images/ea/`);
 
 /**
  * Merge evidenced backtest data produced by tools/import-reports.mjs.
@@ -148,7 +149,7 @@ console.log(`  · EA covers    ${coverCount}/${ea.length} found in public/assets
   if (imported) {
     let attached = 0;
     const noCurrency = [];
-    for (const e of ea) {
+    for (const e of eaRaw) {
       const rec = imported[e.slug];
       if (!rec) continue;
 
@@ -164,7 +165,7 @@ console.log(`  · EA covers    ${coverCount}/${ea.length} found in public/assets
       if (!e.spec.timeframe && rec.timeframe) e.spec.timeframe = rec.timeframe;
       if (!e.spec.symbol && rec.symbol) e.spec.symbol = rec.symbol;
     }
-    console.log(`  · backtests    ${attached}/${ea.length} attached from tester reports`);
+    console.log(`  · backtests    ${attached}/${eaRaw.length} attached from tester reports`);
     if (noCurrency.length)
       warnings.push(
         `Money figures hidden (tester report states no account currency) for: ${noCurrency.join(', ')}. ` +
@@ -173,14 +174,27 @@ console.log(`  · EA covers    ${coverCount}/${ea.length} found in public/assets
       );
   }
 }
-if (coverCount < ea.length)
+if (coverCount < eaRaw.length)
   warnings.push(
-    `${ea.length - coverCount} EA cover image(s) missing — drop <slug>.png into public/assets/images/ea/ (` +
-      ea.filter((e) => !e.image).map((e) => e.slug).join(', ') +
+    `${eaRaw.length - coverCount} EA cover image(s) missing — drop <slug>.png into public/assets/images/ea/ (` +
+      eaRaw.filter((e) => !e.image).map((e) => e.slug).join(', ') +
       ')'
   );
 
-for (const e of EA) if (e.placeholder && e.status !== 'draft') warnings.push(`EA "${e.slug}" still has placeholder:true — replace the copy in src/data/ea.mjs`);
+/**
+ * Fold the raw catalogue, the report header and the deal-level statistics into
+ * one frozen model per system. Every EA template reads from this and nothing
+ * else — see docs/EA_DATA_SCHEMA.md.
+ */
+const ea = await buildEAModels(eaRaw);
+const scored = ea.filter((m) => m.score.total !== null).length;
+const withTrades = ea.filter((m) => m.trades).length;
+console.log(`  · EA models    ${ea.length} built · ${withTrades} with trade-level data · ${scored} scored`);
+if (withTrades < ea.length)
+  warnings.push(
+    `${ea.length - withTrades} system(s) have no trade-level data — run \`npm run trades -- <folder>\` ` +
+      `to unlock monthly returns, yearly tables and trade statistics.`
+  );
 for (const a of ARTICLES) if (a.placeholder && a.status !== 'draft') warnings.push(`Lab article "${a.slug}" still has placeholder:true — replace the copy in src/data/lab.mjs`);
 if (!MILESTONES.length) warnings.push('MILESTONES is empty — the "Selected milestones" block on /history/ is hidden until you add dated entries you can evidence.');
 
@@ -302,7 +316,11 @@ for (const loc of LOCALES) {
       Document({
         ...ctx,
         path: ROUTES.eaDetail(e.slug),
-        title: `${e.name} — ${t.nav.ea} | ${BRAND.name}`,
+        // Symbol and strategy belong in the title: the page should compete on
+        // the terms people search, not on a generic section name.
+        title: [e.name, [e.spec.symbol, e.spec.strategy].filter(Boolean).join(' '), `${t.nav.ea} | ${BRAND.name}`]
+          .filter(Boolean)
+          .join(' — '),
         description: c.tagline || c.overview || t.seo.ea.desc,
         ogImage: e.image || undefined,
         jsonLd: [

@@ -19,7 +19,9 @@ function badges(ea, t) {
  * currency, so every card can carry them.
  */
 function EACardStats({ ea, t }) {
-  const bt = (ea.backtests || [])[0];
+  /* Works with both shapes: the raw catalogue entry (backtests[]) and the
+     merged model (backtest). Index and home render from the model. */
+  const bt = ea.backtest || (ea.backtests || [])[0];
   if (!bt) return '';
   const m = t.ea.metrics;
   const cells = [
@@ -50,12 +52,12 @@ export function EACard({ ea, locale, t, index = 0 }) {
   ].filter(([, v]) => v);
 
   return html`
-    <article class="eacard${raw(ea.image ? ' eacard--art' : '')}" data-reveal style="--d:${index % 3}">
+    <article class="eacard${raw((ea.media?.cover ?? ea.image) ? ' eacard--art' : '')}" data-reveal style="--d:${index % 3}">
       <a class="eacard__link" href="${href}" aria-label="${ea.name}">
         ${when(
-          ea.image,
+          (ea.media?.cover ?? ea.image),
           () => html`<figure class="eacard__cover">
-            <img src="${asset(ea.image)}" alt="${ea.name}" loading="lazy" decoding="async" width="1024" height="1024" />
+            <img src="${asset((ea.media?.cover ?? ea.image))}" alt="${ea.name}" loading="lazy" decoding="async" width="1024" height="1024" />
             <span class="eacard__cover-fade" aria-hidden="true"></span>
           </figure>`
         )}
