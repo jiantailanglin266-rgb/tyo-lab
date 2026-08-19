@@ -1678,7 +1678,7 @@
     var none = $('[data-xnone]', root);
     var countTpl = count ? count.dataset.tpl || '' : '';
 
-    var state = { status: '', category: '', ea: '', sort: 'newest' };
+    var state = { status: '', category: '', source: '', ea: '', sort: 'newest' };
 
     cards.forEach(function (c, i) {
       c.dataset.order = String(i); // document order = newest first
@@ -1687,6 +1687,7 @@
     function matches(card) {
       if (state.status && card.dataset.status !== state.status) return false;
       if (state.category && card.dataset.category !== state.category) return false;
+      if (state.source && card.dataset.source !== state.source) return false;
       if (state.ea && card.dataset.ea !== state.ea) return false;
       return true;
     }

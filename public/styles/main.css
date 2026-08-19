@@ -4966,6 +4966,22 @@ table {
   font-size: 0.76rem;
 }
 
+/* ---- AI involvement / research output (Phase 10) ---- */
+
+.xai__ok i {
+  font-style: normal;
+  color: var(--s-green);
+  margin-right: 4px;
+}
+
+.xcard__src {
+  color: var(--fg-2);
+}
+
+.labsec__cta {
+  margin-top: clamp(22px, 3vw, 34px);
+}
+
 /* ---- Track-record tabs (Backtest / Forward / Live) ---- */
 
 .switch--track .switch__panel {

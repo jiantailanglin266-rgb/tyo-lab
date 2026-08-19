@@ -35,6 +35,12 @@ evidence layer (`src/lib/evidence.mjs`). Produced by `src/data/experiments.mjs`
   } | null,
   comparable: true | false,     // false → "not a controlled comparison" warning
 
+  ai: {                         // present on AI-touched entries (Phase 10)
+    model: 'Claude (Anthropic)',
+    role: '…',                  // what AI did on THIS entry, concretely
+    humanReviewed: true,        // publish gate: AI-sourced entries without
+  } | null,                     // this flag are withheld from the build
+
   decision: <status> | null,    // mirrors status for finished entries
   reason: '…' | null,           // the "why"; null renders "Not recorded"
   gitCommit: '5fb90db' | 'phase-6' | null,  // 'phase-6' placeholder is not rendered

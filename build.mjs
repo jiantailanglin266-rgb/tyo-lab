@@ -455,7 +455,7 @@ for (const loc of LOCALES) {
           { name: t.nav.aiLab, path: ROUTES.aiLab() },
         ]),
       ],
-      children: AILab({ ...ctx }),
+      children: AILab({ ...ctx, experiments }),
     })
   );
 

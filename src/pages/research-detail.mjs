@@ -135,6 +135,24 @@ export default function ResearchDetail({ locale, t, exp, eaNames, prev, next }) 
         })}
 
         ${Block({
+          id: 'ai',
+          title: R.aiPanel.title,
+          body: exp.ai
+            ? html`
+                <dl class="kvlist kvlist--tight">
+                  <div class="kvlist__row"><dt>${R.aiPanel.model}</dt><dd>${exp.ai.model}</dd></div>
+                  <div class="kvlist__row"><dt>${R.aiPanel.role}</dt><dd>${exp.ai.role}</dd></div>
+                  <div class="kvlist__row">
+                    <dt>${R.aiPanel.reviewed}</dt>
+                    <dd class="xai__ok"><i aria-hidden="true">✓</i> ${R.aiPanel.reviewedYes}</dd>
+                  </div>
+                </dl>
+                <p class="fineline">${R.aiPanel.note}</p>
+              `
+            : null,
+        })}
+
+        ${Block({
           id: 'notes',
           title: D.notes,
           body: has(exp.notes) ? html`<p class="prose">${exp.notes}</p>` : null,

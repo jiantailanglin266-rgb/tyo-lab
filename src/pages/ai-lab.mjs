@@ -51,10 +51,16 @@ function StatusList({ items, t }) {
   `;
 }
 
-export default function AILab({ locale, t }) {
+export default function AILab({ locale, t, experiments = [] }) {
   const A = t.aiLab;
   const p = (r) => localePath(locale, r);
   const statuses = ['live', 'experimental', 'research'];
+
+  /* Real research-log output, by source. These are the same entries the log
+     itself renders — checkable, so this section may be stated as Live. */
+  const bySource = (s) => experiments.filter((e) => e.source === s).length;
+  const aiAssisted = experiments.filter((e) => e.source === 'hybrid' || e.source === 'ai');
+  const allReviewed = aiAssisted.every((e) => e.ai && e.ai.humanReviewed === true);
 
   return html`
     <!-- HERO -->
@@ -142,6 +148,36 @@ export default function AILab({ locale, t }) {
         <p class="warn" data-reveal>${A.mcp.honesty}</p>
       </div>
     </section>
+
+    <!-- 05 Research output — the pipeline's measurable, checkable product -->
+    ${when(
+      experiments.length,
+      () => html`
+        <section class="sec" id="research-output" data-reveal-root>
+          <div class="wrap">
+            <header class="labsec">
+              ${Eyebrow(A.researchOut.title, '05')}
+              <p class="labsec__lead" data-reveal>${A.researchOut.lead}</p>
+            </header>
+
+            <ul class="labstats labstats--inline" data-reveal>
+              ${[
+                [A.researchOut.statTotal, experiments.length],
+                [A.researchOut.statHybrid, bySource('hybrid')],
+                [A.researchOut.statHuman, bySource('human')],
+                [A.researchOut.statAI, bySource('ai')],
+              ].map(([k, v]) => html`<li><span class="labstats__v">${v}</span><span class="labstats__k">${k}</span></li>`)}
+            </ul>
+
+            ${when(allReviewed, () => html`<p class="warn" data-reveal>${A.researchOut.reviewNote}</p>`)}
+
+            <div class="labsec__cta" data-reveal>
+              <a class="btn btn--ghost" href="${p(ROUTES.research())}">${A.researchOut.cta}<span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        </section>
+      `
+    )}
 
     ${CTABlock({
       title: t.home.ea.h,

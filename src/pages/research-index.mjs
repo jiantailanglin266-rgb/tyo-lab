@@ -22,6 +22,7 @@ export default function ResearchIndex({ locale, t, experiments, ea }) {
 
   const usedStatuses = [...new Set(experiments.map((e) => e.status))];
   const usedCats = [...new Set(experiments.map((e) => e.category))];
+  const usedSources = [...new Set(experiments.map((e) => e.source).filter(Boolean))];
   const usedEAs = [...new Set(experiments.map((e) => e.strategyId).filter(Boolean))].sort();
   const hasPlatform = experiments.some((e) => !e.strategyId);
 
@@ -69,6 +70,13 @@ export default function ResearchIndex({ locale, t, experiments, ea }) {
               <div class="browse__chips">
                 <button type="button" class="chip is-on" data-xfacet="category" data-value="">${R.filters.all}</button>
                 ${usedCats.map((c) => html`<button type="button" class="chip" data-xfacet="category" data-value="${c}">${R.categories[c] || c}</button>`)}
+              </div>
+            </div>
+            <div class="browse__group" role="group" aria-label="${R.filters.source}">
+              <span class="browse__label">${R.filters.source}</span>
+              <div class="browse__chips">
+                <button type="button" class="chip is-on" data-xfacet="source" data-value="">${R.filters.all}</button>
+                ${usedSources.map((s) => html`<button type="button" class="chip" data-xfacet="source" data-value="${s}">${R.sources[s] || s}</button>`)}
               </div>
             </div>
           </div>

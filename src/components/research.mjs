@@ -70,6 +70,7 @@ export function ExperimentCard({ exp, t, locale, eaNames }) {
         data-status="${exp.status}"
         data-ea="${exp.strategyId || '_platform'}"
         data-category="${exp.category}"
+        data-source="${exp.source || ''}"
         data-date="${exp.createdAt || ''}">
       <a class="xcard__link" href="${href}">
         <div class="xcard__head">
@@ -80,6 +81,7 @@ export function ExperimentCard({ exp, t, locale, eaNames }) {
         <div class="xcard__meta">
           ${when(eaName, () => html`<span class="xcard__ea">${eaName}</span>`)}
           <span class="xcard__cat">${R.categories[exp.category] || exp.category}</span>
+          ${when(exp.source, () => html`<span class="xcard__src">${R.sources[exp.source] || exp.source}</span>`)}
           <span class="xcard__date">${exp.createdAt ? formatDate(exp.createdAt, locale) : R.list.undated}</span>
         </div>
         <dl class="xcard__body">

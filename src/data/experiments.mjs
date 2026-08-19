@@ -51,6 +51,11 @@ const CURATED = [
     experimentId: 'EXP-000001',
     strategyId: null,
     title: 'Equity-basis vs balance-basis drawdown across the catalogue',
+    ai: {
+      model: 'Claude (Anthropic)',
+      role: 'Read all 14 tester reports, surfaced the equity/balance mismatch and drafted the importer change. The publication rule (always label the basis) was decided by a human.',
+      humanReviewed: true,
+    },
     category: 'methodology',
     status: 'ACCEPTED',
     source: 'hybrid',
@@ -75,6 +80,11 @@ const CURATED = [
     experimentId: 'EXP-000002',
     strategyId: null,
     title: 'Stop-loss share denominator — data-integrity check',
+    ai: {
+      model: 'Claude (Anthropic)',
+      role: 'Traced the >100% share to break-even trades missing from the denominator and drafted the fix; totals were re-verified against every report header.',
+      humanReviewed: true,
+    },
     category: 'data-integrity',
     status: 'ACCEPTED',
     source: 'hybrid',
@@ -97,6 +107,11 @@ const CURATED = [
     experimentId: 'EXP-000003',
     strategyId: null,
     title: 'Positive-month share as a consistency score input',
+    ai: {
+      model: 'Claude (Anthropic)',
+      role: 'Proposed the raw share as a consistency input and then produced the counter-analysis that rejected it; the rejection was a joint decision.',
+      humanReviewed: true,
+    },
     category: 'scoring',
     status: 'REJECTED',
     source: 'hybrid',
@@ -119,6 +134,11 @@ const CURATED = [
     experimentId: 'EXP-000004',
     strategyId: null,
     title: 'TYO SCORE: worst-month factor and drawdown cap',
+    ai: {
+      model: 'Claude (Anthropic)',
+      role: 'Drafted the worst-month factor and the cap ladder; the thresholds (40/55/70 at 60/45/30% DD) were reviewed and approved by a human.',
+      humanReviewed: true,
+    },
     category: 'scoring',
     status: 'ACCEPTED',
     source: 'hybrid',
@@ -143,6 +163,11 @@ const CURATED = [
     experimentId: 'EXP-000005',
     strategyId: null,
     title: 'Risk/return map: simple annual average vs CAGR',
+    ai: {
+      model: 'Claude (Anthropic)',
+      role: 'Identified the simple-average distortion on long compounding records and implemented the CAGR replacement with its stated trade-off.',
+      humanReviewed: true,
+    },
     category: 'methodology',
     status: 'ACCEPTED',
     source: 'hybrid',
@@ -165,6 +190,11 @@ const CURATED = [
     experimentId: 'EXP-000006',
     strategyId: null,
     title: 'Correlation minimum-overlap rule',
+    ai: {
+      model: 'Claude (Anthropic)',
+      role: 'Implemented the correlation floor and the em-dash rendering for thin pairs; the 24-month minimum itself was set by a human.',
+      humanReviewed: true,
+    },
     category: 'methodology',
     status: 'ACCEPTED',
     source: 'hybrid',
@@ -198,14 +228,45 @@ export async function loadExperiments() {
   }
 
   /* The split-stability class is produced by the commit that ships Phase 6;
-     linked here rather than hard-coding a hash into a generated file. */
-  const splits = (gen.splits || []).map((e) => ({ ...e, gitCommit: e.gitCommit || 'phase-6' }));
+     linked here rather than hard-coding a hash into a generated file. The
+     split entries are hybrid: the tooling was authored with AI assistance,
+     the decision rule was fixed by a human before the runs. */
+  const splits = (gen.splits || []).map((e) => ({
+    ...e,
+    gitCommit: e.gitCommit || 'phase-6',
+    /* Default AI provenance ONLY for the genuine split-stability class
+       (EXP-0002xx). Anything else in this array keeps whatever it declares,
+       so an unreviewed entry cannot inherit a reviewed flag and slip past
+       the safety gate below. */
+    ai:
+      e.ai ||
+      (/^EXP-0002\d\d$/.test(e.experimentId) && e.category === 'stability'
+        ? {
+            model: 'Claude (Anthropic)',
+            role: 'Authored the split-analysis tooling. The 70/30 split and the decision rule were fixed by a human before any run.',
+            humanReviewed: true,
+          }
+        : null),
+  }));
 
   const all = [...CURATED, ...(gen.reconstructed || []), ...splits];
 
+  /* SAFETY GATE — the load-bearing rule of the AI pipeline: an entry whose
+     research came from AI is publishable ONLY after a human has reviewed and
+     approved it. Anything AI-sourced without that flag is withheld from the
+     build entirely; it never renders, not even as "pending". */
+  const published = all.filter((e) => {
+    const aiSourced = e.source === 'ai' || e.source === 'hybrid';
+    if (aiSourced && !(e.ai && e.ai.humanReviewed === true)) {
+      console.warn(`  ! experiment ${e.experimentId} withheld: AI-sourced without human review`);
+      return false;
+    }
+    return true;
+  });
+
   /* Newest first for listing; undated (reconstructed) entries sink. */
-  all.sort((a, b) => String(b.createdAt || '').localeCompare(String(a.createdAt || '')) || a.experimentId.localeCompare(b.experimentId));
-  return all;
+  published.sort((a, b) => String(b.createdAt || '').localeCompare(String(a.createdAt || '')) || a.experimentId.localeCompare(b.experimentId));
+  return published;
 }
 
 export function experimentStats(experiments) {
