@@ -32,6 +32,7 @@ export default function Terminal({ locale, t, ea, experiments, candidates = [] }
      imported forward/live data. datasets = [model, evidenceType, aggregate]. */
   const datasets = [];
   for (const m of models) {
+    if (m.shadowMon) datasets.push([m, 'SHADOW', m.shadowMon]);
     if (m.fwd) datasets.push([m, 'FORWARD', m.fwd]);
     if (m.liveMon) datasets.push([m, 'LIVE', m.liveMon]);
   }
@@ -142,10 +143,13 @@ export default function Terminal({ locale, t, ea, experiments, candidates = [] }
           () => html`
             <ul class="labstats labstats--inline" data-reveal>
               ${[
+                [t.shadow.sumShadow, datasets.filter(([, e]) => e === 'SHADOW').length],
                 [F.sumForward, datasets.filter(([, e]) => e === 'FORWARD').length],
                 [F.sumLive, datasets.filter(([, e]) => e === 'LIVE').length],
+                [t.shadow.sumShadowTrades, datasets.filter(([, e]) => e === 'SHADOW').reduce((s, [, , a]) => s + a.trades, 0).toLocaleString('en-US')],
                 [F.sumFwdTrades, datasets.filter(([, e]) => e === 'FORWARD').reduce((s, [, , a]) => s + a.trades, 0).toLocaleString('en-US')],
                 [F.sumLiveTrades, datasets.filter(([, e]) => e === 'LIVE').reduce((s, [, , a]) => s + a.trades, 0).toLocaleString('en-US')],
+                [t.shadow.sumShadowQualified, datasets.filter(([, e, a]) => e === 'SHADOW' && a.qualified).length],
                 [F.sumWatch, datasets.filter(([, , a]) => a.degradation.state === 'WATCH').length],
                 [F.sumDegraded, datasets.filter(([, , a]) => ['DEGRADED', 'SEVERE'].includes(a.degradation.state)).length],
               ].map(([k, v]) => html`<li><span class="labstats__v">${v}</span><span class="labstats__k">${k}</span></li>`)}

@@ -37,6 +37,7 @@ import {
   qualifiesForward,
 } from '../src/lib/forward-metrics.mjs';
 import { FORWARD_CONFIG } from '../config/forward-evidence.mjs';
+import { SHADOW_CONFIG } from '../config/shadow-forward.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DATA = process.env.FORWARD_DATA_DIR || join(ROOT, 'data', 'forward');
@@ -157,12 +158,26 @@ for (const store of stores) {
     const degradation = degradationOf({ rolling: ref, baseline, config: CFG });
 
     /* qualification (§45–46) */
-    const mappingOk = trades.every((t) => ['MAGIC', 'COMMENT', 'MANUAL'].includes(t.mappingSource));
-    const qualified = qualifiesForward({ trades: trades.length, days: period.days, mappingOk }, CFG);
+    const mappingOk = trades.every((t) => ['MAGIC', 'COMMENT', 'MANUAL', 'SHADOW_EA'].includes(t.mappingSource));
+    /* per-evidence-type minimums (§45–46; shadow §48 demands a deeper sample) */
+    const q = CFG.qualification?.[acc.evidenceType] || { minTrades: CFG.minForwardTrades, minDays: CFG.minForwardDays };
+    let qualified = qualifiesForward(
+      { trades: trades.length, days: period.days, mappingOk },
+      { minForwardTrades: q.minTrades, minForwardDays: q.minDays }
+    );
+    /* shadow feed-gap penalty (§126–127): market-open time ≈ 5/7 of the
+       period; weekends are not gaps by construction in the engine */
+    let feedGapShare = null;
+    if (acc.evidenceType === 'SHADOW_FORWARD') {
+      const marketMs = period.days * 86400000 * (5 / 7);
+      feedGapShare = Math.round(((store.feedGapMs || 0) / marketMs) * 10000) / 10000;
+      if (feedGapShare > SHADOW_CONFIG.maxFeedGapShare) qualified = false;
+    }
 
-    /* freshness (§113–114) */
+    /* freshness (§113–114; shadow engines log continuously → stricter) */
     const lowFreq = (backtest[slug]?.tradesPerMonth ?? 99) < CFG.lowFreqPerMonth;
-    const staleDays = lowFreq ? CFG.staleAfterDaysLowFreq : CFG.staleAfterDays;
+    const staleDays =
+      acc.evidenceType === 'SHADOW_FORWARD' ? SHADOW_CONFIG.staleDays : lowFreq ? CFG.staleAfterDaysLowFreq : CFG.staleAfterDays;
     const stale = Date.now() - lastTradeAt > staleDays * MS_DAY;
 
     if (!strategies[slug]) strategies[slug] = {};
@@ -195,6 +210,15 @@ for (const store of stores) {
       qualified,
       lastTradeAt: new Date(lastTradeAt).toISOString(),
       stale,
+      /* shadow provenance (§118–121): sessions, engine models, gaps */
+      shadowMeta:
+        acc.evidenceType === 'SHADOW_FORWARD'
+          ? {
+              sessions: (store.sessions || []).length,
+              latest: (store.sessions || []).slice(-1)[0] || null,
+              feedGapShare,
+            }
+          : null,
     };
   }
 }

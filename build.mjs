@@ -253,16 +253,19 @@ const ea = eaBase.map((m) => {
   const strat = fwdAgg.strategies?.[m.slug] || {};
   const fwd = strat.FORWARD_DEMO || null;
   const liveMon = strat.LIVE || null;
+  const shadowMon = strat.SHADOW_FORWARD || null;
   const withMc = {
     ...m,
     mc,
     mcMeta: mc ? { seed: mcData.seed, sims: mcData.sims } : null,
-    /* evidence markers: qualified data only (§45–46) */
+    /* evidence markers: qualified data only (§45–46; shadow §48) */
     forward: (fwd && fwd.qualified && fwd) || (manualQualifies(fl.forward) && fl.forward) || null,
     live: (liveMon && liveMon.qualified && liveMon) || (manualQualifies(fl.live) && fl.live) || null,
+    shadow: (shadowMon && shadowMon.qualified && shadowMon) || null,
     /* display objects: everything renders, qualified or not */
     fwd,
     liveMon,
+    shadowMon,
     forwardRecord: fl.forward || null,
     liveRecord: fl.live || null,
   };

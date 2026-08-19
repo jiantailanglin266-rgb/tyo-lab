@@ -294,6 +294,86 @@ export function parseJSON(text) {
 }
 
 /* ------------------------------------------------------------------ *
+ * ShadowSource (Phase 13.5 §43–45) — the MQL5 shadow engine's append-only
+ * JSONL event log. EXIT events are closed virtual trades; SESSION_START
+ * events carry provenance (engine version, execution/slippage/commission
+ * models, settings hash) which the importer stores for audit. Virtual
+ * trades are NEVER conflated with real execution: the importer only accepts
+ * this source under --type SHADOW_FORWARD.
+ * ------------------------------------------------------------------ */
+
+export function parseShadowJSONL(text) {
+  const warnings = [];
+  const trades = [];
+  const sessions = [];
+  let gapMs = 0;
+
+  for (const [i, line] of text.split(/\r?\n/).entries()) {
+    if (!line.trim()) continue;
+    let ev;
+    try {
+      ev = JSON.parse(line);
+    } catch {
+      warnings.push(`line ${i + 1}: invalid JSON — skipped`);
+      continue;
+    }
+    if (ev.event === 'SESSION_START') {
+      sessions.push({
+        sessionId: ev.sessionId ?? null,
+        startTime: ev.timestamp ?? null,
+        strategyId: ev.strategyId ?? null,
+        version: ev.version ?? null,
+        symbol: ev.symbol ?? null,
+        timeframe: ev.timeframe ?? null,
+        executionModel: ev.executionModel ?? null,
+        slippageModel: ev.slippageModel ?? null,
+        commissionModel: ev.commissionModel ?? null,
+        settingsHash: ev.settingsHash ?? null,
+        engine: ev.engine ?? null,
+      });
+      continue;
+    }
+    if (ev.event === 'FEED_GAP' && Number.isFinite(ev.gapMs)) {
+      gapMs += ev.gapMs;
+      continue;
+    }
+    if (ev.event !== 'EXIT') continue; // ENTRY/MODIFY/etc. are audit detail
+
+    const closeTime = typeof ev.exitTime === 'number' ? ev.exitTime : parseTime(ev.exitTime);
+    const gross = num(ev.grossProfit);
+    if (closeTime === null || gross === null) {
+      warnings.push(`line ${i + 1}: EXIT without exitTime/grossProfit — skipped`);
+      continue;
+    }
+    const swap = num(ev.swap) ?? 0;
+    const commission = num(ev.commission) ?? 0;
+    const fees = num(ev.fees) ?? 0;
+    trades.push({
+      ticket: ev.tradeId != null ? String(ev.tradeId) : null,
+      magic: ev.magic != null ? Number(ev.magic) : null,
+      symbol: ev.symbol || null,
+      direction: ev.direction === 'long' || ev.direction === 'short' ? ev.direction : null,
+      volume: num(ev.volume),
+      openTime: typeof ev.entryTime === 'number' ? ev.entryTime : parseTime(ev.entryTime),
+      closeTime,
+      openPrice: num(ev.entryPrice),
+      closePrice: num(ev.exitPrice),
+      profit: gross,
+      swap,
+      commission,
+      fees,
+      netProfit: num(ev.netProfit) ?? gross + swap + commission + fees,
+      sl: num(ev.sl),
+      tp: num(ev.tp),
+      comment: ev.exitReason ? `shadow:${ev.exitReason}` : null,
+      /* provenance the shadow EA asserts about itself */
+      shadowStrategyId: ev.strategyId || null,
+    });
+  }
+  return { trades, warnings, sessions, gapMs };
+}
+
+/* ------------------------------------------------------------------ *
  * MT5MCPSource — Phase 13 adapter contract (NOT implemented in Phase 12)
  * ------------------------------------------------------------------ */
 
@@ -314,5 +394,6 @@ export function sourceFor(path) {
   if (ext === 'csv') return { name: 'CSV', parse: (buf) => parseCSV(decode(buf)) };
   if (ext === 'html' || ext === 'htm') return { name: 'HTML', parse: (buf) => parseHTML(buf) };
   if (ext === 'json') return { name: 'JSON', parse: (buf) => parseJSON(decode(buf)) };
+  if (ext === 'jsonl') return { name: 'SHADOW', parse: (buf) => parseShadowJSONL(decode(buf)) };
   return null;
 }

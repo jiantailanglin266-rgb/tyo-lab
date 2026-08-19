@@ -70,10 +70,20 @@ await test('initialize handshake', async () => {
 await test('tools/list exposes the pipeline tools', async () => {
   const r = await rpc('tools/list', {});
   const names = r.result.tools.map((t) => t.name);
-  for (const n of ['tyo_monitoring_status', 'tyo_list_candidates', 'tyo_import_forward', 'tyo_analyze_forward', 'tyo_draft_experiment_proposal', 'tyo_build_site', 'tyo_export_mt5'])
+  for (const n of ['tyo_monitoring_status', 'tyo_list_candidates', 'tyo_import_forward', 'tyo_analyze_forward', 'tyo_draft_experiment_proposal', 'tyo_build_site', 'tyo_export_mt5', 'shadow_status', 'shadow_sessions', 'shadow_performance', 'shadow_candidates'])
     assert.ok(names.includes(n), `missing ${n}`);
   /* safety: no tool name suggests EA modification or auto-promotion */
   assert.ok(!names.some((n) => /modify|promote|trade|order/.test(n)));
+});
+
+await test('shadow_status is read-only and honest about NO DATA', async () => {
+  const r = await rpc('tools/call', { name: 'shadow_status', arguments: {} });
+  assert.match(r.result.content[0].text, /no shadow-forward data|trades=/);
+});
+
+await test('shadow_performance requires a strategy and reports absence', async () => {
+  const r = await rpc('tools/call', { name: 'shadow_performance', arguments: { strategyId: 'joker' } });
+  assert.match(r.result.content[0].text, /no shadow-forward data for joker|"trades"/);
 });
 
 await test('tyo_monitoring_status is read-only and honest about NO DATA', async () => {

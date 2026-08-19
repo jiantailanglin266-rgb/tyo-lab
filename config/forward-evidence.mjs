@@ -9,11 +9,17 @@
  */
 
 export const FORWARD_CONFIG = {
-  /* ---- evidence qualification (§45–46) ------------------------------- *
-   * A forward/live dataset lights its evidence stage ONLY when all hold.  */
+  /* ---- evidence qualification (§45–46; Phase 13.5 §48) ---------------- *
+   * A dataset lights its evidence stage ONLY when all minimums hold.
+   * SHADOW_FORWARD needs more trades: virtual execution is cheap to
+   * accumulate and must earn its ✓ with a deeper sample.                  */
   minForwardTrades: 30,
   minForwardDays: 30,
-  // live additionally requires evidenceType === 'LIVE' on the account record
+  qualification: {
+    FORWARD_DEMO: { minTrades: 30, minDays: 30 },
+    LIVE: { minTrades: 30, minDays: 30 }, // + verified LIVE account type
+    SHADOW_FORWARD: { minTrades: 100, minDays: 30 },
+  },
 
   /* ---- rolling windows (§24) ----------------------------------------- */
   rollingDayWindows: [30, 60, 90], // calendar days, 90 is the reference
@@ -54,9 +60,10 @@ export const FORWARD_CONFIG = {
   },
 };
 
-/** Evidence types (§2). SHADOW and PAPER are reserved for future ingestion. */
-export const EVIDENCE_TYPES = ['BACKTEST', 'OOS', 'WALK_FORWARD', 'MONTE_CARLO', 'FORWARD_DEMO', 'LIVE'];
-export const RESERVED_EVIDENCE_TYPES = ['SHADOW', 'PAPER'];
+/** Evidence types (§2; Phase 13.5 §1 adds SHADOW_FORWARD as its own class —
+ *  never conflated with FORWARD_DEMO or LIVE). PAPER stays reserved. */
+export const EVIDENCE_TYPES = ['BACKTEST', 'OOS', 'WALK_FORWARD', 'MONTE_CARLO', 'SHADOW_FORWARD', 'FORWARD_DEMO', 'LIVE'];
+export const RESERVED_EVIDENCE_TYPES = ['PAPER'];
 
 /** Degradation states (§26). */
 export const DEGRADATION_STATES = ['NORMAL', 'WATCH', 'DEGRADED', 'SEVERE', 'INSUFFICIENT_DATA'];

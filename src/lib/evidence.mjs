@@ -14,10 +14,16 @@
  *   monteCarlo ✓ when pre-generated simulation results for the system exist
  *              in tools/montecarlo.json (Phase 8: 1,000 seeded resamplings of
  *              the real deal list — shuffle, missed-trade, cost stress).
- *   forward /  ✓ when a VALID record exists in tools/forward-live.json
- *   live       (Phase 9: named source + stated period + at least one number;
- *              anything less is treated as absent — see lib/forward-live.mjs).
- *   walkForward
+ *   shadowForward
+ *              ✓ when a QUALIFIED shadow-forward aggregate exists (Phase
+ *              13.5: real-time future market data, virtual execution, ≥100
+ *              closed trades / ≥30 days / valid mapping). Stronger than a
+ *              backtest (future data), weaker than real execution — the
+ *              points say so.
+ *   forward /  ✓ when qualified real-execution data exists (Phase 12
+ *   live       pipeline aggregates, or a Phase 9 manual record meeting the
+ *              same minimums).
+ *   walkForward / oos
  *              PENDING until such results exist as data in this repo.
  *
  * Scoring (docs/TYO_SCORE_V2_MODEL.md):
@@ -26,9 +32,16 @@
  * ============================================================================
  */
 
-export const EVIDENCE_STAGES = ['backtest', 'oos', 'walkForward', 'monteCarlo', 'forward', 'live'];
+/* Seven stages since Phase 13.5. The 20-point evidence budget is fixed, so
+ * shadow's 2 points come from OOS and walk-forward (3→2 each): both remain
+ * historical-data stages, while shadow observes genuinely future data. The
+ * ordering backtest(5) > … and shadow(2) < forward(3) = live(3) states the
+ * hierarchy: real-time observation beats resampling, real execution beats
+ * virtual execution. No currently-published score changes (all systems hold
+ * backtest 5 + monteCarlo 3 = 8/20 either way). */
+export const EVIDENCE_STAGES = ['backtest', 'oos', 'walkForward', 'monteCarlo', 'shadowForward', 'forward', 'live'];
 
-export const EVIDENCE_POINTS = { backtest: 5, oos: 3, walkForward: 3, monteCarlo: 3, forward: 3, live: 3 };
+export const EVIDENCE_POINTS = { backtest: 5, oos: 2, walkForward: 2, monteCarlo: 3, shadowForward: 2, forward: 3, live: 3 };
 
 /**
  * @param {object} model  merged EA model
@@ -41,6 +54,7 @@ export function evidenceOf(model, experiments = []) {
     oos: false,
     walkForward: false,
     monteCarlo: !!model.mc,
+    shadowForward: !!model.shadow,
     forward: !!model.forward,
     live: !!model.live,
   };

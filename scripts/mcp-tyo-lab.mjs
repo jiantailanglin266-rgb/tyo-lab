@@ -163,6 +163,64 @@ const TOOLS = [
     },
   },
   {
+    name: 'shadow_status',
+    description:
+      'Read-only. Shadow-forward monitoring state per strategy: trades, PF, qualification (≥100 trades / ≥30 days / valid mapping / feed-gap share within limits), degradation, staleness. SHADOW_FORWARD is virtual execution on real-time future data — never conflated with FORWARD_DEMO or LIVE.',
+    inputSchema: { type: 'object', properties: {}, additionalProperties: false },
+    async run() {
+      const agg = await readJSON('tools/forward-aggregates.json', { strategies: {} });
+      const lines = [];
+      for (const [slug, byType] of Object.entries(agg.strategies || {})) {
+        const a = byType.SHADOW_FORWARD;
+        if (!a) continue;
+        lines.push(
+          `${slug} trades=${a.trades} PF=${a.metrics?.profitFactor ?? '—'} qualified=${a.qualified} ` +
+            `deg=${a.degradation?.state} stale=${a.stale} sessions=${a.shadowMeta?.sessions ?? 0} ` +
+            `gapShare=${a.shadowMeta?.feedGapShare ?? '—'} last=${(a.lastTradeAt || '').slice(0, 10)}`
+        );
+      }
+      return lines.length ? lines.join('\n') : 'no shadow-forward data collected yet (NO DATA)';
+    },
+  },
+  {
+    name: 'shadow_sessions',
+    description: 'Read-only. Engine-session provenance per shadow strategy: version, execution/slippage/commission models, settings hash.',
+    inputSchema: { type: 'object', properties: {}, additionalProperties: false },
+    async run() {
+      const agg = await readJSON('tools/forward-aggregates.json', { strategies: {} });
+      const out = {};
+      for (const [slug, byType] of Object.entries(agg.strategies || {})) {
+        if (byType.SHADOW_FORWARD?.shadowMeta) out[slug] = byType.SHADOW_FORWARD.shadowMeta;
+      }
+      return Object.keys(out).length ? JSON.stringify(out, null, 1) : 'no shadow sessions recorded yet';
+    },
+  },
+  {
+    name: 'shadow_performance',
+    description: 'Read-only. Full shadow-forward aggregate (metrics, costs incl. simulated slippage assumptions, rolling windows, breakdowns) for one strategy.',
+    inputSchema: {
+      type: 'object',
+      properties: { strategyId: { type: 'string', minLength: 2 } },
+      required: ['strategyId'],
+      additionalProperties: false,
+    },
+    async run(args) {
+      const agg = await readJSON('tools/forward-aggregates.json', { strategies: {} });
+      const a = agg.strategies?.[args.strategyId]?.SHADOW_FORWARD;
+      return a ? JSON.stringify(a, null, 1) : `no shadow-forward data for ${args.strategyId}`;
+    },
+  },
+  {
+    name: 'shadow_candidates',
+    description: 'Read-only. Research candidates whose evidence type is SHADOW_FORWARD (degradation observed in shadow execution).',
+    inputSchema: { type: 'object', properties: {}, additionalProperties: false },
+    async run() {
+      const cand = await readJSON('tools/research-candidates.json', { candidates: [] });
+      const list = (cand.candidates || []).filter((c) => c.evidenceType === 'SHADOW_FORWARD');
+      return list.length ? JSON.stringify(list, null, 1) : 'no shadow-forward candidates';
+    },
+  },
+  {
     name: 'tyo_draft_experiment_proposal',
     description:
       'Write a DRAFT experiment proposal derived from a research candidate into tools/experiment-proposals.json. DRAFT only: this never creates or edits an experiment, and promotion requires a human to review the draft, set status APPROVED by hand, and author the experiment (which the Phase 10 human-review gate still guards). The analysis text must state signals, not assert causes.',

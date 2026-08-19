@@ -5029,6 +5029,7 @@ table {
 
 .badge.is-pending2 { color: var(--fg-3); border-color: var(--line-2); }
 .badge.is-stale { color: var(--s-orange); border-color: rgba(255, 159, 10, 0.4); }
+.badge.is-shadow { color: var(--s-violet); border-color: rgba(191, 90, 242, 0.4); }
 
 /* ---- TYO Terminal (Phase 11) ---- */
 

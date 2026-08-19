@@ -28,7 +28,7 @@ import {
   degradationOf,
   qualifiesForward,
 } from '../src/lib/forward-metrics.mjs';
-import { parseCSV, parseHTML } from '../src/lib/forward-source.mjs';
+import { parseCSV, parseHTML, parseShadowJSONL } from '../src/lib/forward-source.mjs';
 import { FORWARD_CONFIG as CFG } from '../config/forward-evidence.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -208,6 +208,52 @@ test('bad HTML yields zero trades, not garbage (§86)', () => {
   assert.equal(trades.length, 0);
 });
 
+/* ---- shadow source (Phase 13.5) ---- */
+
+function shadowLine(i, { net = 10, strategy = 'nexus' } = {}) {
+  const t = Date.UTC(2026, 3, 1) + i * 6 * 3600000;
+  return JSON.stringify({
+    event: 'EXIT',
+    tradeId: `nexus-1700000000:${i + 1}`,
+    strategyId: strategy,
+    magic: 6660000,
+    symbol: 'BTCUSD',
+    direction: i % 2 ? 'short' : 'long',
+    volume: 0.01,
+    entryTime: t - 3600000,
+    exitTime: t,
+    entryPrice: 100000,
+    exitPrice: 100000 + net,
+    exitReason: net >= 0 ? 'TP' : 'SL',
+    grossProfit: net,
+    swap: -0.1,
+    commission: 0,
+    fees: 0,
+    netProfit: net - 0.1,
+    sl: 0,
+    tp: 0,
+    entrySpread: 12,
+    exitSpread: 14,
+  });
+}
+
+test('shadow JSONL parser: sessions, EXIT trades, feed gaps (13.5 §43)', () => {
+  const log = [
+    JSON.stringify({ event: 'SESSION_START', sessionId: 'nexus-1700000000', strategyId: 'nexus', version: 'NEXUS_SHADOW_V1.0.0', executionModel: 'BID_ASK', slippageModel: 'FIXED_2pt_SIMULATED', commissionModel: '0.00/lot/side_SIMULATED', settingsHash: 'abcd1234' }),
+    JSON.stringify({ event: 'ENTRY', tradeId: 'x:1' }),
+    shadowLine(0),
+    JSON.stringify({ event: 'FEED_GAP', gapMs: 600000 }),
+    shadowLine(1, { net: -8 }),
+  ].join('\n');
+  const r = parseShadowJSONL(log);
+  assert.equal(r.trades.length, 2);
+  assert.equal(r.sessions.length, 1);
+  assert.equal(r.sessions[0].settingsHash, 'abcd1234');
+  assert.equal(r.gapMs, 600000);
+  assert.equal(r.trades[0].shadowStrategyId, 'nexus');
+  assert.equal(Math.round(r.trades[0].netProfit * 10) / 10, 9.9);
+});
+
 /* =================================================================== *
  * INTEGRATION (§85–86) — real importer + analyzer in an isolated dir
  * =================================================================== */
@@ -320,6 +366,69 @@ test('research candidates file is written and never auto-promotes (§53–54)', 
   const c = JSON.parse(readFileSync(join(outDir, 'research-candidates.json'), 'utf8'));
   assert.ok(Array.isArray(c.candidates));
   for (const cand of c.candidates) assert.notEqual(cand.status, 'PROMOTED_TO_EXPERIMENT');
+});
+
+/* ---- shadow-forward integration (13.5) ---- */
+
+function shadowLog(n) {
+  const lines = [
+    JSON.stringify({ event: 'SESSION_START', sessionId: 'nexus-1700000000', strategyId: 'joker', version: 'V1', executionModel: 'BID_ASK', slippageModel: 'FIXED_2pt_SIMULATED', commissionModel: '0/lot_SIMULATED', settingsHash: 'ffff0000' }),
+  ];
+  for (let i = 0; i < n; i++) {
+    const t = Date.UTC(2026, 0, 5) + i * 12 * 3600000; // 2 trades/day → n/2 days
+    lines.push(JSON.stringify({
+      event: 'EXIT', tradeId: `s:${i + 1}`, strategyId: 'joker', magic: null, symbol: 'XAUUSD',
+      direction: i % 2 ? 'short' : 'long', volume: 0.1, entryTime: t - 3600000, exitTime: t,
+      entryPrice: 2400, exitPrice: 2400 + (i % 4 === 3 ? -9 : 6), exitReason: 'TP',
+      grossProfit: i % 4 === 3 ? -9 : 6, swap: 0, commission: -0.2, fees: 0,
+      netProfit: (i % 4 === 3 ? -9 : 6) - 0.2, sl: 0, tp: 0, entrySpread: 20, exitSpread: 20,
+    }));
+  }
+  return lines.join('\n');
+}
+
+test('shadow log imports only as SHADOW_FORWARD; statements refused (13.5 §47)', () => {
+  const f = join(tmp, 'shadow.jsonl');
+  writeFileSync(f, shadowLog(120));
+  const wrong = run('import-forward.mjs', [f, '--account', 'ACC-FWD-005', '--type', 'FORWARD_DEMO', '--currency', 'USD']);
+  assert.notEqual(wrong.code, 0);
+  assert.match(wrong.out, /SHADOW_FORWARD/);
+  const wrong2 = run('import-forward.mjs', [fixA, '--account', 'ACC-SHW-001', '--type', 'SHADOW_FORWARD', '--currency', 'USD']);
+  assert.notEqual(wrong2.code, 0);
+  const ok = run('import-forward.mjs', [f, '--account', 'ACC-SHW-001', '--type', 'SHADOW_FORWARD', '--currency', 'USD', '--platform', 'mt5']);
+  assert.equal(ok.code, 0, ok.out);
+  assert.match(ok.out, /Trades imported: 120/);
+  assert.match(ok.out, /Unmapped: 0/); // SHADOW_EA mapping from the log itself
+});
+
+test('shadow qualification needs 100 trades; 120 over 60 days qualifies (13.5 §48)', () => {
+  const r = run('analyze-forward.mjs', []);
+  assert.equal(r.code, 0, r.out);
+  const agg = JSON.parse(readFileSync(join(outDir, 'forward-aggregates.json'), 'utf8'));
+  const s = agg.strategies.joker.SHADOW_FORWARD;
+  assert.equal(s.trades, 120);
+  assert.equal(s.qualified, true);
+  assert.equal(s.shadowMeta.sessions, 1);
+  assert.equal(s.shadowMeta.latest.settingsHash, 'ffff0000');
+  /* separation §1: the shadow dataset must not merge into FORWARD_DEMO */
+  assert.equal(agg.strategies.joker.FORWARD_DEMO.trades, 60);
+});
+
+test('a 60-trade shadow dataset does NOT qualify (13.5 §48)', () => {
+  const f = join(tmp, 'shadow-small.jsonl');
+  writeFileSync(f, shadowLog(60));
+  const ok = run('import-forward.mjs', [f, '--account', 'ACC-SHW-002', '--type', 'SHADOW_FORWARD', '--currency', 'USD']);
+  assert.equal(ok.code, 0, ok.out);
+  // second shadow account for the same strategy would collide in aggregates;
+  // use a dedicated temp store to keep this check isolated
+  const tmp2 = join(tmp, 'iso');
+  const env2 = { ...env, FORWARD_DATA_DIR: join(tmp2, 'data'), FORWARD_OUT_DIR: join(tmp2, 'out') };
+  const r1 = spawnSync(process.execPath, [join(ROOT, 'scripts', 'import-forward.mjs'), f, '--account', 'ACC-SHW-002', '--type', 'SHADOW_FORWARD', '--currency', 'USD'], { env: env2, encoding: 'utf8' });
+  assert.equal(r1.status, 0, (r1.stdout || '') + (r1.stderr || ''));
+  const r2 = spawnSync(process.execPath, [join(ROOT, 'scripts', 'analyze-forward.mjs')], { env: env2, encoding: 'utf8' });
+  assert.equal(r2.status, 0);
+  const agg = JSON.parse(readFileSync(join(tmp2, 'out', 'forward-aggregates.json'), 'utf8'));
+  assert.equal(agg.strategies.joker.SHADOW_FORWARD.qualified, false); // 60 < 100
 });
 
 rmSync(tmp, { recursive: true, force: true });

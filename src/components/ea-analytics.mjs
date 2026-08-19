@@ -539,11 +539,13 @@ function fwdLineSVG(points, { yZero = false } = {}) {
   return s;
 }
 
-export function ForwardPanel({ agg, t }) {
+export function ForwardPanel({ agg, t, shadow = false }) {
   const F = t.fmon;
+  const S = t.shadow;
   const M = agg.metrics;
   const cur = agg.currency;
   const deg = agg.degradation;
+  const sm = shadow ? agg.shadowMeta : null;
 
   const bt = agg.backtestBaseline;
   const vsRows = bt
@@ -564,10 +566,31 @@ export function ForwardPanel({ agg, t }) {
   return html`
     <div class="fwdpanel">
       <div class="fwdpanel__badges">
+        ${when(shadow, () => html`<span class="badge is-shadow">${S.publicLabel}</span>`)}
         <span class="badge ${raw(agg.qualified ? 'is-verified' : 'is-pending2')}">${agg.qualified ? F.qualified : F.notQualified}</span>
         <span class="xstatus xstatus--deg-${raw(deg.state.toLowerCase())}">${F[DEG_LABEL[deg.state]] || deg.state}</span>
         ${when(agg.stale, () => html`<span class="badge is-stale">${F.staleBadge}</span>`)}
       </div>
+
+      ${when(shadow, () => html`<p class="mcpanel__lead">${S.desc}</p>`)}
+
+      ${when(
+        shadow,
+        () => html`<dl class="kvlist kvlist--tight">
+          ${[
+            [S.feed, S.feedValue],
+            [S.execModel, sm?.latest?.executionModel],
+            [S.slipModel, sm?.latest?.slippageModel],
+            [S.commModel, sm?.latest?.commissionModel],
+            [S.engineVersion, sm?.latest?.version],
+            [S.sessions, sm?.sessions],
+            [S.settingsHash, sm?.latest?.settingsHash],
+          ]
+            .filter(([, v]) => has(v))
+            .map(([k, v]) => html`<div class="kvlist__row"><dt>${k}</dt><dd>${v}</dd></div>`)}
+        </dl>
+        <p class="fineline">${S.simulated}</p>`
+      )}
 
       <dl class="kvlist kvlist--tight">
         ${[
@@ -730,7 +753,7 @@ export function ForwardPanel({ agg, t }) {
         `;
       })}
 
-      <p class="warn warn--sm">${F.fwdDisclaimer}</p>
+      <p class="warn warn--sm">${shadow ? S.disclaimer : F.fwdDisclaimer}</p>
       <p class="fineline">${F.brokerNote}</p>
     </div>
   `;
@@ -814,6 +837,10 @@ export function TrackRecordTabs({ model, t }) {
       ? RecordPanel({ rec: model.liveRecord, t })
       : EmptyRecord({ headline: F.noLive, t });
 
+  const shadowBody = model.shadowMon
+    ? ForwardPanel({ agg: model.shadowMon, t, shadow: true })
+    : EmptyRecord({ headline: t.shadow.empty, t });
+
   const tabs = [
     { key: 'backtest', label: F.tabBacktest, body: PerformanceSnapshot({ model, t }) },
     {
@@ -821,6 +848,7 @@ export function TrackRecordTabs({ model, t }) {
       label: t.mc.title,
       body: model.mc ? MonteCarloPanel({ model, t }) : EmptyRecord({ headline: t.fmon.mcPending, t }),
     },
+    { key: 'shadow', label: t.shadow.tab, body: shadowBody },
     { key: 'forward', label: F.tabForward, body: forwardBody },
     { key: 'live', label: F.tabLive, body: liveBody },
   ];

@@ -68,9 +68,12 @@ function usage(msg) {
 }
 
 if (!file) usage('no input file');
-if (!accountId || !/^ACC-(FWD|LIVE)-\d{3}$/.test(accountId)) usage('--account must look like ACC-FWD-001 / ACC-LIVE-001');
-if (!evidenceType || !['FORWARD_DEMO', 'LIVE'].includes(evidenceType)) usage('--type must be FORWARD_DEMO or LIVE');
-if (accountId.startsWith('ACC-LIVE-') !== (evidenceType === 'LIVE')) usage('account id prefix and --type disagree');
+if (!accountId || !/^ACC-(FWD|LIVE|SHW)-\d{3}$/.test(accountId))
+  usage('--account must look like ACC-FWD-001 / ACC-LIVE-001 / ACC-SHW-001');
+if (!evidenceType || !['FORWARD_DEMO', 'LIVE', 'SHADOW_FORWARD'].includes(evidenceType))
+  usage('--type must be FORWARD_DEMO, LIVE or SHADOW_FORWARD');
+const PREFIX_TYPE = { FWD: 'FORWARD_DEMO', LIVE: 'LIVE', SHW: 'SHADOW_FORWARD' };
+if (PREFIX_TYPE[accountId.split('-')[1]] !== evidenceType) usage('account id prefix and --type disagree');
 if (!currency || !/^[A-Z]{3}$/.test(currency)) usage('--currency must be a 3-letter code');
 if (!EVIDENCE_TYPES.includes(evidenceType)) usage('unknown evidence type');
 
@@ -88,9 +91,15 @@ try {
 const hash = createHash('sha256').update(buf).digest('hex');
 
 const source = sourceFor(srcPath);
-if (!source) usage(`unsupported extension (need .csv/.html/.htm/.json): ${basename(srcPath)}`);
+if (!source) usage(`unsupported extension (need .csv/.html/.htm/.json/.jsonl): ${basename(srcPath)}`);
 
-const { trades: parsed, warnings } = source.parse(buf);
+/* §47: shadow logs and real-execution reports are never cross-imported. */
+if (source.name === 'SHADOW' && evidenceType !== 'SHADOW_FORWARD')
+  usage('a shadow JSONL log can only be imported as --type SHADOW_FORWARD');
+if (evidenceType === 'SHADOW_FORWARD' && source.name !== 'SHADOW')
+  usage('SHADOW_FORWARD evidence must come from a shadow-engine .jsonl log, never from account statements');
+
+const { trades: parsed, warnings, sessions: parsedSessions = [], gapMs = 0 } = source.parse(buf);
 if (!parsed.length) {
   console.error(`\n  ✗ no trades parsed from ${basename(srcPath)} (${source.name})`);
   for (const w of warnings) console.error(`    ! ${w}`);
@@ -145,10 +154,23 @@ for (const [i, t] of parsed.entries()) {
   }
   seenTickets.add(ticket);
 
-  /* mapping precedence: MAGIC > COMMENT (only when no magic) > MANUAL */
+  /* mapping precedence: SHADOW_EA (the engine asserts its own identity,
+     validated against the catalogue and the magic map) > MAGIC > COMMENT
+     (only when no magic) > MANUAL */
   let strategyId = null;
   let mappingSource = null;
-  if (t.magic !== null && t.magic !== undefined && !Number.isNaN(t.magic)) {
+  if (t.shadowStrategyId) {
+    if (knownSlugs.length && !knownSlugs.includes(t.shadowStrategyId)) {
+      errors.push(`trade ${t.ticket ?? i}: shadow log claims unknown strategy '${t.shadowStrategyId}'`);
+      continue;
+    }
+    if (t.magic !== null && t.magic !== undefined && MAGIC_MAP[t.magic] && MAGIC_MAP[t.magic] !== t.shadowStrategyId) {
+      errors.push(`trade ${t.ticket ?? i}: magic ${t.magic} maps to '${MAGIC_MAP[t.magic]}' but shadow log claims '${t.shadowStrategyId}'`);
+      continue;
+    }
+    strategyId = t.shadowStrategyId;
+    mappingSource = 'SHADOW_EA';
+  } else if (t.magic !== null && t.magic !== undefined && !Number.isNaN(t.magic)) {
     if (MAGIC_MAP[t.magic]) {
       strategyId = MAGIC_MAP[t.magic];
       mappingSource = 'MAGIC';
@@ -275,6 +297,9 @@ if (!already && resolve(dirname(srcPath)) !== resolve(join(DATA, 'raw'))) await 
 
 store.trades.push(...fresh);
 store.trades.sort((a, b) => a.closeTime - b.closeTime);
+/* shadow provenance (§29, §118): session metadata + accumulated feed gaps */
+if (parsedSessions.length) store.sessions = [...(store.sessions || []), ...parsedSessions];
+if (gapMs) store.feedGapMs = (store.feedGapMs || 0) + gapMs;
 store.imports.push({
   at: new Date().toISOString(),
   file: basename(srcPath),

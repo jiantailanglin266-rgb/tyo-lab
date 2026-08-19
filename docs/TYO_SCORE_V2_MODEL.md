@@ -27,11 +27,18 @@ Nothing about how a component is judged changed — only its weight.
 | Stage | Points | Granted when |
 |---|---|---|
 | Backtest | 5 | a parsed tester report with a full deal list exists in this repo |
-| Out of sample | +3 | a provably held-out period exists as data |
-| Walk forward | +3 | walk-forward results exist as data |
+| Out of sample | +2 | a provably held-out period exists as data |
+| Walk forward | +2 | walk-forward results exist as data |
 | Monte Carlo | +3 | pre-generated simulation results exist in tools/montecarlo.json (Phase 8: 1,000 seeded resamplings per family — see MONTE_CARLO_MODEL.md) |
-| Forward test | +3 | forward records exist as data (Phase 9) |
-| Live | +3 | live records exist as data (Phase 9) |
+| Shadow forward | +2 | a QUALIFIED shadow-forward aggregate exists (Phase 13.5: real-time future data, virtual execution, ≥100 trades / ≥30 days — see SHADOW_EVIDENCE_RULES.md) |
+| Forward test | +3 | qualified real-execution forward data exists (Phase 12) |
+| Live | +3 | qualified live records exist (Phase 12) |
+
+Seven stages since Phase 13.5; OOS and walk-forward went 3→2 to fund the
+shadow stage inside the fixed 20-point budget (both are historical-data
+stages, while shadow observes genuinely future data). No published score
+changed: every system holds backtest 5 + Monte Carlo 3 = 8/20 under both
+tables.
 
 A stage is granted **only when its underlying data exists in this
 repository** — never on the owner's say-so. Since Phase 8 every published
