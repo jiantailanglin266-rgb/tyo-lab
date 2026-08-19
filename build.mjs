@@ -28,6 +28,7 @@ import { buildMask } from './src/lib/worldmap.mjs';
 import { buildEAModels } from './src/lib/ea-model.mjs';
 import { evidenceOf, scoreV2 } from './src/lib/evidence.mjs';
 import { normalizeForwardLive } from './src/lib/forward-live.mjs';
+import { FORWARD_CONFIG } from './config/forward-evidence.mjs';
 import { Document } from './src/components/layout.mjs';
 
 import { publishedEA, EA } from './src/data/ea.mjs';
@@ -223,15 +224,47 @@ try {
   warnings.push('No tools/forward-live.json — forward/live tabs show their empty states.');
 }
 
+/* Forward monitoring aggregates + research candidates (Phase 12): produced
+   by scripts/analyze-forward.mjs from the PRIVATE trade store. Empty shells
+   mean no data has been imported — the honest state. */
+let fwdAgg = { accounts: [], strategies: {} };
+try {
+  fwdAgg = JSON.parse(await readFile(join(ROOT, 'tools', 'forward-aggregates.json'), 'utf8'));
+} catch {
+  warnings.push('No tools/forward-aggregates.json — forward monitoring shows NO DATA.');
+}
+let researchCandidates = [];
+try {
+  researchCandidates = JSON.parse(await readFile(join(ROOT, 'tools', 'research-candidates.json'), 'utf8')).candidates || [];
+} catch {
+  /* none */
+}
+
+/* §45–46: an evidence stage lights only above the minimums — for pipeline
+   aggregates the analyzer already computed `qualified`; a manual Phase 9
+   record must clear the same bar (trades + days stated in the record). */
+const recordDays = (rec) => Math.round((Date.parse(rec.period.to) - Date.parse(rec.period.from)) / 86400000) + 1;
+const manualQualifies = (rec) =>
+  !!rec && (rec.metrics?.trades ?? 0) >= FORWARD_CONFIG.minForwardTrades && recordDays(rec) >= FORWARD_CONFIG.minForwardDays;
+
 const ea = eaBase.map((m) => {
   const mc = mcData?.systems?.[m.slug] || null;
   const fl = flData[m.slug] || {};
+  const strat = fwdAgg.strategies?.[m.slug] || {};
+  const fwd = strat.FORWARD_DEMO || null;
+  const liveMon = strat.LIVE || null;
   const withMc = {
     ...m,
     mc,
     mcMeta: mc ? { seed: mcData.seed, sims: mcData.sims } : null,
-    forward: fl.forward || null,
-    live: fl.live || null,
+    /* evidence markers: qualified data only (§45–46) */
+    forward: (fwd && fwd.qualified && fwd) || (manualQualifies(fl.forward) && fl.forward) || null,
+    live: (liveMon && liveMon.qualified && liveMon) || (manualQualifies(fl.live) && fl.live) || null,
+    /* display objects: everything renders, qualified or not */
+    fwd,
+    liveMon,
+    forwardRecord: fl.forward || null,
+    liveRecord: fl.live || null,
   };
   const evidence = evidenceOf(withMc, experiments);
   const v2 = scoreV2(withMc, evidence);
@@ -492,7 +525,7 @@ for (const loc of LOCALES) {
           { name: t.nav.terminal, path: ROUTES.terminal() },
         ]),
       ],
-      children: Terminal({ ...ctx, ea, experiments }),
+      children: Terminal({ ...ctx, ea, experiments, candidates: researchCandidates }),
     })
   );
 
@@ -510,7 +543,7 @@ for (const loc of LOCALES) {
           { name: t.nav.research, path: ROUTES.research() },
         ]),
       ],
-      children: ResearchIndex({ ...ctx, experiments, ea }),
+      children: ResearchIndex({ ...ctx, experiments, ea, candidates: researchCandidates }),
     })
   );
 

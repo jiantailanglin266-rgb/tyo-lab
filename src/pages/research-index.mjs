@@ -1,4 +1,4 @@
-import { html, when } from '../lib/html.mjs';
+import { html, raw, when } from '../lib/html.mjs';
 import { localePath, ROUTES } from '../lib/url.mjs';
 import { PageHero, CTABlock } from '../components/sections.mjs';
 import { BacktestDisclaimer } from '../components/layout.mjs';
@@ -14,11 +14,14 @@ import { experimentStats } from '../data/experiments.mjs';
  * warning are page furniture, not footnotes — they define what qualifies as
  * an entry here.
  */
-export default function ResearchIndex({ locale, t, experiments, ea }) {
+export default function ResearchIndex({ locale, t, experiments, ea, candidates = [] }) {
   const R = t.research;
+  const F = t.fmon;
   const p = (r) => localePath(locale, r);
   const stats = experimentStats(experiments);
   const eaNames = Object.fromEntries((ea || []).map((m) => [m.slug, m.name]));
+  const candStatus = { OPEN: F.csOpen, REVIEWED: F.csReviewed, PROMOTED_TO_EXPERIMENT: F.csPromoted, DISMISSED: F.csDismissed };
+  const sevLabel = { WATCH: F.stWatch, DEGRADED: F.stDegraded, SEVERE: F.stSevere };
 
   const usedStatuses = [...new Set(experiments.map((e) => e.status))];
   const usedCats = [...new Set(experiments.map((e) => e.category))];
@@ -52,6 +55,48 @@ export default function ResearchIndex({ locale, t, experiments, ea }) {
         <p class="warn" data-reveal>${R.overfitting}</p>
       </div>
     </section>
+
+    <!-- Monitoring candidates (Phase 12 §101): observations queued for human
+         review. Separate from experiments; never auto-promoted. Renders only
+         when degradation detection has produced something. -->
+    ${when(
+      candidates.length,
+      () => html`
+        <section class="sec sec--tight" id="candidates" data-reveal-root>
+          <div class="wrap">
+            <h2 class="statgrid__title" data-reveal>${F.candTitle}</h2>
+            <p class="pairx__lead" data-reveal>${F.candLead}</p>
+            <ol class="xlist" style="margin-top:1.2rem">
+              ${candidates.map(
+                (c) => html`<li class="xcard" data-reveal>
+                  <div class="xcard__link">
+                    <div class="xcard__head">
+                      <span class="xcard__id">${c.candidateId}</span>
+                      <span class="xstatus xstatus--deg-${raw((c.severity || '').toLowerCase())}">${sevLabel[c.severity] || c.severity}</span>
+                    </div>
+                    <h3 class="xcard__title">${eaNames[c.strategyId] || c.strategyId} · ${c.evidenceType}</h3>
+                    <div class="xcard__meta">
+                      <span class="xcard__cat">${candStatus[c.status] || c.status}</span>
+                      <span class="xcard__date">${c.detectedAt}</span>
+                    </div>
+                    <dl class="xcard__body">
+                      <div>
+                        <dt>${F.candObservation}</dt>
+                        <dd>${c.observation}</dd>
+                      </div>
+                      <div>
+                        <dt>${F.candSuggested}</dt>
+                        <dd>${(c.suggestedResearchAreas || []).join(' · ')}</dd>
+                      </div>
+                    </dl>
+                  </div>
+                </li>`
+              )}
+            </ol>
+          </div>
+        </section>
+      `
+    )}
 
     <section class="sec" data-reveal-root>
       <div class="wrap">

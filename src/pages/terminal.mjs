@@ -20,12 +20,23 @@ import { experimentStats } from '../data/experiments.mjs';
 const has = (v) => v !== null && v !== undefined && v !== '';
 const num = (n) => (has(n) ? Number(n).toLocaleString('en-US') : '—');
 
-export default function Terminal({ locale, t, ea, experiments }) {
+export default function Terminal({ locale, t, ea, experiments, candidates = [] }) {
   const T = t.terminal;
   const E = t.evidence;
+  const F = t.fmon;
   const p = (r) => localePath(locale, r);
   const models = ea || [];
   const xstats = experimentStats(experiments);
+
+  /* Performance monitoring (Phase 12): rows exist only for systems with
+     imported forward/live data. datasets = [model, evidenceType, aggregate]. */
+  const datasets = [];
+  for (const m of models) {
+    if (m.fwd) datasets.push([m, 'FORWARD', m.fwd]);
+    if (m.liveMon) datasets.push([m, 'LIVE', m.liveMon]);
+  }
+  const degLabel = { NORMAL: F.stNormal, WATCH: F.stWatch, DEGRADED: F.stDegraded, SEVERE: F.stSevere, INSUFFICIENT_DATA: F.stInsufficient };
+  const openCandidates = candidates.filter((c) => c.status === 'OPEN').length;
 
   const totalTrades = models.reduce((s, m) => s + (m.num.trades || 0), 0);
   const totalMonths = models.reduce((s, m) => s + (m.trades?.monthly?.length || 0), 0);
@@ -118,11 +129,71 @@ export default function Terminal({ locale, t, ea, experiments }) {
       </div>
     </section>
 
-    <!-- 03 Latest research -->
+    <!-- 03 Performance monitoring (Phase 12) -->
+    <section class="sec" id="monitoring" data-reveal-root>
+      <div class="wrap">
+        <header class="labsec">
+          ${Eyebrow(F.monTitle, '03')}
+          <p class="labsec__lead" data-reveal>${F.monLead}</p>
+        </header>
+
+        ${when(
+          datasets.length,
+          () => html`
+            <ul class="labstats labstats--inline" data-reveal>
+              ${[
+                [F.sumForward, datasets.filter(([, e]) => e === 'FORWARD').length],
+                [F.sumLive, datasets.filter(([, e]) => e === 'LIVE').length],
+                [F.sumFwdTrades, datasets.filter(([, e]) => e === 'FORWARD').reduce((s, [, , a]) => s + a.trades, 0).toLocaleString('en-US')],
+                [F.sumLiveTrades, datasets.filter(([, e]) => e === 'LIVE').reduce((s, [, , a]) => s + a.trades, 0).toLocaleString('en-US')],
+                [F.sumWatch, datasets.filter(([, , a]) => a.degradation.state === 'WATCH').length],
+                [F.sumDegraded, datasets.filter(([, , a]) => ['DEGRADED', 'SEVERE'].includes(a.degradation.state)).length],
+              ].map(([k, v]) => html`<li><span class="labstats__v">${v}</span><span class="labstats__k">${k}</span></li>`)}
+            </ul>
+
+            <div class="emap" data-reveal>
+              <div class="emap__scroll">
+                <table class="emap__table">
+                  <caption class="sr">${F.monTitle}</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col" class="emap__sys">${T.mapSystem}</th>
+                      <th scope="col">${F.colEvidence}</th>
+                      <th scope="col" class="emap__num">${F.colPf90}</th>
+                      <th scope="col" class="emap__num">${F.colDd90}</th>
+                      <th scope="col" class="emap__num">${F.trades}</th>
+                      <th scope="col">${F.colStatus}</th>
+                      <th scope="col">${F.colUpdated}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${datasets.map(
+                      ([m, etype, a]) => html`<tr>
+                        <th scope="row" class="emap__sys"><a href="${p(ROUTES.eaDetail(m.slug))}">${m.name}</a></th>
+                        <td>${etype}</td>
+                        <td class="emap__num">${a.rolling?.d90?.profitFactor ?? '—'}</td>
+                        <td class="emap__num">${a.rolling?.d90?.maxDrawdown !== null && a.rolling?.d90 ? `${a.rolling.d90.maxDrawdown} ${a.currency}` : '—'}</td>
+                        <td class="emap__num">${a.trades.toLocaleString('en-US')}</td>
+                        <td><span class="xstatus xstatus--deg-${raw(a.degradation.state.toLowerCase())}">${degLabel[a.degradation.state] || a.degradation.state}</span></td>
+                        <td>${a.lastTradeAt ? a.lastTradeAt.slice(0, 10) : '—'}${a.stale ? ` · ${F.staleBadge}` : ''}</td>
+                      </tr>`
+                    )}
+                  </tbody>
+                </table>
+              </div>
+              ${when(openCandidates, () => html`<p class="fineline">${F.candTitle}: ${openCandidates} — <a href="${p(ROUTES.research())}">${T.feedAll}</a></p>`)}
+            </div>
+          `
+        )}
+        ${when(!datasets.length, () => html`<p class="flempty__why" data-reveal>${F.monEmpty}</p>`)}
+      </div>
+    </section>
+
+    <!-- 04 Latest research -->
     <section class="sec" id="feed" data-reveal-root>
       <div class="wrap">
         <header class="labsec">
-          ${Eyebrow(T.feedTitle, '03')}
+          ${Eyebrow(T.feedTitle, '04')}
         </header>
         <ol class="xtimeline" data-reveal>
           ${feed.map(
@@ -142,10 +213,10 @@ export default function Terminal({ locale, t, ea, experiments }) {
       </div>
     </section>
 
-    <!-- 04 Labs -->
+    <!-- 05 Labs -->
     <section class="sec sec--tight" id="labs" data-reveal-root>
       <div class="wrap">
-        <header class="labsec">${Eyebrow(T.labsTitle, '04')}</header>
+        <header class="labsec">${Eyebrow(T.labsTitle, '05')}</header>
         <ul class="tlabs">
           ${labs.map(
             (l, i) => html`<li data-reveal style="--d:${i}">

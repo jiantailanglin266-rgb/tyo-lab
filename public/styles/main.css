@@ -4966,6 +4966,70 @@ table {
   font-size: 0.76rem;
 }
 
+/* ---- Forward monitoring (Phase 12) ---- */
+
+.fwdpanel {
+  display: grid;
+  gap: 4px;
+}
+
+.fwdpanel__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.fwdpanel .statgrid__title {
+  margin-top: 26px;
+}
+
+.fwdchart {
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  background: var(--bg-1);
+  padding: 10px;
+}
+
+.fwdchart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.fwddeg {
+  border: 1px solid var(--line);
+  border-left-width: 2px;
+  background: var(--bg-1);
+  padding: 1.1rem 1.2rem;
+  margin-top: 12px;
+}
+
+.fwddeg__state {
+  margin: 0 0 10px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+.fwddeg--normal { border-left-color: var(--s-green); }
+.fwddeg--watch { border-left-color: var(--s-yellow); }
+.fwddeg--degraded { border-left-color: var(--s-orange); }
+.fwddeg--severe { border-left-color: var(--s-red); }
+.fwddeg--insufficient_data { border-left-color: var(--line-2); }
+
+/* degradation status chips — colour + text, never colour alone */
+.xstatus--deg-normal { color: var(--s-green); border-color: rgba(50, 215, 75, 0.35); }
+.xstatus--deg-watch { color: var(--s-yellow); border-color: rgba(255, 214, 10, 0.35); }
+.xstatus--deg-degraded { color: var(--s-orange); border-color: rgba(255, 159, 10, 0.35); }
+.xstatus--deg-severe { color: var(--s-red); border-color: rgba(255, 59, 48, 0.35); }
+.xstatus--deg-insufficient_data { color: var(--fg-3); }
+
+.badge.is-pending2 { color: var(--fg-3); border-color: var(--line-2); }
+.badge.is-stale { color: var(--s-orange); border-color: rgba(255, 159, 10, 0.4); }
+
 /* ---- TYO Terminal (Phase 11) ---- */
 
 .emap {

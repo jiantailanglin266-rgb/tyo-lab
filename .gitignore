@@ -10,3 +10,11 @@ Thumbs.db
 
 # dev-only canvas capture written by tools/serve.mjs
 __shot.*
+
+# Phase 12: trade-level forward/live data is PRIVATE. The repo is public, so
+# raw statements and normalized trades must never be committed — only the
+# aggregates in tools/forward-aggregates.json ship (see
+# docs/FORWARD_SECURITY_PRIVACY.md).
+data/forward/raw/
+data/forward/normalized/
+data/forward/audit-log.jsonl

@@ -492,6 +492,251 @@ export function ResearchTransparency({ model, t }) {
 }
 
 /* ------------------------------------------------------------------ *
+ * Forward monitoring panel (Phase 12) — renders one strategy × evidence
+ * type aggregate produced by scripts/analyze-forward.mjs. Dormant until
+ * real trading data is imported; nothing here estimates.
+ * ------------------------------------------------------------------ */
+
+const DEG_LABEL = { NORMAL: 'stNormal', WATCH: 'stWatch', DEGRADED: 'stDegraded', SEVERE: 'stSevere', INSUFFICIENT_DATA: 'stInsufficient' };
+
+function money(v, cur) {
+  return has(v) ? `${Number(v).toLocaleString('en-US')} ${cur}` : DASH;
+}
+
+/** Small inline SVG line chart: points [[x-label, y]|null], y auto-scaled. */
+function fwdLineSVG(points, { yZero = false } = {}) {
+  const vals = points.map((p) => p[1]).filter((v) => v !== null && Number.isFinite(v));
+  if (vals.length < 2) return '';
+  const W = 640;
+  const H = 200;
+  const L = 46;
+  const R = 10;
+  const T = 10;
+  const B = 24;
+  let lo = Math.min(...vals);
+  let hi = Math.max(...vals);
+  if (yZero) lo = Math.min(0, lo);
+  if (hi === lo) hi = lo + 1;
+  const x = (i) => L + (points.length === 1 ? 0 : (i / (points.length - 1)) * (W - L - R));
+  const y = (v) => T + ((hi - v) / (hi - lo)) * (H - T - B);
+
+  let d = '';
+  points.forEach((p, i) => {
+    if (p[1] === null || !Number.isFinite(p[1])) return;
+    d += (d ? ' L' : 'M') + x(i).toFixed(1) + ' ' + y(p[1]).toFixed(1);
+  });
+
+  const gridVals = [hi, (hi + lo) / 2, lo];
+  let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">`;
+  for (const g of gridVals) {
+    s += `<line x1="${L}" y1="${y(g)}" x2="${W - R}" y2="${y(g)}" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>` +
+      `<text x="${L - 6}" y="${y(g) + 3.5}" text-anchor="end" font-size="10" fill="rgba(255,255,255,0.45)">${Math.round(g * 100) / 100}</text>`;
+  }
+  if (yZero && lo < 0) s += `<line x1="${L}" y1="${y(0)}" x2="${W - R}" y2="${y(0)}" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>`;
+  s += `<text x="${L}" y="${H - 8}" font-size="10" fill="rgba(255,255,255,0.45)">${points[0][0]}</text>` +
+    `<text x="${W - R}" y="${H - 8}" text-anchor="end" font-size="10" fill="rgba(255,255,255,0.45)">${points[points.length - 1][0]}</text>` +
+    `<path d="${d}" fill="none" stroke="#40e0d0" stroke-width="1.8" opacity="0.9"/></svg>`;
+  return s;
+}
+
+export function ForwardPanel({ agg, t }) {
+  const F = t.fmon;
+  const M = agg.metrics;
+  const cur = agg.currency;
+  const deg = agg.degradation;
+
+  const bt = agg.backtestBaseline;
+  const vsRows = bt
+    ? [
+        [t.research.metricLabels.profitFactor, bt.profitFactor, M.profitFactor],
+        [`${F.trades} / ${F.perMonth.toLowerCase()}`, bt.tradesPerMonth, agg.freq?.perMonth],
+        [t.research.metricLabels.winRate, bt.winRate, M.winRate],
+      ].filter(([, a, b]) => has(a) && has(b))
+    : [];
+
+  const rollingRows = Object.entries(agg.rolling || {})
+    .filter(([, r]) => r)
+    .map(([k, r]) => [k.startsWith('d') ? `${k.slice(1)}d` : `${k.slice(1)}t`, r]);
+
+  const curvePts = (agg.curve || []).map((p) => [new Date(p[0] * 1000).toISOString().slice(0, 10), p[1]]);
+  const rollPts = agg.rolling90Pf || [];
+
+  return html`
+    <div class="fwdpanel">
+      <div class="fwdpanel__badges">
+        <span class="badge ${raw(agg.qualified ? 'is-verified' : 'is-pending2')}">${agg.qualified ? F.qualified : F.notQualified}</span>
+        <span class="xstatus xstatus--deg-${raw(deg.state.toLowerCase())}">${F[DEG_LABEL[deg.state]] || deg.state}</span>
+        ${when(agg.stale, () => html`<span class="badge is-stale">${F.staleBadge}</span>`)}
+      </div>
+
+      <dl class="kvlist kvlist--tight">
+        ${[
+          [F.account, agg.accountId],
+          [F.broker, agg.broker],
+          [F.platform, agg.platform ? agg.platform.toUpperCase() : null],
+          [F.mode, agg.accountMode],
+          [F.currency, cur],
+          [F.period, `${agg.period.from} → ${agg.period.to} (${agg.period.days}d)`],
+          [F.trades, num(agg.trades)],
+          [F.lastTrade, agg.lastTradeAt ? agg.lastTradeAt.slice(0, 10) : null],
+        ]
+          .filter(([, v]) => has(v))
+          .map(([k, v]) => html`<div class="kvlist__row"><dt>${k}</dt><dd>${v}</dd></div>`)}
+      </dl>
+
+      <h3 class="statgrid__title">${F.perf}</h3>
+      <dl class="kvlist kvlist--tight">
+        ${[
+          [t.research.metricLabels.profitFactor, show(M.profitFactor)],
+          [t.research.metricLabels.winRate, has(M.winRate) ? `${M.winRate}%` : DASH],
+          [F.net, money(M.netProfit, cur)],
+          [F.expPayoff, money(M.expectedPayoff, cur)],
+          [`${t.research.metricLabels.maxDrawdownPct} (${M.maxDrawdownBasis})`, money(M.maxDrawdown, cur)],
+          ...(has(M.relativeDrawdownPct) ? [[t.research.metricLabels.maxDrawdownPct, `${M.relativeDrawdownPct}%`]] : []),
+          [F.recovery, show(M.recoveryFactor)],
+          [F.sharpe, show(M.sharpePerTrade)],
+          [F.avgHold, show(M.avgHoldingHours)],
+        ].map(([k, v]) => html`<div class="kvlist__row"><dt>${k}</dt><dd>${v}</dd></div>`)}
+      </dl>
+      <p class="fineline">${F.ddNote}</p>
+
+      <h3 class="statgrid__title">${F.costs}</h3>
+      <dl class="kvlist kvlist--tight">
+        ${[
+          [F.gross, money(M.grossTradeProfit, cur)],
+          [F.swap, money(M.swap, cur)],
+          [F.commission, money(M.commission, cur)],
+          [F.fees, money(M.fees, cur)],
+          [F.net, money(M.netProfit, cur)],
+          ...(has(M.swapShareOfGrossPct) ? [[F.swapShare, `${M.swapShareOfGrossPct}%`]] : []),
+          ...(has(M.commissionShareOfGrossPct) ? [[F.commShare, `${M.commissionShareOfGrossPct}%`]] : []),
+        ].map(([k, v]) => html`<div class="kvlist__row"><dt>${k}</dt><dd>${v}</dd></div>`)}
+      </dl>
+
+      <h3 class="statgrid__title">${F.freqTitle} · ${F.longShortTitle}</h3>
+      <dl class="kvlist kvlist--tight">
+        ${[
+          [F.perDay, show(agg.freq?.perDay)],
+          [F.perMonth, show(agg.freq?.perMonth)],
+          [F.perYear, show(agg.freq?.perYear)],
+          [`${F.longShortTitle} PF`, `${show(M.longPF)} / ${show(M.shortPF)}`],
+          [`${F.longShortTitle} ${F.trades}`, `${show(M.longTrades)} / ${show(M.shortTrades)}`],
+        ].map(([k, v]) => html`<div class="kvlist__row"><dt>${k}</dt><dd>${v}</dd></div>`)}
+      </dl>
+
+      ${when(curvePts.length > 2, () => html`
+        <h3 class="statgrid__title">${F.curveTitle}</h3>
+        <div class="fwdchart">${raw(fwdLineSVG(curvePts, { yZero: true }))}</div>
+      `)}
+      ${when(rollPts.filter((p) => p[1] !== null).length > 1, () => html`
+        <h3 class="statgrid__title">${F.rollingChartTitle}</h3>
+        <div class="fwdchart">${raw(fwdLineSVG(rollPts))}</div>
+      `)}
+
+      ${when(rollingRows.length, () => html`
+        <h3 class="statgrid__title">${F.rollingTitle}</h3>
+        <div class="tablewrap">
+          <table class="dtable">
+            <thead>
+              <tr>
+                <th scope="col">${F.window}</th>
+                <th scope="col">${F.trades}</th>
+                <th scope="col">${t.research.metricLabels.profitFactor}</th>
+                <th scope="col">${t.research.metricLabels.winRate}</th>
+                <th scope="col">${t.research.metricLabels.maxDrawdownPct}</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rollingRows.map(
+                ([w, r]) => html`<tr>
+                  <th scope="row">${w}</th>
+                  <td class="dtable__num">${show(r.trades)}</td>
+                  <td class="dtable__num">${show(r.profitFactor)}</td>
+                  <td class="dtable__num">${has(r.winRate) ? `${r.winRate}%` : DASH}</td>
+                  <td class="dtable__num">${money(r.maxDrawdown, cur)}</td>
+                </tr>`
+              )}
+            </tbody>
+          </table>
+        </div>
+      `)}
+
+      ${when(vsRows.length, () => html`
+        <h3 class="statgrid__title">${F.vsTitle}</h3>
+        <div class="tablewrap">
+          <table class="dtable">
+            <thead>
+              <tr>
+                <th scope="col">${F.vsMetric}</th>
+                <th scope="col">${F.vsBacktest}</th>
+                <th scope="col">${F.vsForward}</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${vsRows.map(
+                ([k, a, b]) => html`<tr>
+                  <th scope="row">${k}</th>
+                  <td class="dtable__num">${show(a)}</td>
+                  <td class="dtable__num">${show(b)}</td>
+                </tr>`
+              )}
+            </tbody>
+          </table>
+        </div>
+        <p class="fineline">${F.vsNote}</p>
+      `)}
+
+      <h3 class="statgrid__title">${F.degTitle}</h3>
+      <div class="fwddeg fwddeg--${raw(deg.state.toLowerCase())}">
+        <p class="fwddeg__state">${F[DEG_LABEL[deg.state]] || deg.state}</p>
+        <dl class="kvlist kvlist--tight">
+          ${[
+            [F.degBaseline, deg.baselinePF !== null && deg.baselinePF !== undefined ? `${deg.baselinePF} (${deg.baselineType || DASH})` : DASH],
+            [F.degRolling, show(deg.rollingPF)],
+            [F.degRatio, has(deg.pfRatio) ? `${deg.pfRatio > 1 ? '+' : ''}${Math.round((deg.pfRatio - 1) * 100)}%` : DASH],
+            [F.degSample, show(deg.sample)],
+            [F.degConfidence, show(deg.confidence)],
+          ].map(([k, v]) => html`<div class="kvlist__row"><dt>${k}</dt><dd>${v}</dd></div>`)}
+        </dl>
+      </div>
+
+      ${when(agg.breakdowns?.sessions, () => {
+        const rows = Object.entries(agg.breakdowns.sessions).filter(([, v]) => v);
+        if (!rows.length) return '';
+        return html`
+          <h3 class="statgrid__title">${F.sessionsTitle}</h3>
+          <div class="tablewrap">
+            <table class="dtable">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">${F.trades}</th>
+                  <th scope="col">${t.research.metricLabels.profitFactor}</th>
+                  <th scope="col">${F.net}</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows.map(
+                  ([name, v]) => html`<tr>
+                    <th scope="row">${name}</th>
+                    <td class="dtable__num">${show(v.trades)}</td>
+                    <td class="dtable__num">${show(v.profitFactor)}</td>
+                    <td class="dtable__num">${money(v.netProfit, cur)}</td>
+                  </tr>`
+                )}
+              </tbody>
+            </table>
+          </div>
+        `;
+      })}
+
+      <p class="warn warn--sm">${F.fwdDisclaimer}</p>
+      <p class="fineline">${F.brokerNote}</p>
+    </div>
+  `;
+}
+
+/* ------------------------------------------------------------------ *
  * Track-record tabs (Phase 9): Backtest / Forward / Live
  * The backtest tab wraps the existing snapshot. Forward and live render a
  * validated record when one exists in tools/forward-live.json, and an honest
@@ -555,18 +800,29 @@ function EmptyRecord({ headline, t }) {
 export function TrackRecordTabs({ model, t }) {
   const F = t.fl;
   const id = `track-${model.slug}`;
+  /* Forward/live bodies (§48): a Phase 12 monitoring aggregate wins, a manual
+     Phase 9 record renders when that is all there is, and with neither the
+     evidence-first empty state shows. Never a number without data. */
+  const forwardBody = model.fwd
+    ? ForwardPanel({ agg: model.fwd, t })
+    : model.forwardRecord
+      ? RecordPanel({ rec: model.forwardRecord, t })
+      : EmptyRecord({ headline: F.noForward, t });
+  const liveBody = model.liveMon
+    ? ForwardPanel({ agg: model.liveMon, t })
+    : model.liveRecord
+      ? RecordPanel({ rec: model.liveRecord, t })
+      : EmptyRecord({ headline: F.noLive, t });
+
   const tabs = [
     { key: 'backtest', label: F.tabBacktest, body: PerformanceSnapshot({ model, t }) },
     {
-      key: 'forward',
-      label: F.tabForward,
-      body: model.forward ? RecordPanel({ rec: model.forward, t }) : EmptyRecord({ headline: F.noForward, t }),
+      key: 'montecarlo',
+      label: t.mc.title,
+      body: model.mc ? MonteCarloPanel({ model, t }) : EmptyRecord({ headline: t.fmon.mcPending, t }),
     },
-    {
-      key: 'live',
-      label: F.tabLive,
-      body: model.live ? RecordPanel({ rec: model.live, t }) : EmptyRecord({ headline: F.noLive, t }),
-    },
+    { key: 'forward', label: F.tabForward, body: forwardBody },
+    { key: 'live', label: F.tabLive, body: liveBody },
   ];
 
   return html`
