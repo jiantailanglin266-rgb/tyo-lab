@@ -72,5 +72,47 @@ Stated in `builder.assumptions`.
 5. Drawdown basis (monthly closes) and its understatement are stated.
 6. Nothing forecasts; every label describes the historical record only.
 
-Phase 7B will extend this document with rolling correlation windows,
-correlation-stability statistics and drawdown-overlap analysis.
+## Pair analytics (Phase 7B)
+
+Rendered inside the builder for every pair of the selected systems (2–4
+systems → 1–6 pairs), over the same common window as the blend.
+
+### Rolling correlation
+
+Trailing-window Pearson r of monthly returns, selectable window of 12 / 24 /
+36 months (24 default). Drawn as an inline SVG generated client-side — one
+line per pair, distinguished by colour **and** dash pattern (never colour
+alone), y-axis fixed to [−1, +1] with a strong zero line. The chart renders
+only when the common window yields at least 6 rolling points; otherwise the
+page says "not enough shared months for this window" instead of drawing a
+2-point line.
+
+The 12-month window ships with a standing caveat (`pair.shortNote`): short
+windows swing on a handful of months; 24 months is the reference view. This
+keeps faith with the site-wide 24-month correlation floor — the full-window
+matrix never reports below 24 shared months, and the shorter rolling view is
+explicitly labelled texture, not conclusion.
+
+### Correlation stability
+
+Per pair, on the fixed rolling-24 series: full-window r, rolling mean,
+lowest, highest. Requires ≥ 30 common months (24-month window + 6 points);
+below that the rolling columns show "—". The accompanying note states the
+point of the table: a full-window r is an average over regimes, and a pair
+whose rolling r ranges widely is not reliably diversifying.
+
+### Loss & drawdown overlap
+
+Per pair, over the common window:
+
+| Column | Definition |
+|---|---|
+| Joint loss months | count (and share) of months where **both** systems closed negative |
+| If independent | the share expected if losses were independent: `P(A<0) × P(B<0)` |
+| Both in drawdown | share of months where both sat below a prior peak of their monthly-close index (peak measured within the common window) |
+
+Observed-vs-independent is the honest framing: it shows whether joint losses
+happen more or less often than chance without collapsing that into a single
+suggestive score. All flags derive from monthly closes, so intra-month joint
+stress is understated — the note under the table says so, and says these are
+backtest arithmetic, not a forecast of joint behaviour.

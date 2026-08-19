@@ -4470,6 +4470,62 @@ table {
   color: var(--fg-3);
 }
 
+/* Pair analytics (7B) */
+.pairx {
+  margin-top: clamp(30px, 4vw, 44px);
+}
+
+.pairx .statgrid__title {
+  margin-top: 30px;
+}
+
+.pairx__lead {
+  margin: 8px 0 0;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--fg-2);
+}
+
+.pairx__chart {
+  margin-top: 16px;
+  border: 1px solid var(--line);
+  background: var(--bg-1);
+  padding: 10px;
+}
+
+.pairx__chart:empty {
+  display: none;
+}
+
+.pairx__chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.pairx__legend {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  font-size: 0.78rem;
+  color: var(--fg-2);
+}
+
+.pairx__legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.pairx__swatch {
+  width: 16px;
+  height: 3px;
+  flex: none;
+}
+
 .pbuild__out {
   margin-top: clamp(22px, 3vw, 32px);
 }

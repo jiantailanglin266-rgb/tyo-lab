@@ -223,6 +223,59 @@ export default function PortfolioLab({ locale, t, ea }) {
 
             <p class="fineline">${P.builder.assumptions}</p>
             <p class="fineline">${P.builder.weightsNote}</p>
+
+            <!-- Pair analytics (Phase 7B): rolling correlation, stability,
+                 loss/drawdown overlap. Same common window as the blend. -->
+            <div class="pairx">
+              <h3 class="statgrid__title">${P.pair.rolling}</h3>
+              <p class="pairx__lead">${P.pair.lead}</p>
+              <div class="pbuild__modes" role="radiogroup" aria-label="${P.pair.window}">
+                <span class="browse__label">${P.pair.window}</span>
+                ${[12, 24, 36].map(
+                  (w) => html`<label class="pbuild__mode">
+                    <input type="radio" name="pf-pair-window" data-pair-window value="${w}"${raw(w === 24 ? ' checked' : '')} />
+                    <span>${P.pair.windowOpt.replace('{n}', String(w))}</span>
+                  </label>`
+                )}
+              </div>
+              <p class="pbuild__hint" data-pair-notenough hidden>${P.pair.notEnough}</p>
+              <div class="pairx__chart" data-pair-chart role="img" aria-label="${P.pair.chartAria}"></div>
+              <ul class="pairx__legend" data-pair-legend></ul>
+              <p class="fineline">${P.pair.shortNote}</p>
+
+              <h3 class="statgrid__title">${P.pair.stability}</h3>
+              <div class="tablewrap">
+                <table class="dtable">
+                  <thead>
+                    <tr>
+                      <th scope="col">${P.pair.pairCol}</th>
+                      <th scope="col">${P.pair.fullR}</th>
+                      <th scope="col">${P.pair.rollMean}</th>
+                      <th scope="col">${P.pair.rollMin}</th>
+                      <th scope="col">${P.pair.rollMax}</th>
+                    </tr>
+                  </thead>
+                  <tbody data-pair-stab></tbody>
+                </table>
+              </div>
+              <p class="fineline">${P.pair.stabilityNote}</p>
+
+              <h3 class="statgrid__title">${P.pair.overlap}</h3>
+              <div class="tablewrap">
+                <table class="dtable">
+                  <thead>
+                    <tr>
+                      <th scope="col">${P.pair.pairCol}</th>
+                      <th scope="col">${P.pair.bothLoss}</th>
+                      <th scope="col">${P.pair.expected}</th>
+                      <th scope="col">${P.pair.bothDD}</th>
+                    </tr>
+                  </thead>
+                  <tbody data-pair-overlap></tbody>
+                </table>
+              </div>
+              <p class="fineline">${P.pair.overlapNote}</p>
+            </div>
           </div>
         </div>
 

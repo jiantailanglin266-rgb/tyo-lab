@@ -1136,6 +1136,12 @@
     var out = $('[data-portfolio-out]', box);
     var rowsEl = $('[data-portfolio-rows]', box);
     var rpNote = $('[data-portfolio-rpfallback]', box);
+    var pairChart = $('[data-pair-chart]', box);
+    var pairLegend = $('[data-pair-legend]', box);
+    var pairStab = $('[data-pair-stab]', box);
+    var pairOverlap = $('[data-pair-overlap]', box);
+    var pairNotEnough = $('[data-pair-notenough]', box);
+    var pairWindows = $$('[data-pair-window]', box);
 
     var field = function (k) {
       return $('[data-pf="' + k + '"]', box);
@@ -1227,6 +1233,49 @@
       var inv = sds.map(function (s) { return 1 / s; });
       var tot = inv.reduce(function (a, b) { return a + b; }, 0);
       return inv.map(function (x) { return x / tot; });
+    }
+
+    /** Pearson r over a slice [from, from+len) of two aligned series. */
+    function pearsonSlice(a, b, from, len) {
+      var sa = 0;
+      var sb = 0;
+      var i;
+      for (i = from; i < from + len; i++) {
+        sa += a[i];
+        sb += b[i];
+      }
+      var ma = sa / len;
+      var mb = sb / len;
+      var cov = 0;
+      var va = 0;
+      var vb = 0;
+      for (i = from; i < from + len; i++) {
+        var da = a[i] - ma;
+        var db = b[i] - mb;
+        cov += da * db;
+        va += da * da;
+        vb += db * db;
+      }
+      if (!va || !vb) return null;
+      return cov / Math.sqrt(va * vb);
+    }
+
+    /** Trailing-W rolling correlation; index i holds r over months [i−W+1, i]. */
+    function rollingR(a, b, W) {
+      var outR = [];
+      for (var i = W - 1; i < a.length; i++) outR.push(pearsonSlice(a, b, i - W + 1, W));
+      return outR;
+    }
+
+    /** In-drawdown flags of a monthly series (monthly-close index vs peak). */
+    function ddFlags(series) {
+      var index = 1;
+      var peak = 1;
+      return series.map(function (r) {
+        index *= 1 + r / 100;
+        if (index > peak) peak = index;
+        return index < peak;
+      });
     }
 
     /**
@@ -1428,12 +1477,182 @@
       chosen.forEach(function (slug, i) {
         addRow(DATA[slug].name, (weights[i] * 100).toFixed(1) + '%', stats(perSeries[i]), false);
       });
+
+      renderPairs(chosen, perSeries, common);
+    }
+
+    /* ---- pair analytics (7B): rolling r, stability, overlap ---------- */
+
+    var PAIR_COLORS = ['#40e0d0', '#ff9f0a', '#bf5af2', '#32d74b', '#0a84ff', '#ff3b30'];
+    var PAIR_DASH = ['', '7 4', '2 3', '9 3 2 3', '4 2', '12 4'];
+
+    var fmtR = function (r) {
+      return r === null || !isFinite(r) ? '—' : r.toFixed(2);
+    };
+
+    function pairsOf(chosen) {
+      var list = [];
+      for (var a = 0; a < chosen.length; a++)
+        for (var b = a + 1; b < chosen.length; b++)
+          list.push({ a: a, b: b, name: DATA[chosen[a]].name + ' × ' + DATA[chosen[b]].name });
+      return list;
+    }
+
+    function chartSVG(lines, nPts, firstYm, lastYm) {
+      var W = 640;
+      var H = 240;
+      var L = 38;
+      var R = 10;
+      var T = 10;
+      var B = 26;
+      var x = function (i) {
+        return L + (nPts === 1 ? 0 : (i / (nPts - 1)) * (W - L - R));
+      };
+      var y = function (r) {
+        return T + ((1 - r) / 2) * (H - T - B);
+      };
+
+      var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">';
+      [1, 0.5, 0, -0.5, -1].forEach(function (g) {
+        var yy = y(g);
+        s +=
+          '<line x1="' + L + '" y1="' + yy + '" x2="' + (W - R) + '" y2="' + yy + '" stroke="rgba(255,255,255,' +
+          (g === 0 ? 0.28 : 0.08) + ')" stroke-width="1"/>' +
+          '<text x="' + (L - 6) + '" y="' + (yy + 3.5) + '" text-anchor="end" font-size="10" fill="rgba(255,255,255,0.45)">' +
+          (g > 0 ? '+' + g : g) + '</text>';
+      });
+      s +=
+        '<text x="' + L + '" y="' + (H - 8) + '" font-size="10" fill="rgba(255,255,255,0.45)">' + firstYm + '</text>' +
+        '<text x="' + (W - R) + '" y="' + (H - 8) + '" text-anchor="end" font-size="10" fill="rgba(255,255,255,0.45)">' + lastYm + '</text>';
+
+      lines.forEach(function (line, li) {
+        var d = '';
+        line.forEach(function (r, i) {
+          if (r === null) return;
+          d += (d ? ' L' : 'M') + x(i).toFixed(1) + ' ' + y(Math.max(-1, Math.min(1, r))).toFixed(1);
+        });
+        if (!d) return;
+        s +=
+          '<path d="' + d + '" fill="none" stroke="' + PAIR_COLORS[li % PAIR_COLORS.length] +
+          '" stroke-width="1.8" opacity="0.9"' +
+          (PAIR_DASH[li % PAIR_DASH.length] ? ' stroke-dasharray="' + PAIR_DASH[li % PAIR_DASH.length] + '"' : '') +
+          '/>';
+      });
+      return s + '</svg>';
+    }
+
+    function renderPairs(chosen, perSeries, common) {
+      if (!pairChart) return;
+      var pairs = pairsOf(chosen);
+      var n = common.length;
+
+      var W = 24;
+      pairWindows.forEach(function (r2) {
+        if (r2.checked) W = Number(r2.value);
+      });
+
+      /* Rolling chart: needs at least 6 rolling points to be a line at all. */
+      var nPts = n - W + 1;
+      if (nPts < 6) {
+        pairChart.innerHTML = '';
+        pairLegend.innerHTML = '';
+        pairNotEnough.hidden = false;
+      } else {
+        pairNotEnough.hidden = true;
+        var lines = pairs.map(function (p2) {
+          return rollingR(perSeries[p2.a], perSeries[p2.b], W);
+        });
+        pairChart.innerHTML = chartSVG(lines, nPts, common[W - 1], common[n - 1]);
+        pairLegend.innerHTML = '';
+        pairs.forEach(function (p2, i) {
+          var li = document.createElement('li');
+          var sw = document.createElement('span');
+          sw.className = 'pairx__swatch';
+          sw.style.background = PAIR_COLORS[i % PAIR_COLORS.length];
+          li.appendChild(sw);
+          li.appendChild(document.createTextNode(p2.name));
+          pairLegend.appendChild(li);
+        });
+      }
+
+      /* Stability table: rolling 24 fixed (the site's correlation floor). */
+      pairStab.innerHTML = '';
+      pairs.forEach(function (p2) {
+        var full = pearsonSlice(perSeries[p2.a], perSeries[p2.b], 0, n);
+        var cells;
+        if (n >= 30) {
+          var roll = rollingR(perSeries[p2.a], perSeries[p2.b], 24).filter(function (r2) {
+            return r2 !== null;
+          });
+          var sum = roll.reduce(function (x2, y2) {
+            return x2 + y2;
+          }, 0);
+          cells = [
+            fmtR(full),
+            roll.length ? fmtR(sum / roll.length) : '—',
+            roll.length ? fmtR(Math.min.apply(null, roll)) : '—',
+            roll.length ? fmtR(Math.max.apply(null, roll)) : '—',
+          ];
+        } else {
+          cells = [fmtR(full), '—', '—', '—'];
+        }
+        var tr = document.createElement('tr');
+        var th = document.createElement('th');
+        th.setAttribute('scope', 'row');
+        th.textContent = p2.name;
+        tr.appendChild(th);
+        cells.forEach(function (v) {
+          var td = document.createElement('td');
+          td.className = 'dtable__num';
+          td.textContent = v;
+          tr.appendChild(td);
+        });
+        pairStab.appendChild(tr);
+      });
+
+      /* Overlap table: joint loss months vs independence, joint drawdown. */
+      pairOverlap.innerHTML = '';
+      var flags = perSeries.map(ddFlags);
+      pairs.forEach(function (p2) {
+        var A = perSeries[p2.a];
+        var B = perSeries[p2.b];
+        var lossA = 0;
+        var lossB = 0;
+        var both = 0;
+        var bothDD = 0;
+        for (var i = 0; i < n; i++) {
+          if (A[i] < 0) lossA++;
+          if (B[i] < 0) lossB++;
+          if (A[i] < 0 && B[i] < 0) both++;
+          if (flags[p2.a][i] && flags[p2.b][i]) bothDD++;
+        }
+        var expected = (lossA / n) * (lossB / n) * 100;
+        var tr = document.createElement('tr');
+        var th = document.createElement('th');
+        th.setAttribute('scope', 'row');
+        th.textContent = p2.name;
+        tr.appendChild(th);
+        [
+          both + ' (' + ((both / n) * 100).toFixed(1) + '%)',
+          expected.toFixed(1) + '%',
+          ((bothDD / n) * 100).toFixed(1) + '%',
+        ].forEach(function (v) {
+          var td = document.createElement('td');
+          td.className = 'dtable__num';
+          td.textContent = v;
+          tr.appendChild(td);
+        });
+        pairOverlap.appendChild(tr);
+      });
     }
 
     picks.forEach(function (x) {
       on(x, 'change', recompute);
     });
     modes.forEach(function (x) {
+      on(x, 'change', recompute);
+    });
+    pairWindows.forEach(function (x) {
       on(x, 'change', recompute);
     });
     recompute();
