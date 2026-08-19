@@ -4966,6 +4966,148 @@ table {
   font-size: 0.76rem;
 }
 
+/* ---- TYO Terminal (Phase 11) ---- */
+
+.emap {
+  border: 1px solid var(--line);
+  background: var(--bg-1);
+  padding: clamp(14px, 2vw, 22px);
+}
+
+.emap__scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.emap__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.emap__table th,
+.emap__table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--line);
+  text-align: center;
+}
+
+.emap__table thead th {
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  font-weight: 500;
+}
+
+.emap__sys {
+  text-align: left !important;
+}
+
+.emap__sys a {
+  color: var(--fg-1);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.emap__sys a:hover {
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.emap__table td.is-ok i {
+  font-style: normal;
+  color: var(--s-green);
+}
+
+.emap__table td.is-pending i {
+  font-style: normal;
+  color: var(--fg-4);
+}
+
+.emap__num {
+  text-align: right !important;
+  color: var(--fg-2);
+}
+
+.emap__num i {
+  font-style: normal;
+  font-size: 0.64rem;
+  color: var(--fg-4);
+}
+
+.emap__score {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.emap__legend {
+  display: flex;
+  gap: 18px;
+  margin-top: 14px;
+  font-size: 0.74rem;
+  color: var(--fg-3);
+}
+
+.emap__chip i {
+  font-style: normal;
+  margin-right: 6px;
+}
+
+.emap__chip.is-ok i {
+  color: var(--s-green);
+}
+
+.tlabs {
+  list-style: none;
+  margin: clamp(20px, 3vw, 30px) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 10px;
+}
+
+.tlabs__card {
+  display: grid;
+  gap: 8px;
+  padding: 1.2rem 1.3rem;
+  border: 1px solid var(--line);
+  background: var(--bg-1);
+  color: inherit;
+  text-decoration: none;
+  height: 100%;
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.tlabs__card:hover {
+  border-color: var(--line-2);
+  transform: translateY(-2px);
+}
+
+.tlabs__name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--fg);
+}
+
+.tlabs__desc {
+  font-size: 0.82rem;
+  line-height: 1.65;
+  color: var(--fg-2);
+}
+
+.tlabs__go {
+  color: var(--fg-3);
+}
+
+.tlabs__card:hover .tlabs__go {
+  color: var(--fg);
+}
+
 /* ---- AI involvement / research output (Phase 10) ---- */
 
 .xai__ok i {

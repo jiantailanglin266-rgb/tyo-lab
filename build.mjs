@@ -43,6 +43,7 @@ import History from './src/pages/history.mjs';
 import Technology from './src/pages/technology.mjs';
 import AILab from './src/pages/ai-lab.mjs';
 import PortfolioLab from './src/pages/portfolio-lab.mjs';
+import Terminal from './src/pages/terminal.mjs';
 import ResearchIndex from './src/pages/research-index.mjs';
 import ResearchDetail from './src/pages/research-detail.mjs';
 import LabIndex from './src/pages/lab-index.mjs';
@@ -477,6 +478,24 @@ for (const loc of LOCALES) {
     })
   );
 
+  /* ---- terminal ---- */
+  await emit(
+    outPath(locale, ROUTES.terminal()),
+    Document({
+      ...ctx,
+      path: ROUTES.terminal(),
+      title: t.terminal.seoTitle,
+      description: t.terminal.seoDesc,
+      jsonLd: [
+        breadcrumb(locale, [
+          { name: t.nav.home, path: ROUTES.home() },
+          { name: t.nav.terminal, path: ROUTES.terminal() },
+        ]),
+      ],
+      children: Terminal({ ...ctx, ea, experiments }),
+    })
+  );
+
   /* ---- research log ---- */
   await emit(
     outPath(locale, ROUTES.research()),
@@ -628,6 +647,7 @@ registerSitemap(ROUTES.technology(), '0.7', 'monthly');
 registerSitemap(ROUTES.aiLab(), '0.7', 'monthly');
 registerSitemap(ROUTES.portfolio(), '0.6', 'monthly');
 registerSitemap(ROUTES.research(), '0.7', 'weekly');
+registerSitemap(ROUTES.terminal(), '0.6', 'weekly');
 for (const x of experiments) {
   // Reconstructed entries are noindex'd — keep them out of the sitemap too.
   if (x.metadataAvailable === false) continue;

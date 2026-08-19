@@ -59,8 +59,9 @@ function navItems(locale, t) {
     // from the fullscreen menu, the footer, and the Lab/EA cross-links.
     { href: localePath(locale, ROUTES.portfolio()), label: t.nav.portfolio, n: '07', headerHidden: true },
     { href: localePath(locale, ROUTES.research()), label: t.nav.research, n: '08', headerHidden: true },
-    { href: localePath(locale, ROUTES.about()), label: t.nav.about, n: '09' },
-    { href: localePath(locale, ROUTES.contact()), label: t.nav.contact, n: '10' },
+    { href: localePath(locale, ROUTES.terminal()), label: t.nav.terminal, n: '09', headerHidden: true },
+    { href: localePath(locale, ROUTES.about()), label: t.nav.about, n: '10' },
+    { href: localePath(locale, ROUTES.contact()), label: t.nav.contact, n: '11' },
   ];
 }
 
