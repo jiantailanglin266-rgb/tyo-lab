@@ -1839,6 +1839,17 @@ table {
   border-color: rgba(191, 90, 242, 0.4);
 }
 
+.badge.is-video {
+  color: var(--s-cyan);
+  border-color: rgba(64, 224, 208, 0.4);
+}
+
+.badge.is-video::before {
+  content: '▶';
+  margin-right: 5px;
+  font-size: 8px;
+}
+
 .eacard__name {
   font-family: var(--font-display);
   font-weight: 700;
@@ -2442,12 +2453,27 @@ table {
   overflow: hidden;
 }
 
-.embed video,
 .embed iframe,
 .embed img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border: 0;
+}
+
+/* A self-hosted recording keeps its own aspect ratio. These come off the
+   desktop at 2:1 or wider, and forcing them into a 16:9 box with
+   object-fit:cover silently crops ~11% off the sides — which on a chart
+   replay is exactly where the order panel sits. */
+.embed--file {
+  aspect-ratio: auto;
+  background: #000;
+}
+
+.embed--file video {
+  width: 100%;
+  height: auto;
+  display: block;
   border: 0;
 }
 

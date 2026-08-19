@@ -88,6 +88,12 @@ export const EA = [
     number: '02',
     /** Cover: red/teal — dual-pair martingale. Risk is set high by design. */
     spec: { symbol: 'GBPUSD / USDJPY', strategy: 'Ultra Martingale', risk: 'high' },
+    /** Chart replay of the backtest. Encoded by tools/encode-ea-video.mjs. */
+    video: {
+      type: 'file',
+      src: '/assets/videos/ea/jayro.mp4',
+      poster: '/assets/posters/ea/jayro.jpg',
+    },
   }),
 
   make({
@@ -110,6 +116,8 @@ export const EA = [
     name: 'GALOA',
     number: '05',
     spec: { symbol: 'USDJPY', strategy: 'Japan Original Scalping' },
+    /** 21-minute chart replay with the equity curve in the lower pane. */
+    video: { type: 'file', src: '/assets/videos/ea/galoa.mp4', poster: '/assets/posters/ea/galoa.jpg' },
   }),
 
   make({
@@ -159,6 +167,7 @@ export const EA = [
     name: 'NEXUS',
     number: '12',
     spec: { market: 'Crypto', symbol: 'BTCUSD', strategy: 'Japan Original Scalping' },
+    video: { type: 'file', src: '/assets/videos/ea/nexus.mp4', poster: '/assets/posters/ea/nexus.jpg' },
   }),
 
   make({

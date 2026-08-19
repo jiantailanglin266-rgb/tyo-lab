@@ -8,6 +8,7 @@ function badges(ea, t) {
   if (ea.spec.price === 'free') out.push({ cls: 'is-free', label: t.ui.free });
   else if (ea.spec.price === 'paid') out.push({ cls: 'is-paid', label: t.ui.paid });
   if (ea.status === 'upcoming') out.push({ cls: 'is-soon', label: t.ui.comingSoon });
+  if (ea.video?.type) out.push({ cls: 'is-video', label: t.ea.detail.video });
   return out;
 }
 
