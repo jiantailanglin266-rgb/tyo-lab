@@ -55,8 +55,11 @@ function navItems(locale, t) {
     { href: localePath(locale, ROUTES.technology()), label: t.nav.technology, n: '04' },
     { href: localePath(locale, ROUTES.aiLab()), label: t.nav.aiLab, n: '05' },
     ...(FEATURES.labSection ? [{ href: localePath(locale, ROUTES.lab()), label: t.nav.lab, n: '06' }] : []),
-    { href: localePath(locale, ROUTES.about()), label: t.nav.about, n: '07' },
-    { href: localePath(locale, ROUTES.contact()), label: t.nav.contact, n: '08' },
+    // headerHidden: the top bar is at capacity; this page is reachable from
+    // the fullscreen menu, the footer, and the Lab/AI Lab cross-links.
+    { href: localePath(locale, ROUTES.portfolio()), label: t.nav.portfolio, n: '07', headerHidden: true },
+    { href: localePath(locale, ROUTES.about()), label: t.nav.about, n: '08' },
+    { href: localePath(locale, ROUTES.contact()), label: t.nav.contact, n: '09' },
   ];
 }
 
@@ -72,7 +75,7 @@ export function Header({ locale, t, path, active }) {
 
         <nav class="hdr__nav" aria-label="${t.ui.menu}">
           <ul>
-            ${items.map(
+            ${items.filter((i) => !i.headerHidden).map(
               (i) => html`<li>
                 <a href="${i.href}"${raw(active === i.href ? ' aria-current="page"' : '')}>${i.label}</a>
               </li>`

@@ -4197,6 +4197,250 @@ table {
   margin-top: clamp(24px, 3vw, 34px);
 }
 
+/* 10f ─ Portfolio Lab ────────────────────────────────────────────────── */
+
+/* Exposure bars ------------------------------------------------------- */
+
+.expo__grid {
+  display: grid;
+  gap: clamp(20px, 3vw, 32px);
+}
+
+.expo {
+  border: 1px solid var(--line);
+  background: var(--bg-1);
+  padding: clamp(16px, 2.2vw, 22px);
+}
+
+.expo__title {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--s-cyan);
+  margin-bottom: 14px;
+}
+
+.expo__rows {
+  display: grid;
+  gap: 9px;
+}
+
+.expo__rows li {
+  display: grid;
+  grid-template-columns: minmax(88px, auto) 1fr auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.expo__k {
+  font-size: 0.85rem;
+  color: var(--fg-1);
+  white-space: nowrap;
+}
+
+.expo__bar {
+  height: 4px;
+  background: var(--bg-3);
+  overflow: hidden;
+}
+
+.expo__bar i {
+  display: block;
+  height: 100%;
+  width: var(--v);
+  background: linear-gradient(90deg, var(--s-blue), var(--s-cyan));
+}
+
+.expo__v {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-1);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.expo__v i {
+  font-style: normal;
+  color: var(--fg-4);
+}
+
+/* Correlation matrix -------------------------------------------------- */
+
+.corr {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.corr__scroll {
+  overflow-x: auto;
+  min-width: 0;
+  max-width: 100%;
+  border: 1px solid var(--line);
+  -webkit-overflow-scrolling: touch;
+}
+
+.corr__table {
+  border-collapse: separate;
+  border-spacing: 1px;
+  background: var(--line);
+  min-width: 860px;
+}
+
+.corr__table th,
+.corr__table td {
+  background: var(--bg-1);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 0;
+  text-align: center;
+}
+
+.corr__table thead th {
+  height: 92px;
+  vertical-align: bottom;
+  padding-bottom: 8px;
+}
+
+/* Vertical column heads keep 14 columns inside a sane width. */
+.corr__table thead th span {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  letter-spacing: 0.1em;
+  color: var(--fg-3);
+  font-weight: 400;
+}
+
+.corr__table tbody th {
+  padding: 0 10px;
+  text-align: right;
+  color: var(--fg-2);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.corr__table td {
+  width: 46px;
+  height: 34px;
+  background: var(--c, var(--bg-1));
+  color: var(--fg-1);
+  cursor: default;
+}
+
+.corr__table td span {
+  font-variant-numeric: tabular-nums;
+}
+
+.corr__self {
+  background: var(--bg-3) !important;
+}
+
+.corr__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-top: 14px;
+}
+
+.corr__chip {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--fg-2);
+}
+
+.corr__chip--neg {
+  border-color: rgba(10, 132, 255, 0.5);
+  color: var(--s-blue);
+}
+
+.corr__chip--pos {
+  border-color: rgba(255, 159, 10, 0.5);
+  color: var(--s-orange);
+}
+
+/* Builder ------------------------------------------------------------- */
+
+.pbuild__pick {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.pbuild__sys {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 13px;
+  border: 1px solid var(--line);
+  background: var(--bg-1);
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s;
+}
+
+.pbuild__sys:hover {
+  border-color: var(--line-2);
+}
+
+.pbuild__sys:has(:checked) {
+  border-color: var(--s-cyan);
+  background: rgba(64, 224, 208, 0.06);
+}
+
+.pbuild__sys.is-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pbuild__sys input {
+  width: 13px;
+  height: 13px;
+  accent-color: var(--s-cyan);
+  margin: 0;
+  flex: none;
+}
+
+.pbuild__name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.88rem;
+  color: var(--fg);
+  letter-spacing: -0.01em;
+}
+
+.pbuild__sym {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--fg-4);
+  white-space: nowrap;
+}
+
+.pbuild__hint {
+  margin-top: 18px;
+  font-size: 0.88rem;
+  color: var(--fg-3);
+}
+
+.pbuild__out {
+  margin-top: clamp(22px, 3vw, 32px);
+}
+
+.pbuild__snap {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.dtable tr.is-blend th,
+.dtable tr.is-blend td {
+  color: var(--s-cyan);
+  background: rgba(64, 224, 208, 0.05);
+}
+
 /* 11 ─ lab / article ─────────────────────────────────────────────────── */
 
 .artlist {
@@ -5183,6 +5427,12 @@ table {
   }
   .caps {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .expo__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .pbuild__snap {
+    grid-template-columns: repeat(4, 1fr);
   }
   .hrisk {
     grid-template-columns: repeat(2, 1fr);

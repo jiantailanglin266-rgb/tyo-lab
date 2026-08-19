@@ -12,6 +12,7 @@ export const ROUTES = {
   history: () => '/history/',
   technology: () => '/technology/',
   aiLab: () => '/ai-lab/',
+  portfolio: () => '/portfolio-lab/',
   lab: () => '/lab/',
   labArticle: (slug) => `/lab/${slug}/`,
   about: () => '/about/',

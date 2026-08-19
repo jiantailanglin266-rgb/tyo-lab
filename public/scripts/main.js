@@ -16,6 +16,7 @@
    11 EA compare selection
    12 Compare table narrowing
    13 Tab switcher (lab)
+   14 Portfolio builder
    ========================================================================== */
 
 (function () {
@@ -1105,5 +1106,202 @@
         });
       });
     });
+  })();
+
+  /* 14 ─ portfolio builder ─────────────────────────────────────────── */
+  /* Arithmetic over the monthly series shipped inline as JSON. Everything is
+     computed on the visitor's machine from the same numbers the page already
+     shows; nothing is fetched. The section is hidden until this runs, so a
+     no-JS visitor never sees a dead control.                              */
+
+  (function portfolioBuilder() {
+    var box = $('[data-portfolio]');
+    var dataEl = $('[data-portfolio-data]');
+    if (!box || !dataEl) return;
+
+    var payload;
+    try {
+      payload = JSON.parse(dataEl.textContent);
+    } catch (e) {
+      return;
+    }
+    var DATA = payload.d;
+    box.hidden = false;
+
+    var MAXSEL = 4;
+    var picks = $$('[data-portfolio-pick]', box);
+    var hint = $('[data-portfolio-hint]', box);
+    var thin = $('[data-portfolio-thin]', box);
+    var out = $('[data-portfolio-out]', box);
+    var rowsEl = $('[data-portfolio-rows]', box);
+
+    var field = function (k) {
+      return $('[data-pf="' + k + '"]', box);
+    };
+
+    var fmtPct = function (v, digits) {
+      if (v === null || !isFinite(v)) return '—';
+      var d = digits === undefined ? 1 : digits;
+      return (v > 0 ? '+' : '') + v.toFixed(d) + '%';
+    };
+
+    /** Stats of one monthly %-return series (chronological array of numbers). */
+    function stats(series) {
+      var n = series.length;
+      var pos = 0;
+      var worst = Infinity;
+      var index = 1;
+      var peak = 1;
+      var maxDD = 0;
+      for (var i = 0; i < n; i++) {
+        var r = series[i];
+        if (r > 0) pos++;
+        if (r < worst) worst = r;
+        index *= 1 + r / 100;
+        if (index > peak) peak = index;
+        var dd = (1 - index / peak) * 100;
+        if (dd > maxDD) maxDD = dd;
+      }
+      return {
+        positive: n ? (pos / n) * 100 : null,
+        worst: n ? worst : null,
+        maxDD: maxDD,
+        total: (index - 1) * 100,
+      };
+    }
+
+    /** Pearson r of two aligned series. */
+    function pearson(a, b) {
+      var n = a.length;
+      var sa = 0;
+      var sb = 0;
+      var i;
+      for (i = 0; i < n; i++) {
+        sa += a[i];
+        sb += b[i];
+      }
+      var ma = sa / n;
+      var mb = sb / n;
+      var cov = 0;
+      var va = 0;
+      var vb = 0;
+      for (i = 0; i < n; i++) {
+        var da = a[i] - ma;
+        var db = b[i] - mb;
+        cov += da * db;
+        va += da * da;
+        vb += db * db;
+      }
+      if (!va || !vb) return null;
+      return cov / Math.sqrt(va * vb);
+    }
+
+    function recompute() {
+      var chosen = picks.filter(function (x) {
+        return x.checked;
+      }).map(function (x) {
+        return x.value;
+      });
+
+      var full = chosen.length >= MAXSEL;
+      picks.forEach(function (x) {
+        x.disabled = full && !x.checked;
+        var l = x.closest('.pbuild__sys');
+        if (l) l.classList.toggle('is-disabled', x.disabled);
+      });
+
+      if (chosen.length < 2) {
+        hint.hidden = false;
+        thin.hidden = true;
+        out.hidden = true;
+        return;
+      }
+      hint.hidden = true;
+
+      /* Months every selected system traded: the honest window. */
+      var maps = chosen.map(function (slug) {
+        var m2 = {};
+        DATA[slug].m.forEach(function (row) {
+          m2[row[0]] = row[1];
+        });
+        return m2;
+      });
+      var common = Object.keys(maps[0])
+        .filter(function (ym) {
+          return maps.every(function (m2) {
+            return ym in m2;
+          });
+        })
+        .sort();
+
+      if (common.length < 12) {
+        thin.hidden = false;
+        out.hidden = true;
+        return;
+      }
+      thin.hidden = true;
+      out.hidden = false;
+
+      var perSeries = maps.map(function (m2) {
+        return common.map(function (ym) {
+          return m2[ym];
+        });
+      });
+      var blend = common.map(function (ym, i) {
+        var s = 0;
+        for (var k = 0; k < maps.length; k++) s += perSeries[k][i];
+        return s / maps.length;
+      });
+
+      var rs = [];
+      for (var a = 0; a < perSeries.length; a++)
+        for (var b = a + 1; b < perSeries.length; b++) {
+          var r = pearson(perSeries[a], perSeries[b]);
+          if (r !== null) rs.push(r);
+        }
+      var avgR = rs.length ? rs.reduce(function (x, y) {
+        return x + y;
+      }, 0) / rs.length : null;
+
+      var st = stats(blend);
+      field('window').textContent = common[0] + ' → ' + common[common.length - 1];
+      field('months').textContent = String(common.length);
+      field('corr').textContent = avgR === null ? '—' : avgR.toFixed(2);
+      field('positive').textContent = fmtPct(st.positive, 0).replace('+', '');
+      field('worst').textContent = fmtPct(st.worst);
+      field('dd').textContent = st.maxDD.toFixed(1) + '%';
+      field('total').textContent = fmtPct(st.total, 0);
+
+      /* Per-system table over the SAME window, blend row first. */
+      rowsEl.innerHTML = '';
+      var addRow = function (name, s, isBlend) {
+        var tr = document.createElement('tr');
+        if (isBlend) tr.className = 'is-blend';
+        var cells = [
+          name,
+          fmtPct(s.positive, 0).replace('+', ''),
+          fmtPct(s.worst),
+          s.maxDD.toFixed(1) + '%',
+          fmtPct(s.total, 0),
+        ];
+        cells.forEach(function (v, i) {
+          var el = document.createElement(i === 0 ? 'th' : 'td');
+          if (i === 0) el.setAttribute('scope', 'row');
+          else el.className = 'dtable__num';
+          el.textContent = v;
+          tr.appendChild(el);
+        });
+        rowsEl.appendChild(tr);
+      };
+      addRow(payload.blendLabel, st, true);
+      chosen.forEach(function (slug, i) {
+        addRow(DATA[slug].name, stats(perSeries[i]), false);
+      });
+    }
+
+    picks.forEach(function (x) {
+      on(x, 'change', recompute);
+    });
+    recompute();
   })();
 })();
