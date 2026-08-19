@@ -26,3 +26,8 @@ __pycache__/
 # MQL5 build artifacts (sources ship; binaries and compile logs do not)
 mql5/**/*.ex5
 mql5/*.log
+
+# Phase 14: validation working data (manifests/windows/generated tester
+# configs). Public aggregates ship via tools/validation-*.json and
+# reports/validation/.
+data/validation/

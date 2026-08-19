@@ -240,6 +240,17 @@ try {
   /* none */
 }
 
+/* Validation results (Phase 14): OOS / walk-forward records produced by the
+   validation engine. Evidence stages derive from PROSPECTIVE + PASSED
+   records only; everything (incl. FAILED and RETROSPECTIVE) displays. */
+let validations = [];
+try {
+  validations = JSON.parse(await readFile(join(ROOT, 'tools', 'validation-results.json'), 'utf8')).validations || [];
+} catch {
+  warnings.push('No tools/validation-results.json — validation sections show NO DATA.');
+}
+const validationQualifies = (v) => v.status === 'PASSED' && v.provenance === 'PROSPECTIVE';
+
 /* §45–46: an evidence stage lights only above the minimums — for pipeline
    aggregates the analyzer already computed `qualified`; a manual Phase 9
    record must clear the same bar (trades + days stated in the record). */
@@ -254,7 +265,11 @@ const ea = eaBase.map((m) => {
   const fwd = strat.FORWARD_DEMO || null;
   const liveMon = strat.LIVE || null;
   const shadowMon = strat.SHADOW_FORWARD || null;
+  const myValidations = validations.filter((v) => v.strategyId === m.slug && v.status !== 'INVALID');
   const withMc = {
+    validations: myValidations,
+    oosVal: myValidations.find((v) => v.type === 'OOS' && validationQualifies(v)) || null,
+    wfVal: myValidations.find((v) => v.type === 'WF' && validationQualifies(v)) || null,
     ...m,
     mc,
     mcMeta: mc ? { seed: mcData.seed, sims: mcData.sims } : null,

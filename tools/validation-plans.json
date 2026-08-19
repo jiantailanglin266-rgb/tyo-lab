@@ -1,0 +1,133 @@
+{
+ "_readme": "Validation plans (Phase 14). DRAFT until a human approves via scripts/approve-validation-plan.mjs; APPROVED plans are immutable (hash-checked at run).",
+ "plans": [
+  {
+   "validationPlanId": "VAL-OOS-000001",
+   "strategyId": "supremacy",
+   "version": "as-shipped",
+   "method": "OOS",
+   "provenance": "RETROSPECTIVE",
+   "previouslyObserved": true,
+   "parameterMode": "FIXED_PARAMETERS",
+   "dataPeriod": {
+    "from": "2020-01-02",
+    "to": "2026-03-27",
+    "startBalance": 10000,
+    "endBalance": 22015.39,
+    "totalReturnPct": 120.15
+   },
+   "thresholds": {
+    "minPF": 1.05,
+    "minExpectedPayoff": 0,
+    "maxDDvsTrainMultiple": 2,
+    "minPFRetention": 0.65
+   },
+   "status": "COMPLETE",
+   "approvedByHuman": {
+    "by": "owner (Phase 14 brief §138: retrospective PoC commissioned in writing)",
+    "at": "2026-08-19T20:05:36.943Z"
+   },
+   "createdAt": "2026-08-19T20:05:17.823Z",
+   "split": {
+    "trainStart": "2020-01-02",
+    "trainEnd": "2024-05-13",
+    "testStart": "2024-05-14",
+    "testEnd": "2026-03-27",
+    "trainRatio": 0.7
+   },
+   "planHash": "6b65b6f1a58cf0f8330edef4655d06182206d744f83568d864c4cc6e8a7cde79"
+  },
+  {
+   "validationPlanId": "WF-000001",
+   "strategyId": "supremacy",
+   "version": "as-shipped",
+   "method": "WF",
+   "provenance": "RETROSPECTIVE",
+   "previouslyObserved": true,
+   "parameterMode": "FIXED_PARAMETERS",
+   "dataPeriod": {
+    "from": "2020-01-02",
+    "to": "2026-03-27",
+    "startBalance": 10000,
+    "endBalance": 22015.39,
+    "totalReturnPct": 120.15
+   },
+   "thresholds": {
+    "minAggregatePF": 1.05,
+    "minPositiveWindowRate": 0.6,
+    "minAggregateExpectedPayoff": 0
+   },
+   "status": "COMPLETE",
+   "approvedByHuman": {
+    "by": "owner (Phase 14 brief §138: retrospective PoC commissioned in writing)",
+    "at": "2026-08-19T20:05:37.049Z"
+   },
+   "createdAt": "2026-08-19T20:05:18.082Z",
+   "wf": {
+    "mode": "rolling",
+    "trainMonths": 24,
+    "testMonths": 6,
+    "stepMonths": 6
+   },
+   "windowsPreview": [
+    {
+     "windowId": "W01",
+     "trainStart": "2020-01-02",
+     "trainEnd": "2022-01-02",
+     "testStart": "2022-01-02",
+     "testEnd": "2022-07-02"
+    },
+    {
+     "windowId": "W02",
+     "trainStart": "2020-07-02",
+     "trainEnd": "2022-07-02",
+     "testStart": "2022-07-02",
+     "testEnd": "2023-01-02"
+    },
+    {
+     "windowId": "W03",
+     "trainStart": "2021-01-02",
+     "trainEnd": "2023-01-02",
+     "testStart": "2023-01-02",
+     "testEnd": "2023-07-02"
+    },
+    {
+     "windowId": "W04",
+     "trainStart": "2021-07-02",
+     "trainEnd": "2023-07-02",
+     "testStart": "2023-07-02",
+     "testEnd": "2024-01-02"
+    },
+    {
+     "windowId": "W05",
+     "trainStart": "2022-01-02",
+     "trainEnd": "2024-01-02",
+     "testStart": "2024-01-02",
+     "testEnd": "2024-07-02"
+    },
+    {
+     "windowId": "W06",
+     "trainStart": "2022-07-02",
+     "trainEnd": "2024-07-02",
+     "testStart": "2024-07-02",
+     "testEnd": "2025-01-02"
+    },
+    {
+     "windowId": "W07",
+     "trainStart": "2023-01-02",
+     "trainEnd": "2025-01-02",
+     "testStart": "2025-01-02",
+     "testEnd": "2025-07-02"
+    },
+    {
+     "windowId": "W08",
+     "trainStart": "2023-07-02",
+     "trainEnd": "2025-07-02",
+     "testStart": "2025-07-02",
+     "testEnd": "2026-01-02"
+    }
+   ],
+   "planHash": "5c67ff0bea895a1296c6bd90f773771caed4159675c6897661d3054322a565c4"
+  }
+ ]
+}

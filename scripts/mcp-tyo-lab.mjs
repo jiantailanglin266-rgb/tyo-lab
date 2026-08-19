@@ -221,6 +221,64 @@ const TOOLS = [
     },
   },
   {
+    name: 'validation_status',
+    description:
+      'Read-only. OOS / walk-forward validation summary per strategy: status (PASSED/FAILED/INCONCLUSIVE/INVALID), provenance (PROSPECTIVE vs RETROSPECTIVE — retrospective never lights evidence), warnings. AI must never redefine train/test windows from results (Phase 14 §75); plans are human-approved and immutable.',
+    inputSchema: { type: 'object', properties: {}, additionalProperties: false },
+    async run() {
+      const r = await readJSON('tools/validation-results.json', { validations: [] });
+      if (!r.validations.length) return 'no validations recorded yet';
+      return r.validations
+        .map((v) => `${v.validationId} ${v.strategyId} [${v.type}/${v.provenance}] ${v.status}${v.warnings?.length ? ' warn:' + v.warnings.join(',') : ''}`)
+        .join('\n');
+    },
+  },
+  {
+    name: 'validation_results',
+    description: 'Read-only. Full public record of one validation (manifest, train/test metrics, ratios, checks, warnings).',
+    inputSchema: {
+      type: 'object',
+      properties: { validationId: { type: 'string', pattern: '^(VAL-OOS|WF)-\\d{6}$' } },
+      required: ['validationId'],
+      additionalProperties: false,
+    },
+    async run(args) {
+      const r = await readJSON('tools/validation-results.json', { validations: [] });
+      const v = r.validations.find((x) => x.validationId === args.validationId);
+      return v ? JSON.stringify(v, null, 1) : `no results for ${args.validationId}`;
+    },
+  },
+  {
+    name: 'wf_windows',
+    description: 'Read-only. All walk-forward windows (train/test periods and test metrics) for one WF validation — bad windows included, never filtered.',
+    inputSchema: {
+      type: 'object',
+      properties: { validationId: { type: 'string', pattern: '^WF-\\d{6}$' } },
+      required: ['validationId'],
+      additionalProperties: false,
+    },
+    async run(args) {
+      const r = await readJSON('tools/validation-results.json', { validations: [] });
+      const v = r.validations.find((x) => x.validationId === args.validationId && x.type === 'WF');
+      return v ? JSON.stringify(v.windows, null, 1) : `no WF results for ${args.validationId}`;
+    },
+  },
+  {
+    name: 'parameter_stability',
+    description: 'Read-only. Parameter-stability assessment for one WF validation (per-parameter mean/median/min/max/stdDev/CV, boundary hits, class).',
+    inputSchema: {
+      type: 'object',
+      properties: { validationId: { type: 'string', pattern: '^WF-\\d{6}$' } },
+      required: ['validationId'],
+      additionalProperties: false,
+    },
+    async run(args) {
+      const r = await readJSON('tools/validation-results.json', { validations: [] });
+      const v = r.validations.find((x) => x.validationId === args.validationId && x.type === 'WF');
+      return v ? JSON.stringify(v.stability, null, 1) : `no WF results for ${args.validationId}`;
+    },
+  },
+  {
     name: 'tyo_draft_experiment_proposal',
     description:
       'Write a DRAFT experiment proposal derived from a research candidate into tools/experiment-proposals.json. DRAFT only: this never creates or edits an experiment, and promotion requires a human to review the draft, set status APPROVED by hand, and author the experiment (which the Phase 10 human-review gate still guards). The analysis text must state signals, not assert causes.',

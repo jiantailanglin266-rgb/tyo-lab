@@ -51,8 +51,12 @@ export const EVIDENCE_POINTS = { backtest: 5, oos: 2, walkForward: 2, monteCarlo
 export function evidenceOf(model, experiments = []) {
   const stages = {
     backtest: !!(model.trades && model.backtest && model.backtest.totalTrades),
-    oos: false,
-    walkForward: false,
+    /* Phase 14: derived from validation results — PROSPECTIVE + PASSED +
+       qualified only. RETROSPECTIVE validations display but never light
+       (the strategy was developed with the period visible; see
+       docs/VALIDATION_EVIDENCE_RULES.md). */
+    oos: !!model.oosVal,
+    walkForward: !!model.wfVal,
     monteCarlo: !!model.mc,
     shadowForward: !!model.shadow,
     forward: !!model.forward,

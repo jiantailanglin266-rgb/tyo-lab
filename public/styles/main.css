@@ -4966,6 +4966,54 @@ table {
   font-size: 0.76rem;
 }
 
+/* ---- Validation (Phase 14) ---- */
+
+.vpanel {
+  display: grid;
+  gap: 18px;
+}
+
+.vcard {
+  border: 1px solid var(--line);
+  background: var(--bg-1);
+  padding: clamp(16px, 2.4vw, 24px);
+  display: grid;
+  gap: 12px;
+}
+
+.vcard__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.vcard .statgrid__title {
+  margin-top: 10px;
+}
+
+.vstatus--passed { color: var(--s-green); border-color: rgba(50, 215, 75, 0.35); }
+.vstatus--failed { color: var(--s-red); border-color: rgba(255, 59, 48, 0.35); }
+.vstatus--inconclusive { color: var(--s-yellow); border-color: rgba(255, 214, 10, 0.35); }
+.vstatus--invalid { color: var(--fg-3); }
+
+.badge.is-retro { color: var(--s-orange); border-color: rgba(255, 159, 10, 0.4); }
+
+.vchecks {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 5px;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+}
+
+.vchecks li i { font-style: normal; margin-right: 7px; }
+.vchecks li.is-ok i { color: var(--s-green); }
+.vchecks li.is-bad i { color: var(--s-red); }
+.vchecks__thr { color: var(--fg-3); }
+
 /* ---- Forward monitoring (Phase 12) ---- */
 
 .fwdpanel {

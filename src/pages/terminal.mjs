@@ -39,6 +39,20 @@ export default function Terminal({ locale, t, ea, experiments, candidates = [] }
   const degLabel = { NORMAL: F.stNormal, WATCH: F.stWatch, DEGRADED: F.stDegraded, SEVERE: F.stSevere, INSUFFICIENT_DATA: F.stInsufficient };
   const openCandidates = candidates.filter((c) => c.status === 'OPEN').length;
 
+  /* Validation summary (Phase 14 §64): derived from the same records the
+     validation sections render. Retrospective records count separately and
+     never as "qualified". */
+  const allVals = models.flatMap((m) => m.validations || []);
+  const valStats = allVals.length
+    ? [
+        [t.val.sumOOSq, models.filter((m) => m.oosVal).length],
+        [t.val.sumWFq, models.filter((m) => m.wfVal).length],
+        [t.val.sumValPassed, allVals.filter((v) => v.status === 'PASSED').length],
+        [t.val.sumValFailed, allVals.filter((v) => v.status === 'FAILED').length],
+        [t.val.sumRetro, allVals.filter((v) => v.provenance === 'RETROSPECTIVE').length],
+      ]
+    : [];
+
   const totalTrades = models.reduce((s, m) => s + (m.num.trades || 0), 0);
   const totalMonths = models.reduce((s, m) => s + (m.trades?.monthly?.length || 0), 0);
   /* Random resamplings per system: shuffle (sims) + missed 10%/20% (sims each).
@@ -125,6 +139,11 @@ export default function Terminal({ locale, t, ea, experiments, candidates = [] }
             <span class="emap__chip is-ok"><i aria-hidden="true">✓</i>${T.legendOk}</span>
             <span class="emap__chip is-pending"><i aria-hidden="true">·</i>${T.legendPending}</span>
           </div>
+          ${when(valStats.length, () => html`
+            <ul class="labstats labstats--inline" style="margin-top:18px">
+              ${valStats.map(([k, v]) => html`<li><span class="labstats__v">${v}</span><span class="labstats__k">${k}</span></li>`)}
+            </ul>
+          `)}
           <p class="fineline">${E.oosNote}</p>
         </div>
       </div>

@@ -86,6 +86,16 @@ await test('shadow_performance requires a strategy and reports absence', async (
   assert.match(r.result.content[0].text, /no shadow-forward data for joker|"trades"/);
 });
 
+await test('validation_status lists records with provenance (Phase 14)', async () => {
+  const r = await rpc('tools/call', { name: 'validation_status', arguments: {} });
+  assert.match(r.result.content[0].text, /no validations recorded yet|\[(OOS|WF)\/(PROSPECTIVE|RETROSPECTIVE)\]/);
+});
+
+await test('wf_windows returns windows or a clean absence message', async () => {
+  const r = await rpc('tools/call', { name: 'wf_windows', arguments: { validationId: 'WF-000001' } });
+  assert.match(r.result.content[0].text, /no WF results|windowId/);
+});
+
 await test('tyo_monitoring_status is read-only and honest about NO DATA', async () => {
   const r = await rpc('tools/call', { name: 'tyo_monitoring_status', arguments: {} });
   const text = r.result.content[0].text;
