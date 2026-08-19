@@ -7,6 +7,7 @@ import { BASE_PATH, SITE_URL, LOCALES, DEFAULT_LOCALE } from '../site.config.mjs
 export const ROUTES = {
   home: () => '/',
   ea: () => '/ea/',
+  eaCompare: () => '/ea/compare/',
   eaDetail: (slug) => `/ea/${slug}/`,
   history: () => '/history/',
   technology: () => '/technology/',

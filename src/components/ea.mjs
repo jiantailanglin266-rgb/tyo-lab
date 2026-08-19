@@ -51,8 +51,46 @@ export function EACard({ ea, locale, t, index = 0 }) {
     [t.ea.labels.releaseDate, ea.spec.releaseDate ? formatDate(ea.spec.releaseDate, locale) : null],
   ].filter(([, v]) => v);
 
+  /* Filter/sort/compare all read these attributes, so the toolbar never needs
+     a parallel copy of the dataset in JavaScript. */
+  const n = ea.num || {};
+  const facets = ea.spec.marketKey
+    ? {
+        'data-slug': ea.slug,
+        'data-market': ea.spec.marketKey,
+        'data-tags': (ea.spec.strategyTags || []).join(' '),
+        'data-risk': ea.spec.risk || '',
+        // Searchable text: name, symbol, market and strategy, so "gold" finds a
+        // XAUUSD system and "martingale" finds one by its strategy.
+        'data-name': [ea.name, ea.spec.symbol, ea.spec.market, ea.spec.marketKey, ea.spec.strategy, (ea.spec.strategyTags || []).join(' ')].filter(Boolean).join(' ').toLowerCase(),
+        'data-score': n.score ?? '',
+        'data-pf': n.profitFactor ?? '',
+        'data-dd': n.maxDrawdownPct ?? '',
+        'data-trades': n.trades ?? '',
+        'data-win': n.winRate ?? '',
+        'data-years': n.years ?? '',
+        'data-number': ea.number,
+      }
+    : {};
+
   return html`
-    <article class="eacard${raw((ea.media?.cover ?? ea.image) ? ' eacard--art' : '')}" data-reveal style="--d:${index % 3}">
+    <article
+      class="eacard${raw((ea.media?.cover ?? ea.image) ? ' eacard--art' : '')}"
+      data-reveal
+      style="--d:${index % 3}"
+      ${raw(
+        Object.entries(facets)
+          .map(([k, v]) => `${k}="${String(v).replace(/"/g, '&quot;')}"`)
+          .join(' ')
+      )}
+    >
+      ${when(
+        ea.num,
+        () => html`<label class="eacard__pick">
+          <input type="checkbox" data-compare-pick value="${ea.slug}" />
+          <span>${t.ea.compare.select}</span>
+        </label>`
+      )}
       <a class="eacard__link" href="${href}" aria-label="${ea.name}">
         ${when(
           (ea.media?.cover ?? ea.image),
@@ -67,7 +105,16 @@ export function EACard({ ea, locale, t, index = 0 }) {
             ${badges(ea, t).map((b) => html`<span class="badge ${raw(b.cls)}">${b.label}</span>`)}
           </div>
         </div>
-        <h3 class="eacard__name">${ea.name}</h3>
+        <div class="eacard__title">
+          <h3 class="eacard__name">${ea.name}</h3>
+          ${when(
+            ea.score,
+            () => html`<span class="eacard__score score--${raw(ea.score.band)}" title="${t.ea.score.title}">
+              <span class="eacard__score-v">${ea.score.total === null ? '—' : ea.score.total}</span>
+              <span class="eacard__score-k">${t.ea.score.title}</span>
+            </span>`
+          )}
+        </div>
         ${when(c.tagline, () => html`<p class="eacard__tagline">${c.tagline}</p>`)}
         <dl class="eacard__specs">
           ${rows.map(

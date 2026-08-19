@@ -212,8 +212,12 @@ export function DrawdownAnalysis({ model, t }) {
   const L = t.ea.drawdown;
   if (!d && !has(b.maxDrawdown)) return '';
 
+  /* The basis lives on `conditions`, not on the backtest root — reading it
+     from the wrong level silently dropped the label and, worse, suppressed
+     the balance-basis caveat below. */
+  const basis = b.conditions?.drawdownBasis || null;
   const rows = [
-    [L.reported, b.maxDrawdown, b.drawdownBasis ? t.ea.metrics[`ddBasis_${b.drawdownBasis}`] : null],
+    [L.reported, b.maxDrawdown, basis ? t.ea.metrics[`ddBasis_${basis}`] : null],
     [L.closedBasis, has(d?.maxPct) ? `${d.maxPct}%` : null, null],
     [L.worstWindow, d?.worstFrom && d?.worstTo ? `${d.worstFrom} → ${d.worstTo}` : null, null],
     [L.recovered, d?.recovered || null, has(d?.recoveryDays) ? L.days.replace('{n}', d.recoveryDays) : null],
@@ -231,10 +235,7 @@ export function DrawdownAnalysis({ model, t }) {
         </div>`
       )}
     </dl>
-    ${when(
-      model.backtest.drawdownBasis === 'balance',
-      () => html`<p class="warn warn--sm">${L.balanceCaveat}</p>`
-    )}
+    ${when(basis === 'balance', () => html`<p class="warn warn--sm">${L.balanceCaveat}</p>`)}
   `;
 }
 

@@ -35,6 +35,7 @@ import { STAGES, MILESTONES } from './src/data/history.mjs';
 import Home from './src/pages/home.mjs';
 import EAIndex from './src/pages/ea-index.mjs';
 import EADetail from './src/pages/ea-detail.mjs';
+import EACompare from './src/pages/ea-compare.mjs';
 import History from './src/pages/history.mjs';
 import Technology from './src/pages/technology.mjs';
 import LabIndex from './src/pages/lab-index.mjs';
@@ -306,6 +307,25 @@ for (const loc of LOCALES) {
     })
   );
 
+  /* ---- EA compare ---- */
+  await emit(
+    outPath(locale, ROUTES.eaCompare()),
+    Document({
+      ...ctx,
+      path: ROUTES.eaCompare(),
+      title: `${t.ea.compare.title} — ${t.nav.ea} | ${BRAND.name}`,
+      description: t.ea.compare.lead,
+      jsonLd: [
+        breadcrumb(locale, [
+          { name: t.nav.home, path: ROUTES.home() },
+          { name: t.nav.ea, path: ROUTES.ea() },
+          { name: t.ea.compare.title, path: ROUTES.eaCompare() },
+        ]),
+      ],
+      children: EACompare({ ...ctx, ea }),
+    })
+  );
+
   /* ---- EA detail ---- */
   for (let i = 0; i < ea.length; i++) {
     const e = ea[i];
@@ -464,6 +484,7 @@ for (const loc of LOCALES) {
 
 registerSitemap(ROUTES.home(), '1.0', 'weekly');
 registerSitemap(ROUTES.ea(), '0.9', 'weekly');
+registerSitemap(ROUTES.eaCompare(), '0.8', 'monthly');
 for (const e of ea) registerSitemap(ROUTES.eaDetail(e.slug), '0.8', 'monthly');
 registerSitemap(ROUTES.history(), '0.7', 'monthly');
 registerSitemap(ROUTES.technology(), '0.7', 'monthly');

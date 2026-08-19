@@ -12,6 +12,9 @@
    07 quantum field   (wave-interference background)
    08 world map
    09 youtube facade
+   10 EA browse (filter / sort / search)
+   11 EA compare selection
+   12 Compare table narrowing
    ========================================================================== */
 
 (function () {
@@ -776,5 +779,287 @@
         box.appendChild(iframe);
       });
     });
+  })();
+
+  /* 10 ─ EA browse: filter / sort / search ──────────────────────────── */
+  /* Operates on the cards already in the document. Nothing is fetched and
+     nothing is re-rendered — filtering toggles `hidden`, sorting reorders the
+     existing nodes. That keeps the full catalogue in the HTML for crawlers and
+     for anyone with scripting off, where the toolbar simply stays hidden.   */
+
+  (function eaBrowse() {
+    var root = $('[data-browse]');
+    var grid = $('[data-ea-grid]');
+    if (!root || !grid) return;
+
+    root.hidden = false; // only usable with JS, so it ships hidden
+
+    var cards = $$('.eacard', grid);
+    var search = $('[data-browse-search]', root);
+    var sort = $('[data-browse-sort]', root);
+    var reset = $('[data-browse-reset]', root);
+    var count = $('[data-browse-count]', root);
+    var none = $('[data-browse-none]', root);
+    var countTpl = count ? count.dataset.tpl || count.textContent.trim() : '';
+
+    var state = { market: '', tag: '', risk: '', q: '', sort: 'score' };
+
+    /* Original order, so "catalogue order" can always be restored. */
+    cards.forEach(function (c, i) {
+      c.dataset.order = String(i);
+    });
+
+    var numOf = function (c, key) {
+      var v = c.dataset[key];
+      if (v === undefined || v === '') return null;
+      var n = Number(v);
+      return isFinite(n) ? n : null;
+    };
+
+    var SORTS = {
+      score: { key: 'score', dir: -1 },
+      pf: { key: 'pf', dir: -1 },
+      dd: { key: 'dd', dir: 1 },
+      trades: { key: 'trades', dir: -1 },
+      win: { key: 'win', dir: -1 },
+      years: { key: 'years', dir: -1 },
+      number: { key: 'number', dir: 1 },
+    };
+
+    function matches(card) {
+      if (state.market && card.dataset.market !== state.market) return false;
+      if (state.tag && (' ' + (card.dataset.tags || '') + ' ').indexOf(' ' + state.tag + ' ') < 0) return false;
+      if (state.risk && card.dataset.risk !== state.risk) return false;
+      if (state.q && (card.dataset.name || '').indexOf(state.q) < 0) return false;
+      return true;
+    }
+
+    function apply() {
+      var shown = 0;
+      cards.forEach(function (c) {
+        var ok = matches(c);
+        c.hidden = !ok;
+        if (ok) shown++;
+      });
+
+      var s = SORTS[state.sort] || SORTS.score;
+      var ordered = cards.slice().sort(function (a, b) {
+        var av = numOf(a, s.key);
+        var bv = numOf(b, s.key);
+        // Cards with no value for the active metric sink, whichever way the
+        // sort runs — an unknown is not a good result.
+        if (av === null && bv === null) return Number(a.dataset.order) - Number(b.dataset.order);
+        if (av === null) return 1;
+        if (bv === null) return -1;
+        if (av === bv) return Number(a.dataset.order) - Number(b.dataset.order);
+        return (av - bv) * s.dir;
+      });
+      ordered.forEach(function (c) {
+        grid.appendChild(c);
+      });
+
+      if (count) count.textContent = countTpl.replace('{n}', shown).replace('{total}', cards.length);
+      if (none) none.hidden = shown !== 0;
+    }
+
+    $$('.chip', root).forEach(function (chip) {
+      on(chip, 'click', function () {
+        var facet = chip.dataset.facet;
+        state[facet] = chip.dataset.value;
+        $$('.chip[data-facet="' + facet + '"]', root).forEach(function (o) {
+          o.classList.toggle('is-on', o === chip);
+        });
+        apply();
+      });
+    });
+
+    if (search) {
+      var st;
+      on(search, 'input', function () {
+        clearTimeout(st);
+        st = setTimeout(function () {
+          state.q = search.value.trim().toLowerCase();
+          apply();
+        }, 120);
+      });
+    }
+
+    if (sort) {
+      on(sort, 'change', function () {
+        state.sort = sort.value;
+        apply();
+      });
+    }
+
+    if (reset) {
+      on(reset, 'click', function () {
+        state = { market: '', tag: '', risk: '', q: '', sort: 'score' };
+        if (search) search.value = '';
+        if (sort) sort.value = 'score';
+        $$('.chip', root).forEach(function (o) {
+          o.classList.toggle('is-on', o.dataset.value === '');
+        });
+        apply();
+      });
+    }
+
+    apply();
+  })();
+
+  /* 11 ─ EA compare selection ──────────────────────────────────────── */
+
+  (function eaCompare() {
+    var MAX = 4;
+    var tray = $('[data-compare-tray]');
+    var picks = $$('[data-compare-pick]');
+    if (!tray || !picks.length) return;
+
+    var items = $('[data-compare-items]', tray);
+    var counter = $('[data-compare-count]', tray);
+    var go = $('[data-compare-go]', tray);
+    var clear = $('[data-compare-clear]', tray);
+    var base = go ? go.getAttribute('href') : '';
+    var chosen = [];
+
+    function nameOf(slug) {
+      var el = $('.eacard[data-slug="' + slug + '"] .eacard__name');
+      return el ? el.textContent.trim() : slug;
+    }
+
+    function render() {
+      tray.hidden = chosen.length === 0;
+      if (counter) counter.textContent = String(chosen.length);
+      if (go) go.href = base + (chosen.length ? '?ea=' + chosen.join(',') : '');
+      if (!items) return;
+      items.innerHTML = '';
+      chosen.forEach(function (slug) {
+        var li = document.createElement('li');
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.textContent = nameOf(slug);
+        b.setAttribute('aria-label', nameOf(slug));
+        on(b, 'click', function () {
+          var box = $('[data-compare-pick][value="' + slug + '"]');
+          if (box) box.checked = false;
+          chosen = chosen.filter(function (s) {
+            return s !== slug;
+          });
+          syncDisabled();
+          render();
+        });
+        li.appendChild(b);
+        items.appendChild(li);
+      });
+    }
+
+    /* At the cap, unchecked boxes are disabled rather than silently ignoring
+       the click. */
+    function syncDisabled() {
+      var full = chosen.length >= MAX;
+      picks.forEach(function (p) {
+        p.disabled = full && !p.checked;
+        var label = p.closest('.eacard__pick');
+        if (label) label.classList.toggle('is-disabled', p.disabled);
+      });
+    }
+
+    picks.forEach(function (p) {
+      on(p, 'change', function () {
+        if (p.checked) {
+          if (chosen.length >= MAX) {
+            p.checked = false;
+            return;
+          }
+          chosen.push(p.value);
+        } else {
+          chosen = chosen.filter(function (s) {
+            return s !== p.value;
+          });
+        }
+        syncDisabled();
+        render();
+      });
+    });
+
+    if (clear) {
+      on(clear, 'click', function () {
+        chosen = [];
+        picks.forEach(function (p) {
+          p.checked = false;
+        });
+        syncDisabled();
+        render();
+      });
+    }
+
+    render();
+  })();
+
+  /* 12 ─ Compare table: narrow to ?ea=… ────────────────────────────── */
+
+  (function compareFilter() {
+    var table = $('[data-compare-table]');
+    if (!table) return;
+
+    var status = $('[data-compare-status]');
+    var wanted = (new URLSearchParams(location.search).get('ea') || '')
+      .split(',')
+      .map(function (s) {
+        return s.trim();
+      })
+      .filter(Boolean);
+
+    if (!wanted.length) return;
+
+    var present = wanted.filter(function (slug) {
+      return !!table.querySelector('[data-slug="' + slug + '"]');
+    });
+    if (!present.length) return;
+
+    $$('[data-slug]', table).forEach(function (cell) {
+      cell.hidden = present.indexOf(cell.dataset.slug) < 0;
+    });
+
+    /* Recompute "best in row" over what is actually on screen. The
+       server-rendered highlight ranks all 14, so after narrowing to three the
+       winning cell is often one of the hidden ones and no mark shows at all. */
+    $$('tbody tr', table).forEach(function (tr) {
+      var dir = tr.dataset.dir;
+      var cells = $$('td', tr).filter(function (td) {
+        return !td.hidden;
+      });
+      cells.forEach(function (td) {
+        td.classList.remove('is-best');
+        td.removeAttribute('title');
+      });
+      if (!dir) return;
+      var vals = cells
+        .map(function (td) {
+          var v = td.dataset.v;
+          return v === '' || v === undefined ? null : Number(v);
+        })
+        .filter(function (v) {
+          return v !== null && isFinite(v);
+        });
+      if (vals.length < 2) return;
+      var target = dir === 'high' ? Math.max.apply(null, vals) : Math.min.apply(null, vals);
+      cells.forEach(function (td) {
+        if (td.dataset.v !== '' && Number(td.dataset.v) === target) td.classList.add('is-best');
+      });
+    });
+
+    if (status) {
+      status.hidden = false;
+      var tpl = status.dataset.tpl || status.textContent || '';
+      status.textContent = '';
+      var span = document.createElement('span');
+      span.textContent = (tpl || '{n}').replace('{n}', String(present.length));
+      var a = document.createElement('a');
+      a.href = location.pathname;
+      a.className = 'cmp__showall';
+      a.textContent = status.dataset.all || '';
+      status.appendChild(span);
+      status.appendChild(a);
+    }
   })();
 })();
