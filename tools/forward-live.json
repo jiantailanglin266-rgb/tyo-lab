@@ -1,0 +1,5 @@
+{
+  "_readme": "Forward/live records. Fill ONLY with verifiable data — see docs/FORWARD_LIVE_DATA_MODEL.md for the record shape and validity rules. A missing or half-filled record renders the honest empty state and leaves the evidence stage pending.",
+  "updatedAt": null,
+  "systems": {}
+}

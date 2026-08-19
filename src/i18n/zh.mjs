@@ -853,6 +853,21 @@ export default {
     costPerTrade: '每笔成本',
     honesty: '所有模拟都是在既定规则下对同一历史记录的重采样。这些数字都不是预测。',
   },
+  fl: {
+    tabsLabel: '业绩记录类型',
+    tabBacktest: '回测',
+    tabForward: '前向测试',
+    tabLive: '实盘',
+    noForward: '暂无前向测试数据。',
+    noLive: '暂无实盘数据。',
+    why: '本站只展示以可验证数据形式存在的记录，绝不以估算或模拟代替。',
+    when: '一旦有可验证的记录（公开信号页或投资者只读账户对账单），它将显示在这里，并提高证据质量得分。',
+    source: '来源',
+    verifiedBy: '验证方式',
+    period: '期间',
+    monthly: '月度收益',
+    netGain: '净收益',
+  },
   lab: {
     dash: {
       eyebrow: '研究概览',

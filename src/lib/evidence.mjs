@@ -14,7 +14,10 @@
  *   monteCarlo ✓ when pre-generated simulation results for the system exist
  *              in tools/montecarlo.json (Phase 8: 1,000 seeded resamplings of
  *              the real deal list — shuffle, missed-trade, cost stress).
- *   walkForward / forward / live
+ *   forward /  ✓ when a VALID record exists in tools/forward-live.json
+ *   live       (Phase 9: named source + stated period + at least one number;
+ *              anything less is treated as absent — see lib/forward-live.mjs).
+ *   walkForward
  *              PENDING until such results exist as data in this repo.
  *
  * Scoring (docs/TYO_SCORE_V2_MODEL.md):
@@ -38,8 +41,8 @@ export function evidenceOf(model, experiments = []) {
     oos: false,
     walkForward: false,
     monteCarlo: !!model.mc,
-    forward: false,
-    live: false,
+    forward: !!model.forward,
+    live: !!model.live,
   };
 
   const points = EVIDENCE_STAGES.reduce((sum, s) => sum + (stages[s] ? EVIDENCE_POINTS[s] : 0), 0);

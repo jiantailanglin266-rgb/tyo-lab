@@ -8,6 +8,7 @@ import { EASpecs, EAParameters, EAVersions, EATimeline, EAEnvironment } from '..
 import {
   ScoreCard,
   MonteCarloPanel,
+  TrackRecordTabs,
   PerformanceSnapshot,
   EquityCurve,
   DrawdownAnalysis,
@@ -76,7 +77,12 @@ export default function EADetail({ locale, t, ea: model, next, stages }) {
       n: '03',
       id: 'performance',
       title: S.performance,
-      body: PerformanceSnapshot({ model, t }),
+      // Backtest / Forward / Live tabs. Forward and live show validated
+      // records only; with none, an explicit "no data" state — never a number.
+      body:
+        String(PerformanceSnapshot({ model, t })).trim() || model.forward || model.live
+          ? TrackRecordTabs({ model, t })
+          : null,
     },
     { n: '04', id: 'equity', title: S.equity, body: EquityCurve({ model, t }) },
     { n: '05', id: 'drawdown', title: S.drawdown, body: DrawdownAnalysis({ model, t }) },

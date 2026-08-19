@@ -865,6 +865,21 @@ export default {
     costPerTrade: 'Chi phí mỗi lệnh',
     honesty: 'Mọi mô phỏng đều lấy mẫu lại cùng một bản ghi lịch sử theo các quy tắc đã nêu. Không con số nào ở đây là dự báo.',
   },
+  fl: {
+    tabsLabel: 'Loại thành tích',
+    tabBacktest: 'Backtest',
+    tabForward: 'Forward',
+    tabLive: 'Tài khoản thật',
+    noForward: 'Chưa có dữ liệu forward.',
+    noLive: 'Chưa có dữ liệu tài khoản thật.',
+    why: 'Trang này chỉ hiển thị các bản ghi tồn tại dưới dạng dữ liệu kiểm chứng được. Không có ước tính hay mô phỏng nào thay thế.',
+    when: 'Khi có bản ghi kiểm chứng được — trang tín hiệu công khai hoặc sao kê investor access — nó sẽ hiện ở đây và nâng điểm Chất lượng bằng chứng.',
+    source: 'Nguồn',
+    verifiedBy: 'Xác minh',
+    period: 'Giai đoạn',
+    monthly: 'Lợi nhuận tháng',
+    netGain: 'Lãi ròng',
+  },
   lab: {
     dash: {
       eyebrow: 'Toàn cảnh nghiên cứu',

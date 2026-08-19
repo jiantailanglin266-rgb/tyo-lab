@@ -866,6 +866,21 @@ export default {
     costPerTrade: 'Biaya per transaksi',
     honesty: 'Setiap simulasi menyampel ulang rekaman historis yang sama di bawah aturan yang dinyatakan. Tak satu pun angka ini merupakan ramalan.',
   },
+  fl: {
+    tabsLabel: 'Jenis rekam jejak',
+    tabBacktest: 'Backtest',
+    tabForward: 'Forward',
+    tabLive: 'Live',
+    noForward: 'Belum ada data forward.',
+    noLive: 'Belum ada data live.',
+    why: 'Situs ini hanya menampilkan rekaman yang ada sebagai data terverifikasi. Tidak ada estimasi atau simulasi sebagai pengganti.',
+    when: 'Begitu rekaman terverifikasi tersedia — halaman sinyal publik atau laporan investor access — ia tampil di sini dan menaikkan skor Kualitas Bukti.',
+    source: 'Sumber',
+    verifiedBy: 'Verifikasi',
+    period: 'Periode',
+    monthly: 'Imbal hasil bulanan',
+    netGain: 'Perolehan bersih',
+  },
   lab: {
     dash: {
       eyebrow: 'Sekilas riset',

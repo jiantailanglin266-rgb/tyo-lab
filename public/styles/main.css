@@ -4966,6 +4966,36 @@ table {
   font-size: 0.76rem;
 }
 
+/* ---- Track-record tabs (Backtest / Forward / Live) ---- */
+
+.switch--track .switch__panel {
+  margin-top: 20px;
+}
+
+.flempty {
+  border: 1px dashed var(--line-2);
+  padding: clamp(20px, 3vw, 32px);
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+}
+
+.flempty__head {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.02rem;
+  color: var(--fg-1);
+}
+
+.flempty__why {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--fg-2);
+  max-width: 58ch;
+}
+
 /* ---- Monte Carlo panel ---- */
 
 .mcpanel .statgrid__title {

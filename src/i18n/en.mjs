@@ -915,6 +915,21 @@ export default {
     costPerTrade: 'Cost per trade',
     honesty: 'Every simulation resamples the same historical record under stated rules. None of these numbers is a forecast.',
   },
+  fl: {
+    tabsLabel: 'Track record type',
+    tabBacktest: 'Backtest',
+    tabForward: 'Forward',
+    tabLive: 'Live',
+    noForward: 'No forward data available.',
+    noLive: 'No live data available.',
+    why: 'This site shows only records that exist as verifiable data. Nothing is estimated or simulated in their place.',
+    when: 'When a verifiable record lands — a public signal page or an investor-access statement — it appears here and raises the Evidence Quality score.',
+    source: 'Source',
+    verifiedBy: 'Verification',
+    period: 'Period',
+    monthly: 'Monthly returns',
+    netGain: 'Net gain',
+  },
   lab: {
     dash: {
       eyebrow: 'Research at a glance',

@@ -27,6 +27,7 @@ import { localePath, outPath, absolute, asset, ROUTES } from './src/lib/url.mjs'
 import { buildMask } from './src/lib/worldmap.mjs';
 import { buildEAModels } from './src/lib/ea-model.mjs';
 import { evidenceOf, scoreV2 } from './src/lib/evidence.mjs';
+import { normalizeForwardLive } from './src/lib/forward-live.mjs';
 import { Document } from './src/components/layout.mjs';
 
 import { publishedEA, EA } from './src/data/ea.mjs';
@@ -212,9 +213,25 @@ try {
   warnings.push('No tools/montecarlo.json — run `node tools/run-montecarlo.mjs <folder>` to add Monte Carlo stress results.');
 }
 
+/* Forward/live records (Phase 9): only entries that pass validation attach;
+   everything else renders the honest empty state. */
+let flData = {};
+try {
+  flData = normalizeForwardLive(JSON.parse(await readFile(join(ROOT, 'tools', 'forward-live.json'), 'utf8')));
+} catch {
+  warnings.push('No tools/forward-live.json — forward/live tabs show their empty states.');
+}
+
 const ea = eaBase.map((m) => {
   const mc = mcData?.systems?.[m.slug] || null;
-  const withMc = { ...m, mc, mcMeta: mc ? { seed: mcData.seed, sims: mcData.sims } : null };
+  const fl = flData[m.slug] || {};
+  const withMc = {
+    ...m,
+    mc,
+    mcMeta: mc ? { seed: mcData.seed, sims: mcData.sims } : null,
+    forward: fl.forward || null,
+    live: fl.live || null,
+  };
   const evidence = evidenceOf(withMc, experiments);
   const v2 = scoreV2(withMc, evidence);
   return Object.freeze({ ...withMc, evidence, score: v2, num: Object.freeze({ ...m.num, score: v2.total }) });
