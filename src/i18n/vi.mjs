@@ -16,6 +16,7 @@ export default {
     ea: 'Expert Advisor',
     history: 'Lịch sử phát triển',
     technology: 'Công nghệ',
+    aiLab: 'AI Lab',
     lab: 'Backtest Lab',
     about: 'Về TYO',
     contact: 'Liên hệ',
@@ -473,6 +474,163 @@ export default {
     ],
   },
 
+  aiLab: {
+    seoTitle: 'Phòng nghiên cứu AI — AI × MetaTrader 5 × MCP | TYO',
+    seoDesc: 'TYO dùng AI trong nghiên cứu EA thế nào: hỗ trợ phát triển, phân tích backtest quy mô lớn, và thí nghiệm Model Context Protocol nối agent AI với MetaTrader 5. Trạng thái phân biệt thứ đang chạy hôm nay với thứ đang khám phá.',
+    hero: {
+      eyebrow: 'TYO AI Research Lab',
+      h1: 'AI × MT5 × MCP',
+      lead: 'Nghiên cứu có AI hỗ trợ cho thế hệ giao dịch thuật toán tiếp theo. Trang này mô tả cách TYO thực sự dùng AI và điều gì còn đang khám phá — mỗi mục có trạng thái, và không có tuyên bố nào rằng AI dự đoán thị trường hay bảo đảm kết quả.',
+    },
+    statusLegend: 'Chú giải trạng thái',
+    statusLegendLead: 'Mỗi công nghệ trên trang được đánh dấu đúng giai đoạn thực tế. "Đang chạy" là dùng hằng ngày tại TYO hôm nay; phần còn lại là nghiên cứu đang tiến hành và được ghi rõ như vậy.',
+    arch: {
+      title: 'Kiến trúc nghiên cứu AI',
+      lead: 'Dòng thông tin khi AI tham gia vòng lặp nghiên cứu. Lớp AI đọc và phân tích; quyết định giao dịch vẫn nằm trong logic tường minh, kiểm chứng được của từng EA.',
+      steps: [
+        {
+          k: 'MetaTrader 5',
+          v: 'Dữ liệu thị trường, thực thi, Strategy Tester',
+        },
+        {
+          k: 'MCP',
+          v: 'Model Context Protocol — giao diện chuẩn giữa agent AI và công cụ',
+        },
+        {
+          k: 'TYO AI Research Layer',
+          v: 'Nơi mô hình đọc báo cáo, mã nguồn và dữ liệu',
+        },
+        {
+          k: 'Phân tích thị trường',
+          v: 'Cấu trúc, phiên, trạng thái biến động',
+        },
+        {
+          k: 'Phân tích EA',
+          v: 'Đọc mã chiến lược và bản ghi giao dịch',
+        },
+        {
+          k: 'Backtest',
+          v: 'Chạy cấp tick trong Strategy Tester',
+        },
+        {
+          k: 'Phân tích rủi ro',
+          v: 'Sụt giảm, chuỗi thua, phơi nhiễm, chồng lệnh',
+        },
+        {
+          k: 'Chiến lược ứng viên',
+          v: 'Một giả thuyết đáng kiểm thử — không bao giờ là lời hứa',
+        },
+      ],
+    },
+    loop: {
+      title: 'Vòng lặp phát triển với AI',
+      lead: 'Chu trình một ý tưởng chiến lược đi qua. AI rút ngắn quãng đường từ ý tưởng đến bằng chứng; trọng tài vẫn là Strategy Tester, và phần lớn ứng viên thất bại.',
+      steps: [
+        {
+          k: 'Ý tưởng chiến lược',
+          v: 'Quan sát thị trường viết thành quy tắc',
+        },
+        {
+          k: 'EA',
+          v: 'Triển khai bằng MQL5',
+        },
+        {
+          k: 'Biên dịch',
+          v: 'Build tất định',
+        },
+        {
+          k: 'Backtest',
+          v: 'Kiểm thử cấp tick trong MetaTrader 5',
+        },
+        {
+          k: 'Phân tích AI',
+          v: 'Đọc toàn bộ báo cáo và danh sách lệnh',
+        },
+        {
+          k: 'Giả thuyết cải tiến',
+          v: 'Thất bại gợi ý thay đổi gì',
+        },
+        {
+          k: 'EA ứng viên',
+          v: 'Phiên bản kế tiếp',
+        },
+        {
+          k: 'Kiểm chứng',
+          v: 'Kiểm tra ngoài mẫu trước khi phát hành',
+        },
+      ],
+    },
+    roles: {
+      title: 'AI thực sự làm gì ở đây',
+      lead: 'Tại TYO, AI là bộ tăng tốc nghiên cứu — không phải nguồn tín hiệu, không phải công cụ dự báo, không bảo đảm điều gì.',
+      items: [
+        {
+          k: 'Nghiên cứu',
+          v: 'Đọc cấu trúc thị trường, tài liệu và các kiểm thử trước',
+          status: 'live',
+        },
+        {
+          k: 'Hỗ trợ phát triển',
+          v: 'Soạn và tái cấu trúc MQL5, dựng ma trận kiểm thử',
+          status: 'live',
+        },
+        {
+          k: 'Phân tích backtest',
+          v: 'Phân tích trọn báo cáo tester — từng lệnh, không chỉ phần tóm tắt. Phân tích trên trang này được tạo theo cách đó',
+          status: 'live',
+        },
+        {
+          k: 'So sánh EA',
+          v: 'Chỉ số liên hệ thống, xếp hạng và định vị rủi ro',
+          status: 'live',
+        },
+        {
+          k: 'Phân tích trạng thái thị trường',
+          v: 'Phân loại điều kiện để kiểm thử chiến lược',
+          status: 'research',
+        },
+        {
+          k: 'Nghiên cứu tham số',
+          v: 'Khảo sát không gian đầu vào một cách hệ thống thay vì thủ công',
+          status: 'research',
+        },
+      ],
+    },
+    mcp: {
+      title: 'MCP × MetaTrader 5',
+      lead: 'Model Context Protocol là chuẩn mở cho phép agent AI nói chuyện với công cụ qua giao diện được định nghĩa. TYO đang khám phá xem cây cầu kỷ luật giữa agent AI và MetaTrader 5 mở ra gì cho nghiên cứu.',
+      diagram: ['Agent AI', 'Model Context Protocol', 'MetaTrader 5'],
+      diagramNote: 'Yêu cầu đi xuống, kết quả có cấu trúc trả ngược lên. Agent đọc và phân tích; nó không đặt lệnh.',
+      items: [
+        {
+          k: 'Đọc báo cáo qua MCP',
+          v: 'Cung cấp báo cáo tester và bản ghi giao dịch cho agent AI dưới dạng dữ liệu có cấu trúc',
+          status: 'experimental',
+        },
+        {
+          k: 'Điều phối backtest',
+          v: 'Agent xếp hàng chạy Strategy Tester và thu kết quả',
+          status: 'research',
+        },
+        {
+          k: 'Telemetry tài khoản thật',
+          v: 'Trạng thái tài khoản chỉ đọc cho nghiên cứu giám sát',
+          status: 'research',
+        },
+        {
+          k: 'AI Portfolio Manager',
+          v: 'Kết hợp hệ thống theo bằng chứng — xem hướng Portfolio Lab',
+          status: 'research',
+        },
+      ],
+      honesty: 'Không nội dung nào trên trang này là sản phẩm. Các mục Research hoặc Experimental có thể thay đổi hoặc bị bỏ, và không năng lực AI nào ở đây dự đoán giá hay bảo đảm kết quả.',
+    },
+    cta: {
+      ea: 'Xem EA của chúng tôi',
+      lab: 'Backtest Lab',
+      tech: 'Công nghệ',
+    },
+  },
   lab: {
     dash: {
       eyebrow: 'Toàn cảnh nghiên cứu',

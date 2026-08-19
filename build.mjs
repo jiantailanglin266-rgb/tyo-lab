@@ -38,6 +38,7 @@ import EADetail from './src/pages/ea-detail.mjs';
 import EACompare from './src/pages/ea-compare.mjs';
 import History from './src/pages/history.mjs';
 import Technology from './src/pages/technology.mjs';
+import AILab from './src/pages/ai-lab.mjs';
 import LabIndex from './src/pages/lab-index.mjs';
 import LabArticle from './src/pages/lab-article.mjs';
 import About from './src/pages/about.mjs';
@@ -392,6 +393,24 @@ for (const loc of LOCALES) {
     })
   );
 
+  /* ---- AI lab ---- */
+  await emit(
+    outPath(locale, ROUTES.aiLab()),
+    Document({
+      ...ctx,
+      path: ROUTES.aiLab(),
+      title: t.aiLab.seoTitle,
+      description: t.aiLab.seoDesc,
+      jsonLd: [
+        breadcrumb(locale, [
+          { name: t.nav.home, path: ROUTES.home() },
+          { name: t.nav.aiLab, path: ROUTES.aiLab() },
+        ]),
+      ],
+      children: AILab({ ...ctx }),
+    })
+  );
+
   /* ---- lab ---- */
   if (FEATURES.labSection) {
     await emit(
@@ -488,6 +507,7 @@ registerSitemap(ROUTES.eaCompare(), '0.8', 'monthly');
 for (const e of ea) registerSitemap(ROUTES.eaDetail(e.slug), '0.8', 'monthly');
 registerSitemap(ROUTES.history(), '0.7', 'monthly');
 registerSitemap(ROUTES.technology(), '0.7', 'monthly');
+registerSitemap(ROUTES.aiLab(), '0.7', 'monthly');
 if (FEATURES.labSection) {
   registerSitemap(ROUTES.lab(), '0.7', 'weekly');
   for (const a of articles) registerSitemap(ROUTES.labArticle(a.slug), '0.6', 'monthly');

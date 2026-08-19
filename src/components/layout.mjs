@@ -53,9 +53,10 @@ function navItems(locale, t) {
     { href: localePath(locale, ROUTES.ea()), label: t.nav.ea, n: '02' },
     { href: localePath(locale, ROUTES.history()), label: t.nav.history, n: '03' },
     { href: localePath(locale, ROUTES.technology()), label: t.nav.technology, n: '04' },
-    ...(FEATURES.labSection ? [{ href: localePath(locale, ROUTES.lab()), label: t.nav.lab, n: '05' }] : []),
-    { href: localePath(locale, ROUTES.about()), label: t.nav.about, n: '06' },
-    { href: localePath(locale, ROUTES.contact()), label: t.nav.contact, n: '07' },
+    { href: localePath(locale, ROUTES.aiLab()), label: t.nav.aiLab, n: '05' },
+    ...(FEATURES.labSection ? [{ href: localePath(locale, ROUTES.lab()), label: t.nav.lab, n: '06' }] : []),
+    { href: localePath(locale, ROUTES.about()), label: t.nav.about, n: '07' },
+    { href: localePath(locale, ROUTES.contact()), label: t.nav.contact, n: '08' },
   ];
 }
 

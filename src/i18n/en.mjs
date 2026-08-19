@@ -22,6 +22,7 @@ export default {
     ea: 'Expert Advisors',
     history: 'Development History',
     technology: 'Technology',
+    aiLab: 'AI Lab',
     lab: 'Backtest Lab',
     about: 'About TYO',
     contact: 'Contact',
@@ -523,6 +524,163 @@ export default {
     ],
   },
 
+  aiLab: {
+    seoTitle: 'AI Research Lab — AI × MetaTrader 5 × MCP | TYO',
+    seoDesc: 'How TYO uses AI in EA research: development assistance, backtest analysis at scale, and Model Context Protocol experiments connecting AI agents to MetaTrader 5. Statuses distinguish what runs today from what is being explored.',
+    hero: {
+      eyebrow: 'TYO AI Research Lab',
+      h1: 'AI × MT5 × MCP',
+      lead: 'AI-assisted research for the next generation of algorithmic trading. This page describes how AI is actually used at TYO and what is still being explored — each item carries a status, and nothing here claims that AI predicts markets or guarantees results.',
+    },
+    statusLegend: 'Status legend',
+    statusLegendLead: 'Every technology on this page is marked with where it actually stands. "Live" means in daily use at TYO today; everything else is research in progress and is labelled as such.',
+    arch: {
+      title: 'AI research architecture',
+      lead: 'How information flows when AI joins the research loop. The AI layer reads and analyses; trading decisions remain in the explicit, auditable logic of each EA.',
+      steps: [
+        {
+          k: 'MetaTrader 5',
+          v: 'Market data, execution, Strategy Tester',
+        },
+        {
+          k: 'MCP',
+          v: 'Model Context Protocol — a standard interface between AI agents and tools',
+        },
+        {
+          k: 'TYO AI Research Layer',
+          v: 'Where models read reports, code and data',
+        },
+        {
+          k: 'Market Analysis',
+          v: 'Structure, sessions, volatility regimes',
+        },
+        {
+          k: 'EA Analysis',
+          v: 'Reading strategy code and trade records',
+        },
+        {
+          k: 'Backtesting',
+          v: 'Tick-level runs in the Strategy Tester',
+        },
+        {
+          k: 'Risk Analysis',
+          v: 'Drawdown, streaks, exposure, stacking',
+        },
+        {
+          k: 'Candidate Strategy',
+          v: 'A hypothesis worth testing — never a promise',
+        },
+      ],
+    },
+    loop: {
+      title: 'AI development loop',
+      lead: 'The cycle a strategy idea travels. AI accelerates the steps between idea and evidence; the Strategy Tester remains the judge, and most candidates fail.',
+      steps: [
+        {
+          k: 'Strategy Idea',
+          v: 'A market observation written as a rule',
+        },
+        {
+          k: 'EA',
+          v: 'Implemented in MQL5',
+        },
+        {
+          k: 'Compile',
+          v: 'Deterministic build',
+        },
+        {
+          k: 'Backtest',
+          v: 'Tick-level test in MetaTrader 5',
+        },
+        {
+          k: 'AI Analysis',
+          v: 'Reading the full report and deal list',
+        },
+        {
+          k: 'Improvement Hypothesis',
+          v: 'What the failure suggests changing',
+        },
+        {
+          k: 'Candidate EA',
+          v: 'The next version',
+        },
+        {
+          k: 'Validation',
+          v: 'Out-of-sample checks before anything ships',
+        },
+      ],
+    },
+    roles: {
+      title: 'What AI actually does here',
+      lead: 'AI is a research accelerator at TYO — not a signal source, not a forecaster, and not a guarantee of anything.',
+      items: [
+        {
+          k: 'Research',
+          v: 'Reading market structure, literature and prior tests',
+          status: 'live',
+        },
+        {
+          k: 'Development assistance',
+          v: 'Drafting and refactoring MQL5, structuring test matrices',
+          status: 'live',
+        },
+        {
+          k: 'Backtest analysis',
+          v: 'Parsing full tester reports — every trade, not just the summary. The analytics on this site are produced this way',
+          status: 'live',
+        },
+        {
+          k: 'EA comparison',
+          v: 'Cross-system metrics, rankings and risk placement',
+          status: 'live',
+        },
+        {
+          k: 'Market regime analysis',
+          v: 'Classifying conditions to test strategies against',
+          status: 'research',
+        },
+        {
+          k: 'Parameter research',
+          v: 'Exploring input spaces systematically instead of by hand',
+          status: 'research',
+        },
+      ],
+    },
+    mcp: {
+      title: 'MCP × MetaTrader 5',
+      lead: 'Model Context Protocol is an open standard that lets an AI agent talk to tools through a defined interface. TYO is exploring what a disciplined bridge between an AI agent and MetaTrader 5 makes possible for research.',
+      diagram: ['AI Agent', 'Model Context Protocol', 'MetaTrader 5'],
+      diagramNote: 'Requests flow down, structured results flow back up. The agent reads and analyses; it does not place trades.',
+      items: [
+        {
+          k: 'Report reading via MCP',
+          v: 'Serving tester reports and trade records to an AI agent as structured data',
+          status: 'experimental',
+        },
+        {
+          k: 'Backtest orchestration',
+          v: 'An agent queuing Strategy Tester runs and collecting results',
+          status: 'research',
+        },
+        {
+          k: 'Live account telemetry',
+          v: 'Read-only account state for monitoring research',
+          status: 'research',
+        },
+        {
+          k: 'AI Portfolio Manager',
+          v: 'Combining systems by evidence — see the Portfolio Lab direction',
+          status: 'research',
+        },
+      ],
+      honesty: 'Nothing on this page is a product. Items marked Research or Experimental may change or be abandoned, and no AI capability here predicts prices or guarantees outcomes.',
+    },
+    cta: {
+      ea: 'Explore Our EAs',
+      lab: 'Backtest Lab',
+      tech: 'Technology',
+    },
+  },
   lab: {
     dash: {
       eyebrow: 'Research at a glance',

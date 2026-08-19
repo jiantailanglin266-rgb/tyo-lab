@@ -17,6 +17,7 @@ export default {
     ea: 'Expert Advisor',
     history: 'Riwayat Pengembangan',
     technology: 'Teknologi',
+    aiLab: 'Lab AI',
     lab: 'Backtest Lab',
     about: 'Tentang TYO',
     contact: 'Kontak',
@@ -474,6 +475,163 @@ export default {
     ],
   },
 
+  aiLab: {
+    seoTitle: 'Lab Riset AI — AI × MetaTrader 5 × MCP | TYO',
+    seoDesc: 'Bagaimana TYO memakai AI dalam riset EA: bantuan pengembangan, analisis backtest berskala besar, dan eksperimen Model Context Protocol yang menghubungkan agen AI dengan MetaTrader 5. Status membedakan yang berjalan hari ini dari yang masih dieksplorasi.',
+    hero: {
+      eyebrow: 'TYO AI Research Lab',
+      h1: 'AI × MT5 × MCP',
+      lead: 'Riset berbantuan AI untuk trading algoritmik generasi berikutnya. Halaman ini menjelaskan bagaimana AI benar-benar dipakai di TYO dan apa yang masih dieksplorasi — setiap item berstatus, dan tidak ada klaim bahwa AI memprediksi pasar atau menjamin hasil.',
+    },
+    statusLegend: 'Legenda status',
+    statusLegendLead: 'Setiap teknologi di halaman ini ditandai tahap sebenarnya. "Live" berarti dipakai harian di TYO hari ini; selebihnya adalah riset yang sedang berjalan dan diberi label demikian.',
+    arch: {
+      title: 'Arsitektur riset AI',
+      lead: 'Aliran informasi saat AI ikut dalam loop riset. Lapisan AI membaca dan menganalisis; keputusan trading tetap pada logika eksplisit dan dapat diaudit di tiap EA.',
+      steps: [
+        {
+          k: 'MetaTrader 5',
+          v: 'Data pasar, eksekusi, Strategy Tester',
+        },
+        {
+          k: 'MCP',
+          v: 'Model Context Protocol — antarmuka standar antara agen AI dan alat',
+        },
+        {
+          k: 'TYO AI Research Layer',
+          v: 'Tempat model membaca laporan, kode, dan data',
+        },
+        {
+          k: 'Analisis Pasar',
+          v: 'Struktur, sesi, rezim volatilitas',
+        },
+        {
+          k: 'Analisis EA',
+          v: 'Membaca kode strategi dan catatan transaksi',
+        },
+        {
+          k: 'Backtesting',
+          v: 'Run level tick di Strategy Tester',
+        },
+        {
+          k: 'Analisis Risiko',
+          v: 'Drawdown, rentetan, eksposur, penumpukan',
+        },
+        {
+          k: 'Strategi Kandidat',
+          v: 'Hipotesis yang layak diuji — bukan janji',
+        },
+      ],
+    },
+    loop: {
+      title: 'Loop pengembangan AI',
+      lead: 'Siklus yang dilalui sebuah ide strategi. AI mempercepat langkah dari ide ke bukti; hakimnya tetap Strategy Tester, dan sebagian besar kandidat gagal.',
+      steps: [
+        {
+          k: 'Ide Strategi',
+          v: 'Pengamatan pasar yang ditulis sebagai aturan',
+        },
+        {
+          k: 'EA',
+          v: 'Diimplementasikan dalam MQL5',
+        },
+        {
+          k: 'Kompilasi',
+          v: 'Build deterministik',
+        },
+        {
+          k: 'Backtest',
+          v: 'Uji level tick di MetaTrader 5',
+        },
+        {
+          k: 'Analisis AI',
+          v: 'Membaca laporan penuh dan daftar transaksi',
+        },
+        {
+          k: 'Hipotesis Perbaikan',
+          v: 'Apa yang disarankan oleh kegagalan',
+        },
+        {
+          k: 'EA Kandidat',
+          v: 'Versi berikutnya',
+        },
+        {
+          k: 'Validasi',
+          v: 'Cek out-of-sample sebelum rilis',
+        },
+      ],
+    },
+    roles: {
+      title: 'Yang benar-benar dilakukan AI di sini',
+      lead: 'AI di TYO adalah akselerator riset — bukan sumber sinyal, bukan peramal, bukan jaminan apa pun.',
+      items: [
+        {
+          k: 'Riset',
+          v: 'Membaca struktur pasar, literatur, dan uji terdahulu',
+          status: 'live',
+        },
+        {
+          k: 'Bantuan pengembangan',
+          v: 'Menyusun dan merefaktor MQL5, menstrukturkan matriks uji',
+          status: 'live',
+        },
+        {
+          k: 'Analisis backtest',
+          v: 'Mengurai laporan tester penuh — tiap transaksi, bukan hanya ringkasan. Analitik situs ini dibuat dengan cara ini',
+          status: 'live',
+        },
+        {
+          k: 'Perbandingan EA',
+          v: 'Metrik lintas sistem, peringkat, dan penempatan risiko',
+          status: 'live',
+        },
+        {
+          k: 'Analisis rezim pasar',
+          v: 'Mengklasifikasi kondisi untuk menguji strategi',
+          status: 'research',
+        },
+        {
+          k: 'Riset parameter',
+          v: 'Menjelajah ruang input secara sistematis, bukan manual',
+          status: 'research',
+        },
+      ],
+    },
+    mcp: {
+      title: 'MCP × MetaTrader 5',
+      lead: 'Model Context Protocol adalah standar terbuka yang memungkinkan agen AI berbicara dengan alat lewat antarmuka terdefinisi. TYO mengeksplorasi apa yang dimungkinkan oleh jembatan berdisiplin antara agen AI dan MetaTrader 5 untuk riset.',
+      diagram: ['Agen AI', 'Model Context Protocol', 'MetaTrader 5'],
+      diagramNote: 'Permintaan mengalir turun, hasil terstruktur kembali naik. Agen membaca dan menganalisis; ia tidak menempatkan order.',
+      items: [
+        {
+          k: 'Pembacaan laporan via MCP',
+          v: 'Menyajikan laporan tester dan catatan transaksi ke agen AI sebagai data terstruktur',
+          status: 'experimental',
+        },
+        {
+          k: 'Orkestrasi backtest',
+          v: 'Agen mengantre run Strategy Tester dan mengumpulkan hasil',
+          status: 'research',
+        },
+        {
+          k: 'Telemetri akun live',
+          v: 'Status akun hanya-baca untuk riset pemantauan',
+          status: 'research',
+        },
+        {
+          k: 'AI Portfolio Manager',
+          v: 'Menggabungkan sistem berdasarkan bukti — lihat arah Portfolio Lab',
+          status: 'research',
+        },
+      ],
+      honesty: 'Tidak ada di halaman ini yang merupakan produk. Item Research atau Experimental dapat berubah atau dibatalkan, dan tidak ada kemampuan AI di sini yang memprediksi harga atau menjamin hasil.',
+    },
+    cta: {
+      ea: 'Lihat EA Kami',
+      lab: 'Backtest Lab',
+      tech: 'Teknologi',
+    },
+  },
   lab: {
     dash: {
       eyebrow: 'Sekilas riset',

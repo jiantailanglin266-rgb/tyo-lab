@@ -16,6 +16,7 @@ export default {
     ea: 'EA 系统',
     history: '开发历程',
     technology: '技术',
+    aiLab: 'AI 实验室',
     lab: '回测实验室',
     about: '关于 TYO',
     contact: '联系我们',
@@ -461,6 +462,163 @@ export default {
     ],
   },
 
+  aiLab: {
+    seoTitle: 'AI 研究实验室 — AI × MetaTrader 5 × MCP | TYO',
+    seoDesc: 'TYO 如何在 EA 研究中使用 AI：开发辅助、大规模回测分析，以及连接 AI 代理与 MetaTrader 5 的 Model Context Protocol 实验。状态标签区分今天在运行的与仍在探索的。',
+    hero: {
+      eyebrow: 'TYO AI Research Lab',
+      h1: 'AI × MT5 × MCP',
+      lead: '面向下一代算法交易的 AI 辅助研究。本页说明 TYO 实际如何使用 AI、哪些仍在探索——每项都带状态标签，绝不声称 AI 能预测市场或保证结果。',
+    },
+    statusLegend: '状态图例',
+    statusLegendLead: '本页每项技术都标明其真实阶段。「运行中」表示 TYO 今天日常在用；其余均为进行中的研究，并如实标注。',
+    arch: {
+      title: 'AI 研究架构',
+      lead: 'AI 加入研究循环后的信息流。AI 层负责读取与分析；交易决策仍由各 EA 显式、可审计的逻辑承担。',
+      steps: [
+        {
+          k: 'MetaTrader 5',
+          v: '市场数据、执行、策略测试器',
+        },
+        {
+          k: 'MCP',
+          v: 'Model Context Protocol — AI 代理与工具之间的标准接口',
+        },
+        {
+          k: 'TYO AI Research Layer',
+          v: '模型读取报告、代码与数据的层',
+        },
+        {
+          k: '市场分析',
+          v: '结构、时段、波动状态',
+        },
+        {
+          k: 'EA 分析',
+          v: '读取策略代码与交易记录',
+        },
+        {
+          k: '回测',
+          v: '策略测试器中的逐笔运行',
+        },
+        {
+          k: '风险分析',
+          v: '回撤、连亏、敞口、加仓',
+        },
+        {
+          k: '候选策略',
+          v: '值得测试的假设——绝非承诺',
+        },
+      ],
+    },
+    loop: {
+      title: 'AI 开发循环',
+      lead: '一个策略想法经历的循环。AI 缩短从想法到证据的距离；裁判始终是策略测试器，多数候选都会失败。',
+      steps: [
+        {
+          k: '策略想法',
+          v: '写成规则的市场观察',
+        },
+        {
+          k: 'EA',
+          v: '用 MQL5 实现',
+        },
+        {
+          k: '编译',
+          v: '确定性构建',
+        },
+        {
+          k: '回测',
+          v: 'MetaTrader 5 逐笔测试',
+        },
+        {
+          k: 'AI 分析',
+          v: '读取完整报告与成交明细',
+        },
+        {
+          k: '改进假设',
+          v: '失败提示的修改方向',
+        },
+        {
+          k: '候选 EA',
+          v: '下一个版本',
+        },
+        {
+          k: '验证',
+          v: '发布前的样本外检查',
+        },
+      ],
+    },
+    roles: {
+      title: 'AI 在这里实际做什么',
+      lead: '在 TYO，AI 是研究加速器——不是信号源，不是预测器，也不为任何事担保。',
+      items: [
+        {
+          k: '研究',
+          v: '阅读市场结构、文献与既往测试',
+          status: 'live',
+        },
+        {
+          k: '开发辅助',
+          v: '起草与重构 MQL5、构建测试矩阵',
+          status: 'live',
+        },
+        {
+          k: '回测分析',
+          v: '解析完整测试报告——每一笔交易而非只有摘要。本站的分析正是这样生成的',
+          status: 'live',
+        },
+        {
+          k: 'EA 比较',
+          v: '跨系统指标、排名与风险定位',
+          status: 'live',
+        },
+        {
+          k: '市场状态分析',
+          v: '对策略应测试的行情条件分类',
+          status: 'research',
+        },
+        {
+          k: '参数研究',
+          v: '系统性探索输入空间而非手工尝试',
+          status: 'research',
+        },
+      ],
+    },
+    mcp: {
+      title: 'MCP × MetaTrader 5',
+      lead: 'Model Context Protocol 是让 AI 代理通过定义好的接口与工具对话的开放标准。TYO 正在探索 AI 代理与 MetaTrader 5 之间受约束的桥接能为研究带来什么。',
+      diagram: ['AI 代理', 'Model Context Protocol', 'MetaTrader 5'],
+      diagramNote: '请求向下流动，结构化结果向上返回。代理只读取与分析，不下单。',
+      items: [
+        {
+          k: '经 MCP 读取报告',
+          v: '将测试报告与交易记录作为结构化数据提供给 AI 代理',
+          status: 'experimental',
+        },
+        {
+          k: '回测编排',
+          v: '代理排队执行策略测试并收集结果',
+          status: 'research',
+        },
+        {
+          k: '实盘账户遥测',
+          v: '用于监控研究的只读账户状态',
+          status: 'research',
+        },
+        {
+          k: 'AI 组合管理器',
+          v: '依证据组合系统——见 Portfolio Lab 方向',
+          status: 'research',
+        },
+      ],
+      honesty: '本页任何内容都不是产品。标为 Research 或 Experimental 的项目可能更改或放弃；此处任何 AI 能力都不预测价格、不保证结果。',
+    },
+    cta: {
+      ea: '查看我们的 EA',
+      lab: '回测实验室',
+      tech: '技术',
+    },
+  },
   lab: {
     dash: {
       eyebrow: '研究概览',

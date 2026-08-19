@@ -11,6 +11,7 @@ export const ROUTES = {
   eaDetail: (slug) => `/ea/${slug}/`,
   history: () => '/history/',
   technology: () => '/technology/',
+  aiLab: () => '/ai-lab/',
   lab: () => '/lab/',
   labArticle: (slug) => `/lab/${slug}/`,
   about: () => '/about/',
