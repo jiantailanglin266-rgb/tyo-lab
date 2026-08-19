@@ -15,6 +15,8 @@ export const ROUTES = {
   portfolio: () => '/portfolio-lab/',
   lab: () => '/lab/',
   labArticle: (slug) => `/lab/${slug}/`,
+  research: () => '/research/',
+  researchDetail: (id) => `/research/${id}/`,
   about: () => '/about/',
   contact: () => '/contact/',
 };

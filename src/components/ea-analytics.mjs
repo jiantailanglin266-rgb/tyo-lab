@@ -63,12 +63,16 @@ export function ScoreCard({ model, t, compact = false }) {
     `;
   }
 
+  /* V2 layout: the five performance components are worth 16 each and
+     Evidence Quality carries the remaining 20 — the bar scale states each
+     component's own maximum so a full bar always means "maxed". */
   const parts = [
-    ['profitability', s.parts.profitability],
-    ['drawdownControl', s.parts.drawdownControl],
-    ['consistency', s.parts.consistency],
-    ['sampleSize', s.parts.sampleSize],
-    ['robustness', s.parts.robustness],
+    ['profitability', s.parts.profitability, 16],
+    ['drawdownControl', s.parts.drawdownControl, 16],
+    ['consistency', s.parts.consistency, 16],
+    ['sampleSize', s.parts.sampleSize, 16],
+    ['robustness', s.parts.robustness, 16],
+    ...(has(s.parts.evidenceQuality) ? [['evidenceQuality', s.parts.evidenceQuality, 20]] : []),
   ];
 
   return html`
@@ -83,10 +87,10 @@ export function ScoreCard({ model, t, compact = false }) {
         () => html`
           <ul class="score__parts">
             ${parts.map(
-              ([k, v]) => html`<li>
+              ([k, v, max]) => html`<li>
                 <span class="score__part-k">${L.parts[k]}</span>
-                <span class="score__bar" aria-hidden="true"><i style="--v:${(v / 20) * 100}%"></i></span>
-                <span class="score__part-v">${v}<i>/20</i></span>
+                <span class="score__bar" aria-hidden="true"><i style="--v:${(v / max) * 100}%"></i></span>
+                <span class="score__part-v">${v}<i>/${max}</i></span>
               </li>`
             )}
           </ul>

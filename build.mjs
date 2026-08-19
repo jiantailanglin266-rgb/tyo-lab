@@ -26,9 +26,11 @@ import { loadDictionaries, entryI18n } from './src/lib/i18n.mjs';
 import { localePath, outPath, absolute, asset, ROUTES } from './src/lib/url.mjs';
 import { buildMask } from './src/lib/worldmap.mjs';
 import { buildEAModels } from './src/lib/ea-model.mjs';
+import { evidenceOf, scoreV2 } from './src/lib/evidence.mjs';
 import { Document } from './src/components/layout.mjs';
 
 import { publishedEA, EA } from './src/data/ea.mjs';
+import { loadExperiments } from './src/data/experiments.mjs';
 import { publishedArticles, ARTICLES } from './src/data/lab.mjs';
 import { STAGES, MILESTONES } from './src/data/history.mjs';
 
@@ -40,6 +42,8 @@ import History from './src/pages/history.mjs';
 import Technology from './src/pages/technology.mjs';
 import AILab from './src/pages/ai-lab.mjs';
 import PortfolioLab from './src/pages/portfolio-lab.mjs';
+import ResearchIndex from './src/pages/research-index.mjs';
+import ResearchDetail from './src/pages/research-detail.mjs';
 import LabIndex from './src/pages/lab-index.mjs';
 import LabArticle from './src/pages/lab-article.mjs';
 import About from './src/pages/about.mjs';
@@ -189,10 +193,24 @@ if (coverCount < eaRaw.length)
  * one frozen model per system. Every EA template reads from this and nothing
  * else — see docs/EA_DATA_SCHEMA.md.
  */
-const ea = await buildEAModels(eaRaw);
+const eaBase = await buildEAModels(eaRaw);
+
+/**
+ * Research layer (Phase 6): the experiment log and the evidence stages feed
+ * TYO SCORE 2.0. The base models are frozen, so the decorated versions are
+ * fresh frozen copies — `score` becomes the V2 object (V1 total survives as
+ * `score.v1Total`) and `evidence` carries the six-stage checklist.
+ */
+const experiments = await loadExperiments();
+const ea = eaBase.map((m) => {
+  const evidence = evidenceOf(m, experiments);
+  const v2 = scoreV2(m, evidence);
+  return Object.freeze({ ...m, evidence, score: v2, num: Object.freeze({ ...m.num, score: v2.total }) });
+});
 const scored = ea.filter((m) => m.score.total !== null).length;
 const withTrades = ea.filter((m) => m.trades).length;
 console.log(`  · EA models    ${ea.length} built · ${withTrades} with trade-level data · ${scored} scored`);
+console.log(`  · experiments  ${experiments.length} in research log (${experiments.filter((x) => x.strategyId).length} system-linked)`);
 if (withTrades < ea.length)
   warnings.push(
     `${ea.length - withTrades} system(s) have no trade-level data — run \`npm run trades -- <folder>\` ` +
@@ -430,6 +448,58 @@ for (const loc of LOCALES) {
     })
   );
 
+  /* ---- research log ---- */
+  await emit(
+    outPath(locale, ROUTES.research()),
+    Document({
+      ...ctx,
+      path: ROUTES.research(),
+      title: t.research.seoTitle,
+      description: t.research.seoDesc,
+      jsonLd: [
+        breadcrumb(locale, [
+          { name: t.nav.home, path: ROUTES.home() },
+          { name: t.nav.research, path: ROUTES.research() },
+        ]),
+      ],
+      children: ResearchIndex({ ...ctx, experiments, ea }),
+    })
+  );
+
+  {
+    const eaNames = Object.fromEntries(ea.map((m) => [m.slug, m.name]));
+    for (let i = 0; i < experiments.length; i++) {
+      const exp = experiments[i];
+      const id = exp.experimentId.toLowerCase();
+      await emit(
+        outPath(locale, ROUTES.researchDetail(id)),
+        Document({
+          ...ctx,
+          path: ROUTES.researchDetail(id),
+          title: `${exp.experimentId} — ${exp.title} | ${BRAND.name}`,
+          description: exp.hypothesis || t.research.seoDesc,
+          // Reconstructed entries have no narrative — thin pages stay out of
+          // the index (they remain linked and crawlable from the log).
+          noindex: exp.metadataAvailable === false,
+          jsonLd: [
+            breadcrumb(locale, [
+              { name: t.nav.home, path: ROUTES.home() },
+              { name: t.nav.research, path: ROUTES.research() },
+              { name: exp.experimentId, path: ROUTES.researchDetail(id) },
+            ]),
+          ],
+          children: ResearchDetail({
+            ...ctx,
+            exp,
+            eaNames,
+            prev: experiments[i - 1] || null,
+            next: experiments[i + 1] || null,
+          }),
+        })
+      );
+    }
+  }
+
   /* ---- lab ---- */
   if (FEATURES.labSection) {
     await emit(
@@ -528,6 +598,12 @@ registerSitemap(ROUTES.history(), '0.7', 'monthly');
 registerSitemap(ROUTES.technology(), '0.7', 'monthly');
 registerSitemap(ROUTES.aiLab(), '0.7', 'monthly');
 registerSitemap(ROUTES.portfolio(), '0.6', 'monthly');
+registerSitemap(ROUTES.research(), '0.7', 'weekly');
+for (const x of experiments) {
+  // Reconstructed entries are noindex'd — keep them out of the sitemap too.
+  if (x.metadataAvailable === false) continue;
+  registerSitemap(ROUTES.researchDetail(x.experimentId.toLowerCase()), '0.4', 'monthly');
+}
 if (FEATURES.labSection) {
   registerSitemap(ROUTES.lab(), '0.7', 'weekly');
   for (const a of articles) registerSitemap(ROUTES.labArticle(a.slug), '0.6', 'monthly');

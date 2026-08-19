@@ -55,11 +55,12 @@ function navItems(locale, t) {
     { href: localePath(locale, ROUTES.technology()), label: t.nav.technology, n: '04' },
     { href: localePath(locale, ROUTES.aiLab()), label: t.nav.aiLab, n: '05' },
     ...(FEATURES.labSection ? [{ href: localePath(locale, ROUTES.lab()), label: t.nav.lab, n: '06' }] : []),
-    // headerHidden: the top bar is at capacity; this page is reachable from
-    // the fullscreen menu, the footer, and the Lab/AI Lab cross-links.
+    // headerHidden: the top bar is at capacity; these pages are reachable
+    // from the fullscreen menu, the footer, and the Lab/EA cross-links.
     { href: localePath(locale, ROUTES.portfolio()), label: t.nav.portfolio, n: '07', headerHidden: true },
-    { href: localePath(locale, ROUTES.about()), label: t.nav.about, n: '08' },
-    { href: localePath(locale, ROUTES.contact()), label: t.nav.contact, n: '09' },
+    { href: localePath(locale, ROUTES.research()), label: t.nav.research, n: '08', headerHidden: true },
+    { href: localePath(locale, ROUTES.about()), label: t.nav.about, n: '09' },
+    { href: localePath(locale, ROUTES.contact()), label: t.nav.contact, n: '10' },
   ];
 }
 

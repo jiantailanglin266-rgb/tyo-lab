@@ -1,0 +1,815 @@
+{
+  "reconstructed": [
+    {
+      "experimentId": "EXP-000101",
+      "strategyId": "galoa",
+      "title": "GALOA — SUNS build vs current build, full 2003–2026 window",
+      "category": "version",
+      "status": "ARCHIVED",
+      "source": "human",
+      "metadataAvailable": false,
+      "createdAt": null,
+      "hypothesis": null,
+      "changeSummary": null,
+      "dataset": "Two full-history runs of the same USDJPY M5 system survive: one under the earlier working name \"SUNS\", one as the current GALOA build on tick-data-suite variable spread. Same market, near-identical window.",
+      "metricsBefore": {
+        "symbol": "USDJPY",
+        "period": "2003.05.05 – 2026.01.13",
+        "profitFactor": 2.8,
+        "maxDrawdownPct": 23.89,
+        "drawdownBasis": "balance",
+        "trades": 1012,
+        "winRate": 94.47,
+        "dialect": "mt4"
+      },
+      "metricsAfter": {
+        "symbol": "USDJPY",
+        "period": "2003.05.05 – 2026.02.05",
+        "profitFactor": 8.07,
+        "maxDrawdownPct": 17.8,
+        "drawdownBasis": "balance",
+        "trades": 1098,
+        "winRate": 92.35,
+        "dialect": "mt4"
+      },
+      "diff": {
+        "profitFactor": 5.27,
+        "maxDrawdownPct": -6.09,
+        "trades": 86,
+        "winRate": -2.12
+      },
+      "comparable": true,
+      "decision": null,
+      "reason": null,
+      "gitCommit": null,
+      "files": [
+        "SUNS 2003-2026.htm",
+        "GALOABT20032026TDS変動.htm"
+      ]
+    },
+    {
+      "experimentId": "EXP-000102",
+      "strategyId": "galoa",
+      "title": "GALOA — recent-window run (2024–2026)",
+      "category": "dataset",
+      "status": "ARCHIVED",
+      "source": "human",
+      "metadataAvailable": false,
+      "createdAt": null,
+      "hypothesis": null,
+      "changeSummary": null,
+      "dataset": "A short recent-window run of the SUNS build exists alongside its full-history run. Different windows, so figures are not directly comparable; the record shows the recent window was tested separately.",
+      "metricsBefore": {
+        "symbol": "USDJPY",
+        "period": "2003.05.05 – 2026.01.13",
+        "profitFactor": 2.8,
+        "maxDrawdownPct": 23.89,
+        "drawdownBasis": "balance",
+        "trades": 1012,
+        "winRate": 94.47,
+        "dialect": "mt4"
+      },
+      "metricsAfter": {
+        "symbol": "USDJPY",
+        "period": "2024.01.02 – 2026.01.13",
+        "profitFactor": 9.57,
+        "maxDrawdownPct": 26.22,
+        "drawdownBasis": "balance",
+        "trades": 149,
+        "winRate": 94.63,
+        "dialect": "mt4"
+      },
+      "diff": null,
+      "comparable": false,
+      "decision": null,
+      "reason": null,
+      "gitCommit": null,
+      "files": [
+        "SUNS 2003-2026.htm",
+        "USDJPY SUNS2024-2025.htm"
+      ]
+    },
+    {
+      "experimentId": "EXP-000103",
+      "strategyId": "grandslam",
+      "title": "GRANDSLAM — 2022-start vs 2024-start dataset window",
+      "category": "dataset",
+      "status": "ARCHIVED",
+      "source": "human",
+      "metadataAvailable": false,
+      "createdAt": null,
+      "hypothesis": null,
+      "changeSummary": null,
+      "dataset": "Two runs of the same BTCUSD M5 system over different start dates. The 2022-start window includes the 2022 crypto drawdown regime and reports 60.76% equity drawdown; the 2024-start window reports 21.56%. Same system, different market regimes covered.",
+      "metricsBefore": {
+        "symbol": "BTCUSD",
+        "period": "2022.01.01 – 2026.03.28",
+        "profitFactor": 2.26,
+        "maxDrawdownPct": 60.76,
+        "drawdownBasis": "equity",
+        "trades": 20459,
+        "winRate": 93.7,
+        "dialect": "mt5"
+      },
+      "metricsAfter": {
+        "symbol": "BTCUSD",
+        "period": "2024.01.01 – 2026.03.28",
+        "profitFactor": 2.83,
+        "maxDrawdownPct": 21.56,
+        "drawdownBasis": "equity",
+        "trades": 12404,
+        "winRate": 95.4,
+        "dialect": "mt5"
+      },
+      "diff": null,
+      "comparable": false,
+      "decision": null,
+      "reason": null,
+      "gitCommit": null,
+      "files": [
+        "ReportTester-52755788.html",
+        "GDXBT.html"
+      ]
+    },
+    {
+      "experimentId": "EXP-000104",
+      "strategyId": "joker",
+      "title": "JOKER — MT4 build vs MT5 rebuild",
+      "category": "platform",
+      "status": "ARCHIVED",
+      "source": "human",
+      "metadataAvailable": false,
+      "createdAt": null,
+      "hypothesis": null,
+      "changeSummary": null,
+      "dataset": "An MT4 GOLD run (2003–2026, balance-basis DD 68.16%) and an MT5 XAUUSD rebuild (2016–2026, equity-basis DD 2.00%) both survive. Different platform, period AND drawdown basis, so the figures must not be read as a controlled comparison — but the migration itself is documented fact.",
+      "metricsBefore": {
+        "symbol": "GOLD",
+        "period": "2003.05.05 – 2026.02.05",
+        "profitFactor": 1.57,
+        "maxDrawdownPct": 68.16,
+        "drawdownBasis": "balance",
+        "trades": 2501,
+        "winRate": 90.28,
+        "dialect": "mt4"
+      },
+      "metricsAfter": {
+        "symbol": "XAUUSD",
+        "period": "2016.01.01 – 2026.03.02",
+        "profitFactor": 1.71,
+        "maxDrawdownPct": 2,
+        "drawdownBasis": "equity",
+        "trades": 1258,
+        "winRate": 86.49,
+        "dialect": "mt5"
+      },
+      "diff": null,
+      "comparable": false,
+      "decision": null,
+      "reason": null,
+      "gitCommit": null,
+      "files": [
+        "StrategyTester.htm",
+        "joker520btmt5.html"
+      ]
+    },
+    {
+      "experimentId": "EXP-000105",
+      "strategyId": "nexus",
+      "title": "NEXUS — two builds on the identical dataset",
+      "category": "version",
+      "status": "ARCHIVED",
+      "source": "human",
+      "metadataAvailable": false,
+      "createdAt": null,
+      "hypothesis": null,
+      "changeSummary": null,
+      "dataset": "Two runs over the identical window (2018.01.01–2026.03.28, BTCUSD M5) with the identical trade count (19,968) but different profit factor (1.52 vs 1.54) and equity drawdown (2.60% vs 5.56%) — a genuine A/B of two builds on the same data. Which build came first is not recorded.",
+      "metricsBefore": {
+        "symbol": "BTCUSD",
+        "period": "2018.01.01 – 2026.03.28",
+        "profitFactor": 1.52,
+        "maxDrawdownPct": 2.6,
+        "drawdownBasis": "equity",
+        "trades": 19968,
+        "winRate": 66.52,
+        "dialect": "mt5"
+      },
+      "metricsAfter": {
+        "symbol": "BTCUSD",
+        "period": "2018.01.01 – 2026.03.28",
+        "profitFactor": 1.54,
+        "maxDrawdownPct": 5.56,
+        "drawdownBasis": "equity",
+        "trades": 19968,
+        "winRate": 66.52,
+        "dialect": "mt5"
+      },
+      "diff": {
+        "profitFactor": 0.02,
+        "maxDrawdownPct": 2.96,
+        "trades": 0,
+        "winRate": 0
+      },
+      "comparable": true,
+      "decision": null,
+      "reason": null,
+      "gitCommit": null,
+      "files": [
+        "Engish-fullbt - コピー.html",
+        "englishi-02fullbt - コピー.html"
+      ]
+    },
+    {
+      "experimentId": "EXP-000106",
+      "strategyId": "godspeed",
+      "title": "GODSPEED — cross-market run on GOLD",
+      "category": "dataset",
+      "status": "ARCHIVED",
+      "source": "human",
+      "metadataAvailable": false,
+      "createdAt": null,
+      "hypothesis": null,
+      "changeSummary": null,
+      "dataset": "Alongside the GBPJPY release run, the folder holds a GOLD 2006–2026 run. The record shows the logic was tried on a second market; whether that variant relates to the released SENA/RINA gold systems is not documented.",
+      "metricsBefore": {
+        "symbol": "GBPJPY",
+        "period": "2003.08.04 – 2026.02.05",
+        "profitFactor": 1.7,
+        "maxDrawdownPct": 38.38,
+        "drawdownBasis": "balance",
+        "trades": 2552,
+        "winRate": 91.42,
+        "dialect": "mt4"
+      },
+      "metricsAfter": {
+        "symbol": "GOLD",
+        "period": "2006.01.02 – 2026.02.05",
+        "profitFactor": 3.29,
+        "maxDrawdownPct": 0.71,
+        "drawdownBasis": "balance",
+        "trades": 1093,
+        "winRate": 92.86,
+        "dialect": "mt4"
+      },
+      "diff": null,
+      "comparable": false,
+      "decision": null,
+      "reason": null,
+      "gitCommit": null,
+      "files": [
+        "GODSPEED.htm",
+        "StrategyTester.htm"
+      ]
+    }
+  ],
+  "splits": [
+    {
+      "experimentId": "EXP-000201",
+      "strategyId": "cosmos",
+      "title": "COSMOS — 70/30 split stability of the monthly profile",
+      "category": "stability",
+      "status": "ACCEPTED",
+      "source": "hybrid",
+      "metadataAvailable": true,
+      "createdAt": "2026-08-20",
+      "hypothesis": "The monthly return profile of the first 70% of the backtest (positive-month share, mean monthly return) persists in the final 30%.",
+      "changeSummary": "No change to the system. Deterministic analysis over the extracted monthly series; decision rule fixed before computation.",
+      "dataset": "Extracted monthly returns, chronological 70/30 split at month 69 of 99.",
+      "metricsBefore": {
+        "months": 69,
+        "from": "2018-01",
+        "to": "2023-09",
+        "positiveShare": 100,
+        "meanMonthly": 0.16,
+        "worstMonth": 0.02
+      },
+      "metricsAfter": {
+        "months": 30,
+        "from": "2023-10",
+        "to": "2026-03",
+        "positiveShare": 100,
+        "meanMonthly": 0.22,
+        "worstMonth": 0.11
+      },
+      "diff": {
+        "positiveShare": 0,
+        "meanMonthly": 0.06,
+        "worstMonth": 0.09
+      },
+      "comparable": true,
+      "decision": "ACCEPTED",
+      "reason": "Late window kept a positive mean month (0.22%) and its positive-month share (100%) stayed within 10pp of the early window (100%).",
+      "gitCommit": null,
+      "notes": "Not out-of-sample validation: the optimisation window of this system is undocumented, so the late 30% may have been seen during tuning. This is a stability check on the recorded equity path."
+    },
+    {
+      "experimentId": "EXP-000202",
+      "strategyId": "evergreen",
+      "title": "EVERGREEN — 70/30 split stability of the monthly profile",
+      "category": "stability",
+      "status": "ACCEPTED",
+      "source": "hybrid",
+      "metadataAvailable": true,
+      "createdAt": "2026-08-20",
+      "hypothesis": "The monthly return profile of the first 70% of the backtest (positive-month share, mean monthly return) persists in the final 30%.",
+      "changeSummary": "No change to the system. Deterministic analysis over the extracted monthly series; decision rule fixed before computation.",
+      "dataset": "Extracted monthly returns, chronological 70/30 split at month 168 of 241.",
+      "metricsBefore": {
+        "months": 168,
+        "from": "2003-08",
+        "to": "2018-08",
+        "positiveShare": 85.71,
+        "meanMonthly": 0.85,
+        "worstMonth": -21.47
+      },
+      "metricsAfter": {
+        "months": 73,
+        "from": "2018-09",
+        "to": "2025-08",
+        "positiveShare": 84.93,
+        "meanMonthly": 0.48,
+        "worstMonth": -3.53
+      },
+      "diff": {
+        "positiveShare": -0.78,
+        "meanMonthly": -0.37,
+        "worstMonth": 17.94
+      },
+      "comparable": true,
+      "decision": "ACCEPTED",
+      "reason": "Late window kept a positive mean month (0.48%) and its positive-month share (84.93%) stayed within 10pp of the early window (85.71%).",
+      "gitCommit": null,
+      "notes": "Not out-of-sample validation: the optimisation window of this system is undocumented, so the late 30% may have been seen during tuning. This is a stability check on the recorded equity path."
+    },
+    {
+      "experimentId": "EXP-000203",
+      "strategyId": "galoa",
+      "title": "GALOA — 70/30 split stability of the monthly profile",
+      "category": "stability",
+      "status": "ACCEPTED",
+      "source": "hybrid",
+      "metadataAvailable": true,
+      "createdAt": "2026-08-20",
+      "hypothesis": "The monthly return profile of the first 70% of the backtest (positive-month share, mean monthly return) persists in the final 30%.",
+      "changeSummary": "No change to the system. Deterministic analysis over the extracted monthly series; decision rule fixed before computation.",
+      "dataset": "Extracted monthly returns, chronological 70/30 split at month 147 of 211.",
+      "metricsBefore": {
+        "months": 147,
+        "from": "2003-05",
+        "to": "2019-05",
+        "positiveShare": 96.6,
+        "meanMonthly": 1.25,
+        "worstMonth": -11.13
+      },
+      "metricsAfter": {
+        "months": 64,
+        "from": "2019-09",
+        "to": "2026-01",
+        "positiveShare": 96.88,
+        "meanMonthly": 0.89,
+        "worstMonth": -0.78
+      },
+      "diff": {
+        "positiveShare": 0.28,
+        "meanMonthly": -0.36,
+        "worstMonth": 10.35
+      },
+      "comparable": true,
+      "decision": "ACCEPTED",
+      "reason": "Late window kept a positive mean month (0.89%) and its positive-month share (96.88%) stayed within 10pp of the early window (96.6%).",
+      "gitCommit": null,
+      "notes": "Not out-of-sample validation: the optimisation window of this system is undocumented, so the late 30% may have been seen during tuning. This is a stability check on the recorded equity path."
+    },
+    {
+      "experimentId": "EXP-000204",
+      "strategyId": "godspeed",
+      "title": "GODSPEED — 70/30 split stability of the monthly profile",
+      "category": "stability",
+      "status": "ACCEPTED",
+      "source": "hybrid",
+      "metadataAvailable": true,
+      "createdAt": "2026-08-20",
+      "hypothesis": "The monthly return profile of the first 70% of the backtest (positive-month share, mean monthly return) persists in the final 30%.",
+      "changeSummary": "No change to the system. Deterministic analysis over the extracted monthly series; decision rule fixed before computation.",
+      "dataset": "Extracted monthly returns, chronological 70/30 split at month 184 of 263.",
+      "metricsBefore": {
+        "months": 184,
+        "from": "2003-08",
+        "to": "2019-05",
+        "positiveShare": 82.07,
+        "meanMonthly": 1.03,
+        "worstMonth": -14.76
+      },
+      "metricsAfter": {
+        "months": 79,
+        "from": "2019-06",
+        "to": "2026-01",
+        "positiveShare": 72.15,
+        "meanMonthly": 0.31,
+        "worstMonth": -3.6
+      },
+      "diff": {
+        "positiveShare": -9.92,
+        "meanMonthly": -0.72,
+        "worstMonth": 11.16
+      },
+      "comparable": true,
+      "decision": "ACCEPTED",
+      "reason": "Late window kept a positive mean month (0.31%) and its positive-month share (72.15%) stayed within 10pp of the early window (82.07%).",
+      "gitCommit": null,
+      "notes": "Not out-of-sample validation: the optimisation window of this system is undocumented, so the late 30% may have been seen during tuning. This is a stability check on the recorded equity path."
+    },
+    {
+      "experimentId": "EXP-000205",
+      "strategyId": "grandslam",
+      "title": "GRANDSLAM — 70/30 split stability of the monthly profile",
+      "category": "stability",
+      "status": "INCONCLUSIVE",
+      "source": "hybrid",
+      "metadataAvailable": true,
+      "createdAt": "2026-08-20",
+      "hypothesis": "The monthly return profile of the first 70% of the backtest (positive-month share, mean monthly return) persists in the final 30%.",
+      "changeSummary": "No change to the system. Deterministic analysis over the extracted monthly series; decision rule fixed before computation.",
+      "dataset": "Extracted monthly returns, chronological 70/30 split at month 18 of 27.",
+      "metricsBefore": {
+        "months": 18,
+        "from": "2024-01",
+        "to": "2025-06",
+        "positiveShare": 100,
+        "meanMonthly": 3.14,
+        "worstMonth": 1.49
+      },
+      "metricsAfter": {
+        "months": 9,
+        "from": "2025-07",
+        "to": "2026-03",
+        "positiveShare": 100,
+        "meanMonthly": 2.13,
+        "worstMonth": 1.1
+      },
+      "diff": {
+        "positiveShare": 0,
+        "meanMonthly": -1.01,
+        "worstMonth": -0.39
+      },
+      "comparable": true,
+      "decision": "INCONCLUSIVE",
+      "reason": "Late window shorter than 12 months.",
+      "gitCommit": null,
+      "notes": "Not out-of-sample validation: the optimisation window of this system is undocumented, so the late 30% may have been seen during tuning. This is a stability check on the recorded equity path."
+    },
+    {
+      "experimentId": "EXP-000206",
+      "strategyId": "jayro",
+      "title": "JAYRO — 70/30 split stability of the monthly profile",
+      "category": "stability",
+      "status": "INCONCLUSIVE",
+      "source": "hybrid",
+      "metadataAvailable": true,
+      "createdAt": "2026-08-20",
+      "hypothesis": "The monthly return profile of the first 70% of the backtest (positive-month share, mean monthly return) persists in the final 30%.",
+      "changeSummary": "No change to the system. Deterministic analysis over the extracted monthly series; decision rule fixed before computation.",
+      "dataset": "Extracted monthly returns, chronological 70/30 split at month 16 of 24.",
+      "metricsBefore": {
+        "months": 16,
+        "from": "2024-01",
+        "to": "2025-04",
+        "positiveShare": 100,
+        "meanMonthly": 8.28,
+        "worstMonth": 1.14
+      },
+      "metricsAfter": {
+        "months": 8,
+        "from": "2025-05",
+        "to": "2025-12",
+        "positiveShare": 100,
+        "meanMonthly": 4.08,
+        "worstMonth": 0.61
+      },
+      "diff": {
+        "positiveShare": 0,
+        "meanMonthly": -4.2,
+        "worstMonth": -0.53
+      },
+      "comparable": true,
+      "decision": "INCONCLUSIVE",
+      "reason": "Late window shorter than 12 months.",
+      "gitCommit": null,
+      "notes": "Not out-of-sample validation: the optimisation window of this system is undocumented, so the late 30% may have been seen during tuning. This is a stability check on the recorded equity path."
+    },
+    {
+      "experimentId": "EXP-000207",
+      "strategyId": "joker",
+      "title": "JOKER — 70/30 split stability of the monthly profile",
+      "category": "stability",
+      "status": "ACCEPTED",
+      "source": "hybrid",
+      "metadataAvailable": true,
+      "createdAt": "2026-08-20",
+      "hypothesis": "The monthly return profile of the first 70% of the backtest (positive-month share, mean monthly return) persists in the final 30%.",
+      "changeSummary": "No change to the system. Deterministic analysis over the extracted monthly series; decision rule fixed before computation.",
+      "dataset": "Extracted monthly returns, chronological 70/30 split at month 69 of 99.",
+      "metricsBefore": {
+        "months": 69,
+        "from": "2016-02",
+        "to": "2023-06",
+        "positiveShare": 85.51,
+        "meanMonthly": 0.07,
+        "worstMonth": -1.06
+      },
+      "metricsAfter": {
+        "months": 30,
+        "from": "2023-08",
+        "to": "2026-02",
+        "positiveShare": 86.67,
+        "meanMonthly": 0.26,
+        "worstMonth": -0.56
+      },
+      "diff": {
+        "positiveShare": 1.16,
+        "meanMonthly": 0.19,
+        "worstMonth": 0.5
+      },
+      "comparable": true,
+      "decision": "ACCEPTED",
+      "reason": "Late window kept a positive mean month (0.26%) and its positive-month share (86.67%) stayed within 10pp of the early window (85.51%).",
+      "gitCommit": null,
+      "notes": "Not out-of-sample validation: the optimisation window of this system is undocumented, so the late 30% may have been seen during tuning. This is a stability check on the recorded equity path."
+    },
+    {
+      "experimentId": "EXP-000208",
+      "strategyId": "kokomo",
+      "title": "KOKOMO — 70/30 split stability of the monthly profile",
+      "category": "stability",
+      "status": "ACCEPTED",
+      "source": "hybrid",
+      "metadataAvailable": true,
+      "createdAt": "2026-08-20",
+      "hypothesis": "The monthly return profile of the first 70% of the backtest (positive-month share, mean monthly return) persists in the final 30%.",
+      "changeSummary": "No change to the system. Deterministic analysis over the extracted monthly series; decision rule fixed before computation.",
+      "dataset": "Extracted monthly returns, chronological 70/30 split at month 135 of 193.",
+      "metricsBefore": {
+        "months": 135,
+        "from": "2003-05",
+        "to": "2016-03",
+        "positiveShare": 89.63,
+        "meanMonthly": 1.58,
+        "worstMonth": -20.07
+      },
+      "metricsAfter": {
+        "months": 58,
+        "from": "2016-04",
+        "to": "2026-01",
+        "positiveShare": 98.28,
+        "meanMonthly": 0.49,
+        "worstMonth": -4.87
+      },
+      "diff": {
+        "positiveShare": 8.65,
+        "meanMonthly": -1.09,
+        "worstMonth": 15.2
+      },
+      "comparable": true,
+      "decision": "ACCEPTED",
+      "reason": "Late window kept a positive mean month (0.49%) and its positive-month share (98.28%) stayed within 10pp of the early window (89.63%).",
+      "gitCommit": null,
+      "notes": "Not out-of-sample validation: the optimisation window of this system is undocumented, so the late 30% may have been seen during tuning. This is a stability check on the recorded equity path."
+    },
+    {
+      "experimentId": "EXP-000209",
+      "strategyId": "metro",
+      "title": "METRO — 70/30 split stability of the monthly profile",
+      "category": "stability",
+      "status": "ACCEPTED",
+      "source": "hybrid",
+      "metadataAvailable": true,
+      "createdAt": "2026-08-20",
+      "hypothesis": "The monthly return profile of the first 70% of the backtest (positive-month share, mean monthly return) persists in the final 30%.",
+      "changeSummary": "No change to the system. Deterministic analysis over the extracted monthly series; decision rule fixed before computation.",
+      "dataset": "Extracted monthly returns, chronological 70/30 split at month 172 of 246.",
+      "metricsBefore": {
+        "months": 172,
+        "from": "2003-05",
+        "to": "2018-09",
+        "positiveShare": 84.3,
+        "meanMonthly": 1.25,
+        "worstMonth": -28.92
+      },
+      "metricsAfter": {
+        "months": 74,
+        "from": "2018-10",
+        "to": "2026-02",
+        "positiveShare": 95.95,
+        "meanMonthly": 0.35,
+        "worstMonth": -7.38
+      },
+      "diff": {
+        "positiveShare": 11.65,
+        "meanMonthly": -0.9,
+        "worstMonth": 21.54
+      },
+      "comparable": true,
+      "decision": "ACCEPTED",
+      "reason": "Late window kept a positive mean month (0.35%) and its positive-month share (95.95%) stayed within 10pp of the early window (84.3%).",
+      "gitCommit": null,
+      "notes": "Not out-of-sample validation: the optimisation window of this system is undocumented, so the late 30% may have been seen during tuning. This is a stability check on the recorded equity path."
+    },
+    {
+      "experimentId": "EXP-000210",
+      "strategyId": "mirumo",
+      "title": "MIRUMO — 70/30 split stability of the monthly profile",
+      "category": "stability",
+      "status": "ACCEPTED",
+      "source": "hybrid",
+      "metadataAvailable": true,
+      "createdAt": "2026-08-20",
+      "hypothesis": "The monthly return profile of the first 70% of the backtest (positive-month share, mean monthly return) persists in the final 30%.",
+      "changeSummary": "No change to the system. Deterministic analysis over the extracted monthly series; decision rule fixed before computation.",
+      "dataset": "Extracted monthly returns, chronological 70/30 split at month 137 of 197.",
+      "metricsBefore": {
+        "months": 137,
+        "from": "2003-05",
+        "to": "2018-03",
+        "positiveShare": 88.32,
+        "meanMonthly": 1.23,
+        "worstMonth": -17.35
+      },
+      "metricsAfter": {
+        "months": 60,
+        "from": "2018-06",
+        "to": "2026-02",
+        "positiveShare": 90,
+        "meanMonthly": 0.93,
+        "worstMonth": -2
+      },
+      "diff": {
+        "positiveShare": 1.68,
+        "meanMonthly": -0.3,
+        "worstMonth": 15.35
+      },
+      "comparable": true,
+      "decision": "ACCEPTED",
+      "reason": "Late window kept a positive mean month (0.93%) and its positive-month share (90%) stayed within 10pp of the early window (88.32%).",
+      "gitCommit": null,
+      "notes": "Not out-of-sample validation: the optimisation window of this system is undocumented, so the late 30% may have been seen during tuning. This is a stability check on the recorded equity path."
+    },
+    {
+      "experimentId": "EXP-000211",
+      "strategyId": "nexus",
+      "title": "NEXUS — 70/30 split stability of the monthly profile",
+      "category": "stability",
+      "status": "ACCEPTED",
+      "source": "hybrid",
+      "metadataAvailable": true,
+      "createdAt": "2026-08-20",
+      "hypothesis": "The monthly return profile of the first 70% of the backtest (positive-month share, mean monthly return) persists in the final 30%.",
+      "changeSummary": "No change to the system. Deterministic analysis over the extracted monthly series; decision rule fixed before computation.",
+      "dataset": "Extracted monthly returns, chronological 70/30 split at month 69 of 99.",
+      "metricsBefore": {
+        "months": 69,
+        "from": "2018-01",
+        "to": "2023-09",
+        "positiveShare": 86.96,
+        "meanMonthly": 0.72,
+        "worstMonth": -1.18
+      },
+      "metricsAfter": {
+        "months": 30,
+        "from": "2023-10",
+        "to": "2026-03",
+        "positiveShare": 93.33,
+        "meanMonthly": 1.76,
+        "worstMonth": -0.25
+      },
+      "diff": {
+        "positiveShare": 6.37,
+        "meanMonthly": 1.04,
+        "worstMonth": 0.93
+      },
+      "comparable": true,
+      "decision": "ACCEPTED",
+      "reason": "Late window kept a positive mean month (1.76%) and its positive-month share (93.33%) stayed within 10pp of the early window (86.96%).",
+      "gitCommit": null,
+      "notes": "Not out-of-sample validation: the optimisation window of this system is undocumented, so the late 30% may have been seen during tuning. This is a stability check on the recorded equity path."
+    },
+    {
+      "experimentId": "EXP-000212",
+      "strategyId": "rina",
+      "title": "RINA — 70/30 split stability of the monthly profile",
+      "category": "stability",
+      "status": "INCONCLUSIVE",
+      "source": "hybrid",
+      "metadataAvailable": true,
+      "createdAt": "2026-08-20",
+      "hypothesis": "The monthly return profile of the first 70% of the backtest (positive-month share, mean monthly return) persists in the final 30%.",
+      "changeSummary": "No change to the system. Deterministic analysis over the extracted monthly series; decision rule fixed before computation.",
+      "dataset": "Extracted monthly returns, chronological 70/30 split at month 75 of 108.",
+      "metricsBefore": {
+        "months": 75,
+        "from": "2006-05",
+        "to": "2022-04",
+        "positiveShare": 93.33,
+        "meanMonthly": 5.01,
+        "worstMonth": -5.13
+      },
+      "metricsAfter": {
+        "months": 33,
+        "from": "2022-06",
+        "to": "2026-01",
+        "positiveShare": 78.79,
+        "meanMonthly": 0.8,
+        "worstMonth": -3.6
+      },
+      "diff": {
+        "positiveShare": -14.54,
+        "meanMonthly": -4.21,
+        "worstMonth": 1.53
+      },
+      "comparable": true,
+      "decision": "INCONCLUSIVE",
+      "reason": "Positive-month share fell by 14.54pp — inside the rejection bound but outside the acceptance bound.",
+      "gitCommit": null,
+      "notes": "Not out-of-sample validation: the optimisation window of this system is undocumented, so the late 30% may have been seen during tuning. This is a stability check on the recorded equity path."
+    },
+    {
+      "experimentId": "EXP-000213",
+      "strategyId": "sena",
+      "title": "SENA — 70/30 split stability of the monthly profile",
+      "category": "stability",
+      "status": "ACCEPTED",
+      "source": "hybrid",
+      "metadataAvailable": true,
+      "createdAt": "2026-08-20",
+      "hypothesis": "The monthly return profile of the first 70% of the backtest (positive-month share, mean monthly return) persists in the final 30%.",
+      "changeSummary": "No change to the system. Deterministic analysis over the extracted monthly series; decision rule fixed before computation.",
+      "dataset": "Extracted monthly returns, chronological 70/30 split at month 88 of 127.",
+      "metricsBefore": {
+        "months": 88,
+        "from": "2006-05",
+        "to": "2022-05",
+        "positiveShare": 93.18,
+        "meanMonthly": 2.05,
+        "worstMonth": -5.21
+      },
+      "metricsAfter": {
+        "months": 39,
+        "from": "2022-06",
+        "to": "2026-01",
+        "positiveShare": 87.18,
+        "meanMonthly": 0.73,
+        "worstMonth": -9.76
+      },
+      "diff": {
+        "positiveShare": -6,
+        "meanMonthly": -1.32,
+        "worstMonth": -4.55
+      },
+      "comparable": true,
+      "decision": "ACCEPTED",
+      "reason": "Late window kept a positive mean month (0.73%) and its positive-month share (87.18%) stayed within 10pp of the early window (93.18%).",
+      "gitCommit": null,
+      "notes": "Not out-of-sample validation: the optimisation window of this system is undocumented, so the late 30% may have been seen during tuning. This is a stability check on the recorded equity path."
+    },
+    {
+      "experimentId": "EXP-000214",
+      "strategyId": "supremacy",
+      "title": "SUPREMACY — 70/30 split stability of the monthly profile",
+      "category": "stability",
+      "status": "ACCEPTED",
+      "source": "hybrid",
+      "metadataAvailable": true,
+      "createdAt": "2026-08-20",
+      "hypothesis": "The monthly return profile of the first 70% of the backtest (positive-month share, mean monthly return) persists in the final 30%.",
+      "changeSummary": "No change to the system. Deterministic analysis over the extracted monthly series; decision rule fixed before computation.",
+      "dataset": "Extracted monthly returns, chronological 70/30 split at month 52 of 75.",
+      "metricsBefore": {
+        "months": 52,
+        "from": "2020-01",
+        "to": "2024-04",
+        "positiveShare": 100,
+        "meanMonthly": 1.13,
+        "worstMonth": 0.24
+      },
+      "metricsAfter": {
+        "months": 23,
+        "from": "2024-05",
+        "to": "2026-03",
+        "positiveShare": 100,
+        "meanMonthly": 0.93,
+        "worstMonth": 0.55
+      },
+      "diff": {
+        "positiveShare": 0,
+        "meanMonthly": -0.2,
+        "worstMonth": 0.31
+      },
+      "comparable": true,
+      "decision": "ACCEPTED",
+      "reason": "Late window kept a positive mean month (0.93%) and its positive-month share (100%) stayed within 10pp of the early window (100%).",
+      "gitCommit": null,
+      "notes": "Not out-of-sample validation: the optimisation window of this system is undocumented, so the late 30% may have been seen during tuning. This is a stability check on the recorded equity path."
+    }
+  ],
+  "generatedAt": "2026-08-20"
+}

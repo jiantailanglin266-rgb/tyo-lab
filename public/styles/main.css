@@ -4441,6 +4441,449 @@ table {
   background: rgba(64, 224, 208, 0.05);
 }
 
+/* 10g ─ Research Log / Evidence ──────────────────────────────────────── */
+
+/* Hero stat strip variant: inline row under the research hero lead. */
+.labstats--inline {
+  margin-top: 2.2rem;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+}
+
+/* The methodology rule — one sentence, set like a laboratory placard. */
+.xrule {
+  max-width: 62ch;
+  padding: 1rem 1.2rem;
+  border-left: 2px solid var(--s-cyan);
+  color: var(--fg-1);
+  font-size: 0.95rem;
+  line-height: 1.75;
+  background: linear-gradient(90deg, rgba(64, 224, 208, 0.06), transparent 70%);
+}
+
+/* ---- experiment cards ---- */
+
+.xlist {
+  list-style: none;
+  margin: 2.4rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.xcard {
+  border: 1px solid var(--line);
+  background: var(--bg-1);
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.xcard:hover {
+  border-color: var(--line-2);
+  transform: translateY(-2px);
+}
+
+.xcard__link {
+  display: block;
+  padding: 1.3rem 1.4rem 1.2rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.xcard__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.xcard__id {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--fg-3);
+}
+
+.xcard__title {
+  margin: 0.55rem 0 0;
+  font-size: 1.02rem;
+  line-height: 1.5;
+  color: var(--fg);
+}
+
+.xcard__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.1rem;
+  margin-top: 0.5rem;
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  color: var(--fg-3);
+}
+
+.xcard__ea {
+  color: var(--fg-1);
+}
+
+.xcard__body {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0.9rem 0 0;
+}
+
+.xcard__body dt {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin-bottom: 0.15rem;
+}
+
+.xcard__body dd {
+  margin: 0;
+  font-size: 0.87rem;
+  line-height: 1.65;
+  color: var(--fg-1);
+  /* Long hypotheses clamp on the card; the entry page carries the full text */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.is-na {
+  color: var(--fg-3) !important;
+  font-style: italic;
+}
+
+.xcard__cta {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.95rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+
+.xcard:hover .xcard__cta {
+  color: var(--fg);
+}
+
+/* ---- status marks: icon + text, never colour alone ---- */
+
+.xstatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.28rem 0.65rem;
+  border: 1px solid var(--line);
+  color: var(--fg-2);
+  white-space: nowrap;
+}
+
+.xstatus i {
+  font-style: normal;
+}
+
+.xstatus--accepted {
+  color: var(--s-green);
+  border-color: rgba(50, 215, 75, 0.35);
+}
+
+.xstatus--rejected {
+  color: var(--s-red);
+  border-color: rgba(255, 59, 48, 0.35);
+}
+
+.xstatus--inconclusive {
+  color: var(--s-yellow);
+  border-color: rgba(255, 214, 10, 0.35);
+}
+
+.xstatus--archived {
+  color: var(--fg-3);
+}
+
+.xstatus--validating,
+.xstatus--backtesting,
+.xstatus--researching {
+  color: var(--s-cyan);
+  border-color: rgba(64, 224, 208, 0.3);
+}
+
+.xsource {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--fg-3);
+}
+
+/* ---- diff chips ---- */
+
+.xdiffs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.9rem;
+}
+
+.xdiff {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--line);
+  color: var(--fg-2);
+  white-space: nowrap;
+}
+
+.xdiff.is-up {
+  color: var(--s-green);
+  border-color: rgba(50, 215, 75, 0.3);
+}
+
+.xdiff.is-down {
+  color: var(--s-red);
+  border-color: rgba(255, 59, 48, 0.3);
+}
+
+/* ---- experiment detail ---- */
+
+.xdetail__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1rem;
+  margin-top: 1.1rem;
+  font-size: 0.78rem;
+  color: var(--fg-3);
+}
+
+.xdetail__ealink {
+  color: var(--fg);
+  text-decoration-color: var(--line-2);
+}
+
+.xdetail__body {
+  padding-block: 3rem 4rem;
+  display: grid;
+  gap: 2.6rem;
+}
+
+.xdetail__body .block {
+  margin: 0;
+}
+
+.xcompare {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 1.4rem;
+}
+
+.xcompare__col {
+  min-width: 0;
+}
+
+.xdecision {
+  display: grid;
+  gap: 0.8rem;
+  padding: 1.2rem 1.3rem;
+  border: 1px solid var(--line);
+  background: var(--bg-1);
+  justify-items: start;
+}
+
+.xdecision--accepted {
+  border-left: 2px solid var(--s-green);
+}
+
+.xdecision--rejected {
+  border-left: 2px solid var(--s-red);
+}
+
+.xdecision--inconclusive {
+  border-left: 2px solid var(--s-yellow);
+}
+
+.xdecision--archived {
+  border-left: 2px solid var(--line-2);
+}
+
+.xdecision__why {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: var(--fg-1);
+}
+
+/* ---- research timeline on EA detail ---- */
+
+.xtimeline {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.xtimeline a {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.9rem;
+  padding: 0.75rem 0.95rem;
+  border: 1px solid var(--line);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.2s ease;
+}
+
+.xtimeline a:hover {
+  border-color: var(--line-2);
+}
+
+.xtimeline__id {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--fg-3);
+}
+
+.xtimeline__title {
+  flex: 1 1 16rem;
+  min-width: 0;
+  font-size: 0.87rem;
+  line-height: 1.5;
+  color: var(--fg-1);
+}
+
+.xtimeline__date {
+  font-size: 0.72rem;
+  color: var(--fg-3);
+}
+
+/* ---- evidence checklist ---- */
+
+.evid {
+  border: 1px solid var(--line);
+  background: var(--bg-1);
+  padding: 1.2rem 1.3rem;
+}
+
+.evid__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.evid__title {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+
+.evid__score {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  color: var(--fg);
+}
+
+.evid__score i {
+  font-style: normal;
+  font-size: 0.72rem;
+  color: var(--fg-3);
+}
+
+.evid__lead {
+  margin: 0.7rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: var(--fg-2);
+}
+
+.evid__stages {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.evid__stages li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-size: 0.8rem;
+  color: var(--fg-3);
+  padding: 0.28rem 0;
+  border-bottom: 1px dashed var(--line);
+}
+
+.evid__stages li:last-child {
+  border-bottom: 0;
+}
+
+.evid__stages i {
+  font-style: normal;
+  width: 1.1rem;
+  text-align: center;
+}
+
+.evid__stages li.is-ok {
+  color: var(--fg-1);
+}
+
+.evid__stages li.is-ok i {
+  color: var(--s-green);
+}
+
+.evid__k {
+  flex: 1;
+}
+
+.evid__v {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.evid .fineline {
+  margin-top: 0.9rem;
+}
+
+.evid--compact {
+  padding: 1rem 1.1rem;
+}
+
+.evid--compact .evid__stages li {
+  padding: 0.18rem 0;
+  font-size: 0.76rem;
+}
+
+/* ---- badges ---- */
+
+.badge.is-verified {
+  color: var(--s-green);
+  border-color: rgba(50, 215, 75, 0.4);
+}
+
+@media (max-width: 640px) {
+  .xcard__link {
+    padding: 1.1rem 1rem 1rem;
+  }
+
+  .xdetail__meta {
+    gap: 0.5rem 0.7rem;
+  }
+}
+
 /* 11 ─ lab / article ─────────────────────────────────────────────────── */
 
 .artlist {

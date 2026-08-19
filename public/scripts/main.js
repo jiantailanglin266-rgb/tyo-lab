@@ -1304,4 +1304,113 @@
     });
     recompute();
   })();
+
+  /* 15 ─ research log: filter / sort ───────────────────────────────── */
+  /* Same contract as the EA browse: every experiment card is already in the
+     HTML; this only toggles `hidden` and reorders nodes. The toolbar ships
+     hidden and is revealed here, so a no-JS visitor gets the full log in
+     newest-first order with no dead controls.                            */
+
+  (function researchBrowse() {
+    var root = $('[data-xbrowse]');
+    var list = $('[data-xlist]');
+    if (!root || !list) return;
+
+    root.hidden = false;
+
+    var cards = $$('.xcard', list);
+    var eaSel = $('[data-xea]', root);
+    var sortSel = $('[data-xsort]', root);
+    var count = $('[data-xcount]', root);
+    var none = $('[data-xnone]', root);
+    var countTpl = count ? count.dataset.tpl || '' : '';
+
+    var state = { status: '', category: '', ea: '', sort: 'newest' };
+
+    cards.forEach(function (c, i) {
+      c.dataset.order = String(i); // document order = newest first
+    });
+
+    function matches(card) {
+      if (state.status && card.dataset.status !== state.status) return false;
+      if (state.category && card.dataset.category !== state.category) return false;
+      if (state.ea && card.dataset.ea !== state.ea) return false;
+      return true;
+    }
+
+    /* Undated entries sink in both date orders: an unknown date is not the
+       newest and not the oldest, it is unknown. */
+    function byDate(a, b, dir) {
+      var ad = a.dataset.date || '';
+      var bd = b.dataset.date || '';
+      if (!ad && !bd) return Number(a.dataset.order) - Number(b.dataset.order);
+      if (!ad) return 1;
+      if (!bd) return -1;
+      if (ad === bd) return Number(a.dataset.order) - Number(b.dataset.order);
+      return ad < bd ? dir : -dir;
+    }
+
+    function byStatusFirst(want) {
+      return function (a, b) {
+        var aw = a.dataset.status === want ? 0 : 1;
+        var bw = b.dataset.status === want ? 0 : 1;
+        if (aw !== bw) return aw - bw;
+        return byDate(a, b, -1);
+      };
+    }
+
+    var SORTS = {
+      newest: function (a, b) {
+        return byDate(a, b, -1);
+      },
+      oldest: function (a, b) {
+        return byDate(a, b, 1);
+      },
+      accepted: byStatusFirst('ACCEPTED'),
+      rejected: byStatusFirst('REJECTED'),
+    };
+
+    function apply() {
+      var shown = 0;
+      cards.forEach(function (c) {
+        var ok = matches(c);
+        c.hidden = !ok;
+        if (ok) shown++;
+      });
+
+      cards
+        .slice()
+        .sort(SORTS[state.sort] || SORTS.newest)
+        .forEach(function (c) {
+          list.appendChild(c);
+        });
+
+      if (count) count.textContent = countTpl.replace('{n}', shown).replace('{total}', cards.length);
+      if (none) none.hidden = shown !== 0;
+    }
+
+    $$('[data-xfacet]', root).forEach(function (chip) {
+      on(chip, 'click', function () {
+        var facet = chip.dataset.xfacet;
+        state[facet] = chip.dataset.value;
+        $$('[data-xfacet="' + facet + '"]', root).forEach(function (o) {
+          o.classList.toggle('is-on', o === chip);
+        });
+        apply();
+      });
+    });
+
+    if (eaSel)
+      on(eaSel, 'change', function () {
+        state.ea = eaSel.value;
+        apply();
+      });
+    if (sortSel)
+      on(sortSel, 'change', function () {
+        state.sort = sortSel.value;
+        apply();
+      });
+
+    apply();
+  })();
 })();

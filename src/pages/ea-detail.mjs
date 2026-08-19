@@ -17,6 +17,7 @@ import {
   ResearchTransparency,
   StatusBadge,
 } from '../components/ea-analytics.mjs';
+import { EvidenceChecklist, ExpStatus } from '../components/research.mjs';
 
 /**
  * EA DETAIL 2.0
@@ -117,6 +118,34 @@ export default function EADetail({ locale, t, ea: model, next, stages }) {
       title: S.transparency,
       body: ResearchTransparency({ model, t }),
     },
+    {
+      n: '15',
+      id: 'evidence',
+      title: t.evidence.title,
+      body: model.evidence
+        ? html`
+            ${EvidenceChecklist({ evidence: model.evidence, t })}
+            ${when(
+              model.evidence.related?.length,
+              () => html`
+                <h3 class="statgrid__title">${t.evidence.researchTimeline}</h3>
+                <ol class="xtimeline">
+                  ${model.evidence.related.map(
+                    (x) => html`<li>
+                      <a href="${p(ROUTES.researchDetail(x.experimentId.toLowerCase()))}">
+                        <span class="xtimeline__id">${x.experimentId}</span>
+                        <span class="xtimeline__title">${x.title}</span>
+                        ${ExpStatus({ status: x.status, t })}
+                        ${when(x.createdAt, () => html`<span class="xtimeline__date">${formatDate(x.createdAt, locale)}</span>`)}
+                      </a>
+                    </li>`
+                  )}
+                </ol>
+              `
+            )}
+          `
+        : null,
+    },
   ].filter((b) => b.body && String(b.body).trim());
 
   const hasVideo = model.media.video && model.media.video.type;
@@ -167,6 +196,7 @@ export default function EADetail({ locale, t, ea: model, next, stages }) {
 
               <div class="eahero__meta" data-reveal>
                 ${StatusBadge({ status: model.researchStatus, t })}
+                ${when(model.evidence?.stages?.backtest, () => html`<span class="badge is-verified">${t.evidence.backtestBadge}</span>`)}
                 ${when(model.spec.price === 'free', () => html`<span class="badge is-free">${t.ui.free}</span>`)}
                 ${when(model.spec.price === 'paid', () => html`<span class="badge is-paid">${t.ui.paid}</span>`)}
                 ${when(hasVideo, () => html`<span class="badge is-video">${d.video}</span>`)}
@@ -206,7 +236,7 @@ export default function EADetail({ locale, t, ea: model, next, stages }) {
             hasVideo,
             () => html`<section class="block" id="video" data-reveal-root>
               <h2 class="block__title" data-reveal>
-                <span class="block__n">15</span><span class="block__bar" aria-hidden="true"></span>${d.video}
+                <span class="block__n">16</span><span class="block__bar" aria-hidden="true"></span>${d.video}
               </h2>
               <div class="block__body">${VideoEmbed({ video: model.media.video, t, title: `${model.name} — ${d.video}` })}</div>
             </section>`
@@ -214,7 +244,7 @@ export default function EADetail({ locale, t, ea: model, next, stages }) {
 
           <section class="block" id="disclaimer" data-reveal-root>
             <h2 class="block__title" data-reveal>
-              <span class="block__n">${hasVideo ? '16' : '15'}</span><span class="block__bar" aria-hidden="true"></span>${S.disclaimer}
+              <span class="block__n">${hasVideo ? '17' : '16'}</span><span class="block__bar" aria-hidden="true"></span>${S.disclaimer}
             </h2>
             <div class="block__body">
               ${BacktestDisclaimer({ t })}
@@ -227,6 +257,7 @@ export default function EADetail({ locale, t, ea: model, next, stages }) {
         <aside class="ea__side">
           <div class="ea__sticky">
             ${ScoreCard({ model, t, compact: true })}
+            ${when(model.evidence, () => EvidenceChecklist({ evidence: model.evidence, t, compact: true }))}
             ${EASpecs({ ea: model, locale, t })}
             ${when(
               model.mql5Url,
