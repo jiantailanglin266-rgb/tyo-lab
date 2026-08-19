@@ -1130,10 +1130,12 @@
 
     var MAXSEL = 4;
     var picks = $$('[data-portfolio-pick]', box);
+    var modes = $$('[data-portfolio-mode]', box);
     var hint = $('[data-portfolio-hint]', box);
     var thin = $('[data-portfolio-thin]', box);
     var out = $('[data-portfolio-out]', box);
     var rowsEl = $('[data-portfolio-rows]', box);
+    var rpNote = $('[data-portfolio-rpfallback]', box);
 
     var field = function (k) {
       return $('[data-pf="' + k + '"]', box);
@@ -1153,8 +1155,10 @@
       var index = 1;
       var peak = 1;
       var maxDD = 0;
+      var sum = 0;
       for (var i = 0; i < n; i++) {
         var r = series[i];
+        sum += r;
         if (r > 0) pos++;
         if (r < worst) worst = r;
         index *= 1 + r / 100;
@@ -1162,12 +1166,107 @@
         var dd = (1 - index / peak) * 100;
         if (dd > maxDD) maxDD = dd;
       }
+      var mean = n ? sum / n : null;
+      var vs = 0;
+      for (var j = 0; j < n; j++) vs += (series[j] - mean) * (series[j] - mean);
+      var sd = n > 1 ? Math.sqrt(vs / (n - 1)) : null;
+      var total = (index - 1) * 100;
       return {
         positive: n ? (pos / n) * 100 : null,
         worst: n ? worst : null,
         maxDD: maxDD,
-        total: (index - 1) * 100,
+        total: total,
+        mean: mean,
+        sd: sd,
+        volAnn: sd === null ? null : sd * Math.sqrt(12),
+        /* Geometric annualisation over the window — a description of this
+           record, not a rate anyone is promised. */
+        cagr: n >= 12 && index > 0 ? (Math.pow(index, 12 / n) - 1) * 100 : null,
+        retDD: maxDD > 0.05 ? total / maxDD : null,
       };
+    }
+
+    /** Sample std-dev of a series (n−1). */
+    function sdOf(series) {
+      var n = series.length;
+      if (n < 2) return null;
+      var s = 0;
+      var i;
+      for (i = 0; i < n; i++) s += series[i];
+      var m = s / n;
+      var v = 0;
+      for (i = 0; i < n; i++) v += (series[i] - m) * (series[i] - m);
+      return Math.sqrt(v / (n - 1));
+    }
+
+    /** Sample covariance matrix of aligned series (n−1 denominator). */
+    function covMatrix(perSeries) {
+      var k = perSeries.length;
+      var n = perSeries[0].length;
+      var means = perSeries.map(function (s) {
+        var t = 0;
+        for (var i = 0; i < n; i++) t += s[i];
+        return t / n;
+      });
+      var C = [];
+      for (var a = 0; a < k; a++) {
+        C.push([]);
+        for (var b = 0; b < k; b++) {
+          var c = 0;
+          for (var i = 0; i < n; i++) c += (perSeries[a][i] - means[a]) * (perSeries[b][i] - means[b]);
+          C[a].push(c / (n - 1));
+        }
+      }
+      return C;
+    }
+
+    /** Inverse-volatility weights; null when any series has no variance. */
+    function ivWeights(perSeries) {
+      var sds = perSeries.map(sdOf);
+      if (sds.some(function (s) { return s === null || s <= 0; })) return null;
+      var inv = sds.map(function (s) { return 1 / s; });
+      var tot = inv.reduce(function (a, b) { return a + b; }, 0);
+      return inv.map(function (x) { return x / tot; });
+    }
+
+    /**
+     * Equal-risk-contribution weights by damped multiplicative iteration.
+     * Returns null when it fails to converge (strong negative correlation can
+     * do that) — the caller falls back to inverse volatility and says so.
+     */
+    function rpWeights(perSeries) {
+      var C = covMatrix(perSeries);
+      var k = C.length;
+      var w = ivWeights(perSeries);
+      if (!w) return null;
+
+      for (var iter = 0; iter < 500; iter++) {
+        /* marginal risk (Cw) and risk contributions w_i (Cw)_i */
+        var cw = [];
+        var i;
+        var j;
+        for (i = 0; i < k; i++) {
+          var s = 0;
+          for (j = 0; j < k; j++) s += C[i][j] * w[j];
+          cw.push(s);
+        }
+        var rc = w.map(function (wi, idx) { return wi * cw[idx]; });
+        var totalRisk = rc.reduce(function (a, b) { return a + b; }, 0);
+        if (totalRisk <= 0 || rc.some(function (x) { return x <= 0; })) return null;
+
+        var target = totalRisk / k;
+        var maxErr = 0;
+        for (i = 0; i < k; i++) {
+          var err = Math.abs(rc[i] / target - 1);
+          if (err > maxErr) maxErr = err;
+        }
+        if (maxErr < 1e-4) return w;
+
+        var next = w.map(function (wi, idx) { return wi * Math.pow(target / rc[idx], 0.35); });
+        var tot = next.reduce(function (a, b) { return a + b; }, 0);
+        w = next.map(function (x) { return x / tot; });
+      }
+      return null;
     }
 
     /** Pearson r of two aligned series. */
@@ -1247,10 +1346,36 @@
           return m2[ym];
         });
       });
+
+      /* Weights per the selected mode. IV and RP degrade gracefully: RP that
+         fails to converge falls back to IV (and says so on the page); IV on a
+         degenerate series falls back to equal. */
+      var mode = 'equal';
+      modes.forEach(function (m2) {
+        if (m2.checked) mode = m2.value;
+      });
+      var nSel = perSeries.length;
+      var weights = null;
+      var rpFellBack = false;
+      if (mode === 'iv') weights = ivWeights(perSeries);
+      if (mode === 'rp') {
+        weights = rpWeights(perSeries);
+        if (!weights) {
+          weights = ivWeights(perSeries);
+          rpFellBack = weights !== null;
+        }
+      }
+      if (!weights) {
+        weights = perSeries.map(function () {
+          return 1 / nSel;
+        });
+      }
+      if (rpNote) rpNote.hidden = !rpFellBack;
+
       var blend = common.map(function (ym, i) {
         var s = 0;
-        for (var k = 0; k < maps.length; k++) s += perSeries[k][i];
-        return s / maps.length;
+        for (var k = 0; k < nSel; k++) s += weights[k] * perSeries[k][i];
+        return s;
       });
 
       var rs = [];
@@ -1268,17 +1393,22 @@
       field('months').textContent = String(common.length);
       field('corr').textContent = avgR === null ? '—' : avgR.toFixed(2);
       field('positive').textContent = fmtPct(st.positive, 0).replace('+', '');
+      field('mean').textContent = fmtPct(st.mean, 2);
       field('worst').textContent = fmtPct(st.worst);
+      field('vol').textContent = st.volAnn === null ? '—' : st.volAnn.toFixed(1) + '%';
       field('dd').textContent = st.maxDD.toFixed(1) + '%';
+      field('retdd').textContent = st.retDD === null ? '—' : st.retDD.toFixed(1) + '×';
+      field('cagr').textContent = st.cagr === null ? '—' : fmtPct(st.cagr, 1);
       field('total').textContent = fmtPct(st.total, 0);
 
       /* Per-system table over the SAME window, blend row first. */
       rowsEl.innerHTML = '';
-      var addRow = function (name, s, isBlend) {
+      var addRow = function (name, weight, s, isBlend) {
         var tr = document.createElement('tr');
         if (isBlend) tr.className = 'is-blend';
         var cells = [
           name,
+          weight,
           fmtPct(s.positive, 0).replace('+', ''),
           fmtPct(s.worst),
           s.maxDD.toFixed(1) + '%',
@@ -1293,13 +1423,17 @@
         });
         rowsEl.appendChild(tr);
       };
-      addRow(payload.blendLabel, st, true);
+      var effMode = mode === 'rp' && rpFellBack ? 'iv' : mode;
+      addRow(payload.blendLabels[effMode] || payload.blendLabels.equal, '100%', st, true);
       chosen.forEach(function (slug, i) {
-        addRow(DATA[slug].name, stats(perSeries[i]), false);
+        addRow(DATA[slug].name, (weights[i] * 100).toFixed(1) + '%', stats(perSeries[i]), false);
       });
     }
 
     picks.forEach(function (x) {
+      on(x, 'change', recompute);
+    });
+    modes.forEach(function (x) {
       on(x, 'change', recompute);
     });
     recompute();

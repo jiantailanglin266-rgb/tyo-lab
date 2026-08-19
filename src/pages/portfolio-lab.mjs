@@ -166,6 +166,22 @@ export default function PortfolioLab({ locale, t, ea }) {
             )}
           </div>
 
+          <!-- Weighting scheme: equal is the default and the only mode whose
+               weights carry no in-sample information (see weightsNote). -->
+          <div class="pbuild__modes" role="radiogroup" aria-label="${P.builder.weighting}">
+            <span class="browse__label">${P.builder.weighting}</span>
+            ${[
+              ['equal', P.builder.wEqual],
+              ['iv', P.builder.wIV],
+              ['rp', P.builder.wRP],
+            ].map(
+              ([mode, label], i) => html`<label class="pbuild__mode">
+                <input type="radio" name="pf-mode" data-portfolio-mode value="${mode}"${raw(i === 0 ? ' checked' : '')} />
+                <span>${label}</span>
+              </label>`
+            )}
+          </div>
+
           <p class="pbuild__hint" data-portfolio-hint>${P.builder.needTwo}</p>
           <p class="pbuild__hint" data-portfolio-thin hidden>${P.builder.insufficient}</p>
 
@@ -176,11 +192,17 @@ export default function PortfolioLab({ locale, t, ea }) {
                 ['months', P.builder.months],
                 ['corr', P.builder.avgCorr],
                 ['positive', P.builder.positive],
+                ['mean', P.builder.mean],
                 ['worst', P.builder.worst],
+                ['vol', P.builder.vol],
                 ['dd', P.builder.maxDD],
+                ['retdd', P.builder.retDD],
+                ['cagr', P.builder.cagr],
                 ['total', P.builder.total],
               ].map(([k, label]) => html`<li><span class="snap__k">${label}</span><span class="snap__v" data-pf="${k}">—</span></li>`)}
             </ul>
+
+            <p class="warn warn--sm" data-portfolio-rpfallback hidden>${P.builder.rpFallback}</p>
 
             <p class="statgrid__title" style="margin-top:26px">${P.builder.perSystem}</p>
             <div class="tablewrap">
@@ -188,6 +210,7 @@ export default function PortfolioLab({ locale, t, ea }) {
                 <thead>
                   <tr>
                     <th scope="col">${P.builder.pick}</th>
+                    <th scope="col">${P.builder.weight}</th>
                     <th scope="col">${P.builder.positive}</th>
                     <th scope="col">${P.builder.worst}</th>
                     <th scope="col">${P.builder.maxDD}</th>
@@ -199,10 +222,16 @@ export default function PortfolioLab({ locale, t, ea }) {
             </div>
 
             <p class="fineline">${P.builder.assumptions}</p>
+            <p class="fineline">${P.builder.weightsNote}</p>
           </div>
         </div>
 
-        <script type="application/json" data-portfolio-data>${raw(JSON.stringify({ blendLabel: P.builder.blend, d: data }))}</script>
+        <script type="application/json" data-portfolio-data>${raw(
+          JSON.stringify({
+            blendLabels: { equal: P.builder.blendEqual, iv: P.builder.blendIV, rp: P.builder.blendRP },
+            d: data,
+          })
+        )}</script>
       </div>
     </section>
 

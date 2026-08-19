@@ -4421,6 +4421,49 @@ table {
   white-space: nowrap;
 }
 
+/* Weighting scheme selector — same visual language as the system picks. */
+.pbuild__modes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  margin-top: 16px;
+}
+
+.pbuild__modes .browse__label {
+  margin-right: 4px;
+}
+
+.pbuild__mode {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 13px;
+  border: 1px solid var(--line);
+  background: var(--bg-1);
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--fg-1);
+  transition: border-color 0.25s, background 0.25s;
+}
+
+.pbuild__mode:hover {
+  border-color: var(--line-2);
+}
+
+.pbuild__mode:has(:checked) {
+  border-color: var(--s-cyan);
+  background: rgba(64, 224, 208, 0.06);
+}
+
+.pbuild__mode input {
+  width: 13px;
+  height: 13px;
+  accent-color: var(--s-cyan);
+  margin: 0;
+  flex: none;
+}
+
 .pbuild__hint {
   margin-top: 18px;
   font-size: 0.88rem;
