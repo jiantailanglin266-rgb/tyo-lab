@@ -7,3 +7,6 @@ Thumbs.db
 # Source art staging folder at the repo root only. The leading slash matters:
 # a bare `images/` would also exclude public/assets/images/, which ships.
 /images/
+
+# dev-only canvas capture written by tools/serve.mjs
+__shot.*

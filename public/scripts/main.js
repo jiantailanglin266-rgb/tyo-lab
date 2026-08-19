@@ -9,7 +9,7 @@
    04 reveal on scroll
    05 lazy video
    06 number counters
-   07 particle field  (probability-cloud motif)
+   07 quantum field   (wave-interference background)
    08 world map
    09 youtube facade
    ========================================================================== */
@@ -335,40 +335,76 @@
     });
   })();
 
-  /* 07 ─ particle field ─────────────────────────────────────────────── */
-  /* A probability cloud, not a starfield: each particle drifts inside its own
-     small distribution and links to neighbours while they are close. It is the
-     visual grammar for "outcomes live in a distribution".                    */
+  /* 07 ─ quantum field ──────────────────────────────────────────────── */
+  /* The background is an interference field, not a starfield. A handful of
+     slow-moving emitters send out waves; every particle sits in the summed
+     amplitude of those waves and brightens only where they interfere
+     constructively. Hue runs along the spectrum with position and phase, so
+     the rainbow is produced by the geometry of the scene rather than painted
+     on top of it — "markets exist in probability" as something the page
+     shows rather than only states.
 
-  (function particles() {
+     Cost is O(points x emitters): three emitters and ~190 points is a few
+     hundred multiply-adds per frame. Bloom is gated to the bright crests
+     because that is the expensive draw. Everything stops when the canvas
+     leaves the viewport or the tab hides, and the whole engine is skipped
+     under prefers-reduced-motion.                                          */
+
+  (function quantumField() {
     var canvases = $$('[data-particles]');
     if (!canvases.length || isReduced()) return;
 
-    var PALETTES = {
-      spectrum: ['#ff3b30', '#ff9f0a', '#ffd60a', '#32d74b', '#40e0d0', '#0a84ff', '#bf5af2'],
-      cyan: ['#40e0d0', '#0a84ff', '#7ee8dd'],
-      violet: ['#bf5af2', '#0a84ff', '#e0a8ff'],
-      amber: ['#ff9f0a', '#ffd60a', '#ff3b30'],
-      blue: ['#0a84ff', '#40e0d0', '#8ec5ff'],
+    /* Spectrum stops as RGB triplets, sampled by a 0..1 position. */
+    var SPECTRUM = [
+      [255, 59, 48],
+      [255, 159, 10],
+      [255, 214, 10],
+      [50, 215, 75],
+      [64, 224, 208],
+      [10, 132, 255],
+      [191, 90, 242],
+    ];
+
+    /* A theme is a window onto the spectrum, so a "cyan" section stays
+       cyan-ish while still shimmering across neighbouring hues. */
+    var THEMES = {
+      spectrum: { from: 0.0, to: 1.0 },
+      cyan: { from: 0.48, to: 0.8 },
+      violet: { from: 0.7, to: 1.0 },
+      amber: { from: 0.0, to: 0.32 },
+      blue: { from: 0.58, to: 0.92 },
     };
+
+    function sample(t) {
+      var x = (t % 1 + 1) % 1;
+      x *= SPECTRUM.length - 1;
+      var i = x | 0;
+      var f = x - i;
+      var a = SPECTRUM[i];
+      var b = SPECTRUM[Math.min(SPECTRUM.length - 1, i + 1)];
+      return [(a[0] + (b[0] - a[0]) * f) | 0, (a[1] + (b[1] - a[1]) * f) | 0, (a[2] + (b[2] - a[2]) * f) | 0];
+    }
 
     canvases.forEach(function (canvas) {
       var ctx = canvas.getContext('2d', { alpha: true });
       if (!ctx) return;
 
-      var palette = PALETTES[canvas.dataset.particles] || PALETTES.spectrum;
+      var theme = THEMES[canvas.dataset.particles] || THEMES.spectrum;
+      var span = theme.to - theme.from;
       var dense = canvas.classList.contains('sec__particles--dense');
-      var dots = [];
+
       var w = 0;
       var h = 0;
-      var dpr = 1;
+      var pts = [];
+      var emitters = [];
+      var k = 0.05;
       var running = false;
-      var frame = 0;
+      var t0 = performance.now();
 
       function size() {
         var r = canvas.getBoundingClientRect();
         if (!r.width || !r.height) return false;
-        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
         w = r.width;
         h = r.height;
         canvas.width = Math.round(w * dpr);
@@ -378,88 +414,143 @@
       }
 
       function seed() {
-        var area = w * h;
-        var target = Math.round(area / (dense ? 9000 : 15000));
-        var n = Math.max(18, Math.min(dense ? 130 : 90, target));
-        dots = [];
-        for (var i = 0; i < n; i++) {
-          var ox = Math.random() * w;
-          var oy = Math.random() * h;
-          dots.push({
-            ox: ox,
-            oy: oy,
-            x: ox,
-            y: oy,
-            // Each particle owns a radius of uncertainty it wanders inside.
-            sigma: 18 + Math.random() * 46,
-            phase: Math.random() * Math.PI * 2,
-            speed: 0.0016 + Math.random() * 0.0032,
-            r: 0.7 + Math.random() * 1.5,
-            c: palette[(Math.random() * palette.length) | 0],
-            a: 0.28 + Math.random() * 0.5,
-          });
+        /* Jittered grid rather than pure random: even coverage keeps the
+           interference bands legible instead of clumping into noise. */
+        var target = Math.round((w * h) / (dense ? 2600 : 3600));
+        var n = Math.max(90, Math.min(dense ? 520 : 380, target));
+        var cols = Math.max(4, Math.round(Math.sqrt((n * w) / h)));
+        var rows = Math.max(3, Math.round(n / cols));
+        var cw = w / cols;
+        var ch = h / rows;
+
+        pts = [];
+        for (var r = 0; r < rows; r++) {
+          for (var c = 0; c < cols; c++) {
+            pts.push({
+              x: (c + 0.5 + (Math.random() - 0.5) * 0.7) * cw,
+              y: (r + 0.5 + (Math.random() - 0.5) * 0.7) * ch,
+              ax: Math.random() * Math.PI * 2,
+              ay: Math.random() * Math.PI * 2,
+              amp: 3 + Math.random() * 7,
+              /* Only a sliver of per-point randomness. Anything more and
+                 neighbours stop sharing a hue, which destroys the fringes —
+                 the field reads as coloured dust instead of interference. */
+              hue: Math.random() * 0.07,
+              base: 0.86 + Math.random() * 0.14,
+            });
+          }
         }
+
+        emitters = [
+          { cx: w * 0.22, cy: h * 0.35, rx: w * 0.16, ry: h * 0.2, sp: 0.00013, ph: 0 },
+          { cx: w * 0.78, cy: h * 0.55, rx: w * 0.14, ry: h * 0.24, sp: -0.00009, ph: 2.1 },
+          { cx: w * 0.5, cy: h * 0.86, rx: w * 0.2, ry: h * 0.14, sp: 0.00017, ph: 4.2 },
+        ];
+        /* Wavelength scales with the canvas so the fringe count stays constant
+           whatever the viewport — about eight bands across the diagonal. */
+        k = 58 / Math.sqrt(w * w + h * h);
       }
 
+      var ex = [];
+      var ey = [];
+
       function draw(now) {
-        if (!running) return;
-        frame++;
+        var t = now - t0;
         ctx.clearRect(0, 0, w, h);
 
         var i;
-        for (i = 0; i < dots.length; i++) {
-          var d = dots[i];
-          var t = now * d.speed + d.phase;
-          d.x = d.ox + Math.cos(t) * d.sigma + Math.cos(t * 0.43) * d.sigma * 0.35;
-          d.y = d.oy + Math.sin(t * 0.87) * d.sigma * 0.6 + Math.sin(t * 0.31) * d.sigma * 0.3;
+        var j;
+        ex.length = 0;
+        ey.length = 0;
+        for (i = 0; i < emitters.length; i++) {
+          var e = emitters[i];
+          ex.push(e.cx + Math.cos(t * e.sp + e.ph) * e.rx);
+          ey.push(e.cy + Math.sin(t * e.sp * 1.3 + e.ph) * e.ry);
         }
 
-        // Links — skipped on small screens where they read as noise.
-        if (w > 640) {
-          ctx.lineWidth = 0.5;
-          for (i = 0; i < dots.length; i++) {
-            for (var j = i + 1; j < dots.length; j++) {
-              var a = dots[i];
-              var b = dots[j];
-              var dx = a.x - b.x;
-              var dy = a.y - b.y;
-              var dist2 = dx * dx + dy * dy;
-              if (dist2 > 15000) continue;
-              var o = (1 - dist2 / 15000) * 0.16;
-              ctx.strokeStyle = 'rgba(255,255,255,' + o.toFixed(3) + ')';
-              ctx.beginPath();
-              ctx.moveTo(a.x, a.y);
-              ctx.lineTo(b.x, b.y);
-              ctx.stroke();
-            }
+        var wt = t * 0.0016;
+        var inv = 1 / ex.length;
+
+        /* Additive blending is what makes overlapping waves read as light. */
+        ctx.globalCompositeOperation = 'lighter';
+
+        for (i = 0; i < pts.length; i++) {
+          var p = pts[i];
+          var px = p.x + Math.cos(t * 0.00021 + p.ax) * p.amp;
+          var py = p.y + Math.sin(t * 0.00017 + p.ay) * p.amp;
+
+          var sum = 0;
+          for (j = 0; j < ex.length; j++) {
+            var dx = px - ex[j];
+            var dy = py - ey[j];
+            var d = Math.sqrt(dx * dx + dy * dy);
+            /* Gentle falloff on purpose: real interference needs the sources
+               to arrive with comparable amplitude. A steep 1/d lets the
+               nearest emitter dominate and you get concentric rings instead
+               of fringes. */
+            sum += Math.sin(d * k - wt) / (1 + d * 0.0018);
           }
-        }
 
-        for (i = 0; i < dots.length; i++) {
-          var p = dots[i];
-          var pulse = 0.72 + 0.28 * Math.sin(now * 0.0012 + p.phase);
-          ctx.globalAlpha = p.a * pulse;
-          ctx.fillStyle = p.c;
+          /* Superposing three sources rarely reaches full swing, so normalise
+             before shaping — otherwise the whole field sits in the dim half
+             of the curve and nothing lights up. */
+          var a = sum * inv * 1.55;
+          if (a > 1) a = 1;
+          else if (a < -1) a = -1;
+
+          /* Squared bias keeps troughs dark so the fringes read as bands
+             rather than an even haze. Cubing crushes the mid-range entirely. */
+          var lum = a * 0.5 + 0.5;
+          lum *= lum;
+
+          var alpha = (0.05 + lum * 0.95) * p.base;
+          if (alpha < 0.02) continue;
+
+          /* Hue sweeps the full spectrum diagonally across the canvas and is
+             then pushed further by the amplitude, so a fringe is a band of
+             colour and not only a band of brightness. The rainbow is produced
+             by the interference rather than applied over the top of it. */
+          var col = sample(theme.from + span * (p.hue + (px / w) * 0.85 + (py / h) * 0.22 + lum * 0.45));
+          var rgb = col[0] + ',' + col[1] + ',' + col[2];
+          var rad = 0.8 + lum * 3.4;
+
+          ctx.fillStyle = 'rgba(' + rgb + ',' + alpha.toFixed(3) + ')';
           ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.arc(px, py, rad, 0, Math.PI * 2);
           ctx.fill();
 
-          if (p.r > 1.7) {
-            ctx.globalAlpha = p.a * pulse * 0.13;
+          /* Bloom is the expensive draw, so it is gated to the crests. */
+          if (lum > 0.45) {
+            ctx.fillStyle = 'rgba(' + rgb + ',' + (alpha * 0.14).toFixed(3) + ')';
             ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r * 5, 0, Math.PI * 2);
+            ctx.arc(px, py, rad * 6.5, 0, Math.PI * 2);
             ctx.fill();
           }
         }
-        ctx.globalAlpha = 1;
 
-        raf(draw);
+        /* Wavefronts, so the interference has a visible cause. */
+        for (i = 0; i < ex.length; i++) {
+          for (var ring = 0; ring < 3; ring++) {
+            var phase = ((wt / 6.2831853 + ring / 3) % 1 + 1) % 1;
+            var fade = (1 - phase) * 0.09;
+            if (fade <= 0.004) continue;
+            var rc = sample(theme.from + span * (i / ex.length + phase));
+            ctx.strokeStyle = 'rgba(' + rc[0] + ',' + rc[1] + ',' + rc[2] + ',' + fade.toFixed(3) + ')';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.arc(ex[i], ey[i], phase * Math.max(w, h) * 0.75, 0, Math.PI * 2);
+            ctx.stroke();
+          }
+        }
+
+        ctx.globalCompositeOperation = 'source-over';
+        if (running) raf(draw);
       }
 
       function start() {
         if (running) return;
         if (!size()) return;
-        if (!dots.length) seed();
+        if (!pts.length) seed();
         running = true;
         raf(draw);
       }
@@ -487,6 +578,19 @@
       on(document, 'visibilitychange', function () {
         document.hidden ? stop() : start();
       });
+
+      /* Exposed so a frame can be timed directly rather than inferred from
+         requestAnimationFrame cadence, which throttles in hidden tabs. */
+      canvas.__qf = {
+        frame: function (ms) {
+          if (!w) size();
+          if (!pts.length) seed();
+          draw(t0 + (ms || 0));
+        },
+        points: function () {
+          return pts.length;
+        },
+      };
     });
   })();
 

@@ -1,7 +1,7 @@
 import { html } from '../lib/html.mjs';
 import { localePath, ROUTES } from '../lib/url.mjs';
 import { VIDEOS, BRAND } from '../site.config.mjs';
-import { PageHero, SectionHead, KeyValueGrid, CTABlock, Eyebrow, GlobalMap } from '../components/sections.mjs';
+import { PageHero, SectionHead, KeyValueGrid, CTABlock, Eyebrow, GlobalMap, Decor } from '../components/sections.mjs';
 import { CinematicSection } from '../components/media.mjs';
 
 export default function About({ locale, t, has, mask }) {
@@ -21,6 +21,7 @@ export default function About({ locale, t, has, mask }) {
 
     <!-- Philosophy — the core brand statement -->
     <section class="sec sec--philosophy" id="philosophy" data-reveal-root>
+      ${Decor()}
       <div class="wrap">
         ${Eyebrow('02')}
         <h2 class="sr">${a.philosophyTitle}</h2>

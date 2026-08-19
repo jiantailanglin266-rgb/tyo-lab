@@ -1,7 +1,7 @@
 import { html } from '../lib/html.mjs';
 import { localePath, ROUTES } from '../lib/url.mjs';
 import { VIDEOS } from '../site.config.mjs';
-import { PageHero, SectionHead, KeyValueGrid, WordWall, CTABlock, Eyebrow } from '../components/sections.mjs';
+import { PageHero, SectionHead, KeyValueGrid, WordWall, CTABlock, Eyebrow, Decor } from '../components/sections.mjs';
 import { CinematicSection } from '../components/media.mjs';
 
 export default function Technology({ locale, t, has }) {
@@ -31,6 +31,7 @@ export default function Technology({ locale, t, has }) {
 
     <!-- Probability, not certainty -->
     <section class="sec sec--quantum" id="probability" data-reveal-root>
+      ${Decor({ hud: true })}
       <div class="wrap">
         ${Eyebrow('02')}
         <h2 class="big" data-reveal>

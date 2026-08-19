@@ -3,6 +3,24 @@ import { formatNumber } from '../lib/i18n.mjs';
 import { STATS, COMMUNITY } from '../site.config.mjs';
 import { GRID, project } from '../lib/worldmap.mjs';
 
+/**
+ * Background decoration. Purely visual, so every element is aria-hidden and
+ * nothing here carries meaning a screen reader would miss.
+ *
+ *   aurora  — slow spectrum bloom (CSS, transform-only)
+ *   lattice — engineering grid + sweeping spectrum hairline (CSS)
+ *   hud     — corner brackets (CSS)
+ *
+ * All three are dropped under prefers-reduced-motion.
+ */
+export function Decor({ aurora = true, lattice = true, hud = false, soft = false } = {}) {
+  return html`
+    ${when(aurora, () => html`<div class="aurora${raw(soft ? ' aurora--soft' : '')}" aria-hidden="true"></div>`)}
+    ${when(lattice, () => html`<div class="lattice" aria-hidden="true"></div>`)}
+    ${when(hud, () => html`<div class="hud" aria-hidden="true"><i></i><i></i><i></i><i></i></div>`)}
+  `;
+}
+
 /** Small monospace label above a headline. */
 export const Eyebrow = (text, n) =>
   html`<p class="eyebrow" data-reveal>${when(n, () => html`<span class="eyebrow__n">${n}</span>`)}<span>${text}</span></p>`;
@@ -20,6 +38,7 @@ export function PageHero({ eyebrow, h1, h2, lead, children }) {
         ${when(lead, () => html`<p class="phero__lead" data-reveal>${lead}</p>`)}
         ${children || ''}
       </div>
+      ${Decor({ hud: true })}
       <canvas class="phero__particles" data-particles="spectrum" aria-hidden="true"></canvas>
     </section>
   `;
@@ -172,6 +191,7 @@ export function Timeline({ stages, locale, t, compact = false }) {
 export function CTABlock({ title, body, primary, secondary }) {
   return html`
     <section class="cta" data-reveal-root>
+      ${Decor({ soft: true })}
       <div class="cta__inner">
         <h2 class="cta__title" data-reveal>${splitWords(title, 'cta__w')}</h2>
         ${when(body, () => html`<p class="cta__body" data-reveal>${body}</p>`)}

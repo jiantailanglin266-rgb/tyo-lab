@@ -12,6 +12,7 @@ import {
   Stats,
   GlobalMap,
   Timeline,
+  Decor,
 } from '../components/sections.mjs';
 import { EACard } from '../components/ea.mjs';
 
@@ -193,6 +194,7 @@ export default function Home({ locale, t, has, mask, ea, stages }) {
 
     <!-- 09 ─ TECHNOLOGY / PROBABILITY ────────────────────────────────── -->
     <section class="sec sec--tech" id="technology" data-reveal-root>
+      ${Decor({ hud: true })}
       <div class="wrap">
         ${Eyebrow(h.tech.eyebrow, '09')}
         <h2 class="big" data-reveal>

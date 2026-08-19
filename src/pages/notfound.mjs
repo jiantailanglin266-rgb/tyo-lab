@@ -1,10 +1,11 @@
 import { html } from '../lib/html.mjs';
 import { localePath, ROUTES } from '../lib/url.mjs';
-import { Button } from '../components/sections.mjs';
+import { Button, Decor } from '../components/sections.mjs';
 
 export default function NotFound({ locale, t }) {
   return html`
     <section class="nf" data-reveal-root>
+      ${Decor({ hud: true })}
       <div class="wrap">
         <p class="nf__code" data-reveal>404</p>
         <h1 class="nf__title" data-reveal>Signal not found.</h1>

@@ -7,7 +7,7 @@
  */
 
 import { createServer } from 'node:http';
-import { readFile, stat } from 'node:fs/promises';
+import { readFile, writeFile, stat } from 'node:fs/promises';
 import { join, extname, normalize, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -33,8 +33,28 @@ const TYPES = {
 
 const isFile = (p) => stat(p).then((s) => s.isFile(), () => false);
 
+/**
+ * Dev-only: POST a data: URL to /__shot to write it next to the server as a
+ * file. Used to eyeball canvas output when the browser's own screenshot path
+ * is unavailable. Never shipped — this file is not part of dist/.
+ */
+async function handleShot(req, res) {
+  const chunks = [];
+  for await (const c of req) chunks.push(c);
+  const body = Buffer.concat(chunks).toString('utf8');
+  const m = body.match(/^data:image\/(png|jpeg);base64,(.+)$/s);
+  if (!m) {
+    res.writeHead(400).end('expected a data:image/... URL');
+    return;
+  }
+  const file = join(ROOT, '..', `__shot.${m[1] === 'jpeg' ? 'jpg' : 'png'}`);
+  await writeFile(file, Buffer.from(m[2], 'base64'));
+  res.writeHead(200, { 'Content-Type': 'text/plain' }).end(file);
+}
+
 createServer(async (req, res) => {
   try {
+    if (req.method === 'POST' && req.url === '/__shot') return handleShot(req, res);
     const url = decodeURIComponent((req.url || '/').split('?')[0]);
     let rel = normalize(url).replace(/^(\.\.[/\\])+/, '');
     let file = join(ROOT, rel);
