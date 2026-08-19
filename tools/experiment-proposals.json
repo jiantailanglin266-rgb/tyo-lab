@@ -1,0 +1,4 @@
+{
+  "_readme": "AI-drafted experiment proposals (Phase 13). DRAFT until a human sets APPROVED/REJECTED by hand. Never auto-promoted: scripts/promote-proposal.mjs only PRINTS an experiment skeleton for an APPROVED proposal, a human pastes and completes it, and the Phase 10 human-review gate still withholds it until humanReviewed is true.",
+  "proposals": []
+}

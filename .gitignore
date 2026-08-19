@@ -17,4 +17,5 @@ __shot.*
 # docs/FORWARD_SECURITY_PRIVACY.md).
 data/forward/raw/
 data/forward/normalized/
+data/forward/exports/
 data/forward/audit-log.jsonl
