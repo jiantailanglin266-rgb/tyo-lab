@@ -11,7 +11,10 @@
  *              undocumented, so no held-out period can be proven. The 70/30
  *              split analyses (EXP-0002xx) are stability checks, NOT OOS,
  *              and deliberately do not light this stage.
- *   walkForward / monteCarlo / forward / live
+ *   monteCarlo ✓ when pre-generated simulation results for the system exist
+ *              in tools/montecarlo.json (Phase 8: 1,000 seeded resamplings of
+ *              the real deal list — shuffle, missed-trade, cost stress).
+ *   walkForward / forward / live
  *              PENDING until such results exist as data in this repo.
  *
  * Scoring (docs/TYO_SCORE_V2_MODEL.md):
@@ -34,7 +37,7 @@ export function evidenceOf(model, experiments = []) {
     backtest: !!(model.trades && model.backtest && model.backtest.totalTrades),
     oos: false,
     walkForward: false,
-    monteCarlo: false,
+    monteCarlo: !!model.mc,
     forward: false,
     live: false,
   };

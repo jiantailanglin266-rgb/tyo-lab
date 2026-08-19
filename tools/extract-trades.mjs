@@ -33,21 +33,16 @@
 
 import { readFile, readdir, writeFile } from 'node:fs/promises';
 import { join, dirname, basename } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const SRC = process.argv[2];
-
-if (!SRC) {
-  console.error('usage: node tools/extract-trades.mjs <source-dir>');
-  process.exit(1);
-}
 
 /* ------------------------------------------------------------------ *
- * Shared with import-reports.mjs: decoding + folder map
+ * Shared with import-reports.mjs and run-montecarlo.mjs:
+ * decoding + folder map + deal-list extraction (all exported)
  * ------------------------------------------------------------------ */
 
-function decode(buf) {
+export function decode(buf) {
   if (buf[0] === 0xff && buf[1] === 0xfe) return buf.toString('utf16le');
   if (buf[0] === 0xfe && buf[1] === 0xff) return buf.swap16().toString('utf16le');
   const utf8 = buf.toString('utf8');
@@ -61,7 +56,7 @@ function decode(buf) {
   return utf8;
 }
 
-const FOLDER_TO_SLUG = {
+export const FOLDER_TO_SLUG = {
   COSMOS: 'cosmos',
   GALOA: 'galoa',
   GODSPEED: 'godspeed',
@@ -89,7 +84,7 @@ function rank(name) {
   return s;
 }
 
-async function findReports(dir) {
+export async function findReports(dir) {
   const out = [];
   const walk = async (d, depth) => {
     if (depth > 2) return;
@@ -156,7 +151,7 @@ function parseTime(v) {
  * Pull closed trades out of either dialect.
  * A "closed trade" is a row that realises a profit and moves the balance.
  */
-function extractTrades(html) {
+export function extractTrades(html) {
   ROW.lastIndex = 0;
   const trades = [];
   let openLots = 0;
@@ -414,8 +409,17 @@ function aggregate(trades) {
 }
 
 /* ------------------------------------------------------------------ *
- * Run
+ * Run (CLI only — importing this module runs nothing)
  * ------------------------------------------------------------------ */
+
+const invokedDirectly = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+
+if (invokedDirectly) {
+const SRC = process.argv[2];
+if (!SRC) {
+  console.error('usage: node tools/extract-trades.mjs <source-dir>');
+  process.exit(1);
+}
 
 console.log(`\n  Extracting trade data from ${SRC}\n`);
 
@@ -480,3 +484,4 @@ if (problems.length) {
   for (const p of problems) console.log(`    ! ${p}`);
 }
 console.log('\n  → tools/extracted-trades.json written\n');
+}

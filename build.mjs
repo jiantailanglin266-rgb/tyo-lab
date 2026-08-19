@@ -202,10 +202,22 @@ const eaBase = await buildEAModels(eaRaw);
  * `score.v1Total`) and `evidence` carries the six-stage checklist.
  */
 const experiments = await loadExperiments();
+
+/* Monte Carlo results (Phase 8): tools/run-montecarlo.mjs output. Absent
+   file → the MC block and its evidence stage simply stay pending. */
+let mcData = null;
+try {
+  mcData = JSON.parse(await readFile(join(ROOT, 'tools', 'montecarlo.json'), 'utf8'));
+} catch {
+  warnings.push('No tools/montecarlo.json — run `node tools/run-montecarlo.mjs <folder>` to add Monte Carlo stress results.');
+}
+
 const ea = eaBase.map((m) => {
-  const evidence = evidenceOf(m, experiments);
-  const v2 = scoreV2(m, evidence);
-  return Object.freeze({ ...m, evidence, score: v2, num: Object.freeze({ ...m.num, score: v2.total }) });
+  const mc = mcData?.systems?.[m.slug] || null;
+  const withMc = { ...m, mc, mcMeta: mc ? { seed: mcData.seed, sims: mcData.sims } : null };
+  const evidence = evidenceOf(withMc, experiments);
+  const v2 = scoreV2(withMc, evidence);
+  return Object.freeze({ ...withMc, evidence, score: v2, num: Object.freeze({ ...m.num, score: v2.total }) });
 });
 const scored = ea.filter((m) => m.score.total !== null).length;
 const withTrades = ea.filter((m) => m.trades).length;

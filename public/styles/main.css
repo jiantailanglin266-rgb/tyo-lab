@@ -4966,6 +4966,23 @@ table {
   font-size: 0.76rem;
 }
 
+/* ---- Monte Carlo panel ---- */
+
+.mcpanel .statgrid__title {
+  margin-top: 30px;
+}
+
+.mcpanel__lead {
+  margin: 8px 0 14px;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--fg-2);
+}
+
+.mcpanel .fineline + .fineline {
+  margin-top: 8px;
+}
+
 /* ---- badges ---- */
 
 .badge.is-verified {

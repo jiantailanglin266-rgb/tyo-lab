@@ -29,15 +29,14 @@ Nothing about how a component is judged changed — only its weight.
 | Backtest | 5 | a parsed tester report with a full deal list exists in this repo |
 | Out of sample | +3 | a provably held-out period exists as data |
 | Walk forward | +3 | walk-forward results exist as data |
-| Monte Carlo | +3 | simulation results exist as data (Phase 8) |
+| Monte Carlo | +3 | pre-generated simulation results exist in tools/montecarlo.json (Phase 8: 1,000 seeded resamplings per family — see MONTE_CARLO_MODEL.md) |
 | Forward test | +3 | forward records exist as data (Phase 9) |
 | Live | +3 | live records exist as data (Phase 9) |
 
 A stage is granted **only when its underlying data exists in this
-repository** — never on the owner's say-so. As of Phase 6 every published
-system scores **5/20**: backtest only. That is the point of the axis — the
-platform's own scale states that verification depth is currently shallow, and
-the number can only rise when real validation data lands.
+repository** — never on the owner's say-so. Since Phase 8 every published
+system scores **8/20**: backtest (5) + Monte Carlo (3). OOS, walk-forward,
+forward and live remain pending; the number rises only when that data lands.
 
 **Why the split analyses don't light OOS:** the optimisation window of the
 historical builds is undocumented, so no period can be *proven* held-out.
@@ -57,20 +56,20 @@ formula, so they bind the V2 total identically:
 A system missing any component input still reports "Insufficient data" rather
 than a total that looks comparable to a complete one.
 
-## Effect on the catalogue (Phase 6 baseline)
+## Effect on the catalogue
 
-Every system moved down, because 15/20 evidence points are unearned:
+Phase 6 baseline (evidence 5/20) and Phase 8 (Monte Carlo lands, 8/20):
 
-| Example | V1 | V2 | Note |
-|---|---|---|---|
-| GALOA | 84 | 72 | 66.9 perf + 5 evidence |
-| NEXUS | 84 | 72 | |
-| RINA | 55 | 55 | cap 55 binds either way |
-| SUPREMACY | 55 | 55 | cap 55 binds |
-| JAYRO | 40 | 40 | cap 40 binds |
+| Example | V1 | V2 @5/20 | V2 @8/20 | Note |
+|---|---|---|---|---|
+| GALOA | 84 | 72 | 75 | 66.9 perf + evidence |
+| NEXUS | 84 | 72 | 75 | |
+| RINA | 55 | 55 | 55 | cap 55 binds throughout |
+| SUPREMACY | 55 | 55 | 55 | cap 55 binds |
+| JAYRO | 40 | 40 | 40 | cap 40 binds |
 
-Uncapped systems: `V2 ≈ V1 × 0.8 + 5`. Capped systems are unchanged — their
-cap already said everything.
+Uncapped systems: `V2 ≈ V1 × 0.8 + evidence`. Capped systems are unchanged —
+their cap already said everything.
 
 ## Displaying
 

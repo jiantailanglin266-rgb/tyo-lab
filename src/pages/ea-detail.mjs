@@ -7,6 +7,7 @@ import { VideoEmbed } from '../components/media.mjs';
 import { EASpecs, EAParameters, EAVersions, EATimeline, EAEnvironment } from '../components/ea.mjs';
 import {
   ScoreCard,
+  MonteCarloPanel,
   PerformanceSnapshot,
   EquityCurve,
   DrawdownAnalysis,
@@ -146,6 +147,12 @@ export default function EADetail({ locale, t, ea: model, next, stages }) {
           `
         : null,
     },
+    {
+      n: '16',
+      id: 'montecarlo',
+      title: t.mc.title,
+      body: MonteCarloPanel({ model, t }),
+    },
   ].filter((b) => b.body && String(b.body).trim());
 
   const hasVideo = model.media.video && model.media.video.type;
@@ -236,7 +243,7 @@ export default function EADetail({ locale, t, ea: model, next, stages }) {
             hasVideo,
             () => html`<section class="block" id="video" data-reveal-root>
               <h2 class="block__title" data-reveal>
-                <span class="block__n">16</span><span class="block__bar" aria-hidden="true"></span>${d.video}
+                <span class="block__n">17</span><span class="block__bar" aria-hidden="true"></span>${d.video}
               </h2>
               <div class="block__body">${VideoEmbed({ video: model.media.video, t, title: `${model.name} — ${d.video}` })}</div>
             </section>`
@@ -244,7 +251,7 @@ export default function EADetail({ locale, t, ea: model, next, stages }) {
 
           <section class="block" id="disclaimer" data-reveal-root>
             <h2 class="block__title" data-reveal>
-              <span class="block__n">${hasVideo ? '17' : '16'}</span><span class="block__bar" aria-hidden="true"></span>${S.disclaimer}
+              <span class="block__n">${hasVideo ? '18' : '17'}</span><span class="block__bar" aria-hidden="true"></span>${S.disclaimer}
             </h2>
             <div class="block__body">
               ${BacktestDisclaimer({ t })}
