@@ -161,6 +161,20 @@ export const EA = [
     spec: { market: 'Crypto', symbol: 'BTCUSD', strategy: 'Japan Original Scalping' },
   }),
 
+  make({
+    slug: 'evergreen',
+    name: 'EVERGREEN',
+    number: '13',
+    spec: { symbol: 'EURJPY', strategy: 'Japan Original Scalping' },
+  }),
+
+  make({
+    slug: 'supremacy',
+    name: 'SUPREMACY',
+    number: '14',
+    spec: { market: 'Crypto', symbol: 'BTCUSD', strategy: 'Japan Original Scalping' },
+  }),
+
   /* ------------------------------------------------------------------ *
    * Template — copy this block to add a system.
    * status:'draft' keeps it out of the build entirely.

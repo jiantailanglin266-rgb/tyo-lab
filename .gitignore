@@ -3,3 +3,6 @@ node_modules/
 .DS_Store
 Thumbs.db
 *.log
+
+# Source art (originals kept out of the repo; optimised copies live in public/assets/images/ea/)
+images/
