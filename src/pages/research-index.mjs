@@ -14,7 +14,7 @@ import { experimentStats } from '../data/experiments.mjs';
  * warning are page furniture, not footnotes — they define what qualifies as
  * an entry here.
  */
-export default function ResearchIndex({ locale, t, experiments, ea, candidates = [] }) {
+export default function ResearchIndex({ locale, t, experiments, ea, candidates = [], protocol = { research: [], holdouts: [], candidates: [] } }) {
   const R = t.research;
   const F = t.fmon;
   const p = (r) => localePath(locale, r);
@@ -55,6 +55,71 @@ export default function ResearchIndex({ locale, t, experiments, ea, candidates =
         <p class="warn" data-reveal>${R.overfitting}</p>
       </div>
     </section>
+
+    <!-- Development protocol (Phase 15): evidence-by-design strategies.
+         Sealed periods render with status only from committed manifests;
+         the isolation is procedural and says so (§104). -->
+    ${when(
+      (protocol.research || []).length,
+      () => html`
+        <section class="sec sec--tight" id="protocol" data-reveal-root>
+          <div class="wrap">
+            <h2 class="statgrid__title" data-reveal>${t.proto.title}</h2>
+            <p class="pairx__lead" data-reveal>${t.proto.lead}</p>
+            ${protocol.research.map((r) => {
+              const P = t.proto;
+              const holdout = (protocol.holdouts || []).find((h) => h.holdoutId === r.finalHoldoutId);
+              const frozen = (protocol.candidates || []).filter((c) => c.strategyId === r.strategyId && c.status === 'FROZEN');
+              return html`
+                <div class="vcard" data-reveal style="margin-top:1.2rem">
+                  <div class="vcard__head">
+                    <span class="xcard__id">${r.researchId}</span>
+                    <span class="badge is-verified">${P.badge}</span>
+                    <span class="xcard__cat">${r.displayName}</span>
+                    <span class="badge is-retro">${P.quality}: ${P[`q${r.qualityLevel}`] || r.qualityLevel}</span>
+                  </div>
+                  <p class="fineline">${P.qualityNote}</p>
+
+                  <p class="statgrid__title">${P.layers}</p>
+                  <div class="tablewrap">
+                    <table class="dtable">
+                      <tbody>
+                        <tr><th scope="row">${P.lDevelopment}</th><td>${r.researchPeriod.from} → ${r.researchPeriod.to}</td><td></td></tr>
+                        <tr><th scope="row">${P.lInternal}</th><td>${r.internalValidationPeriod.from} → ${r.internalValidationPeriod.to}</td><td></td></tr>
+                        <tr><th scope="row">${P.lProspective}</th><td>${r.prospectiveOOSPeriod.from} → ${r.prospectiveOOSPeriod.to}</td><td></td></tr>
+                        <tr>
+                          <th scope="row">${P.lHoldout}</th>
+                          <td>${holdout ? `${holdout.start} → ${holdout.end}` : '—'}</td>
+                          <td>${holdout ? html`<span class="xstatus vstatus--${raw(holdout.status === 'SEALED' ? 'passed' : 'inconclusive')}"><i aria-hidden="true">${holdout.status === 'SEALED' ? '🔒' : '•'}</i>${P[`h${holdout.status}`] || holdout.status}</span>` : '—'}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <p class="statgrid__title">${P.budget}</p>
+                  <div class="xdiffs">
+                    <span class="xdiff">${P.bVariants} ${r.used.logicVariants}/${r.budget.maxLogicVariants}</span>
+                    <span class="xdiff">${P.bExperiments} ${r.used.experiments}/${r.budget.maxExperiments}</span>
+                    <span class="xdiff">${P.bOptimization} ${r.used.optimizationRuns}/${r.budget.maxOptimizationRuns}</span>
+                    <span class="xdiff">${P.candidates} ${frozen.length}</span>
+                  </div>
+                  <p class="fineline">${P.budgetNote}</p>
+
+                  <p class="statgrid__title">${P.milestones}</p>
+                  <div class="xdiffs">
+                    ${[
+                      [P.mBaseline, r.milestones.baseline],
+                      [P.mInternal, r.milestones.internalValidation],
+                      [P.mMC, r.milestones.monteCarlo],
+                    ].map(([k, ok]) => html`<span class="xdiff ${raw(ok ? 'is-up' : '')}">${k}: ${ok ? P.done : P.pending}</span>`)}
+                  </div>
+                </div>
+              `;
+            })}
+          </div>
+        </section>
+      `
+    )}
 
     <!-- Monitoring candidates (Phase 12 §101): observations queued for human
          review. Separate from experiments; never auto-promoted. Renders only

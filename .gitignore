@@ -31,3 +31,9 @@ mql5/*.log
 # configs). Public aggregates ship via tools/validation-*.json and
 # reports/validation/.
 data/validation/
+
+# Phase 15: research audit log + generated configs, and the holdout vault
+# for raw data exports (never committed; the manifests in
+# tools/research-protocol.json are the public record).
+data/research/
+data/holdout/

@@ -96,6 +96,17 @@ await test('wf_windows returns windows or a clean absence message', async () => 
   assert.match(r.result.content[0].text, /no WF results|windowId/);
 });
 
+await test('research protocol tools are read-only and expose no holdout results (Phase 15 §98)', async () => {
+  const list = await rpc('tools/list', {});
+  const names = list.result.tools.map((t) => t.name);
+  for (const n of ['research_protocol_status', 'candidate_freezes', 'holdout_status', 'research_budget', 'prospective_validation_status'])
+    assert.ok(names.includes(n), `missing ${n}`);
+  assert.ok(!names.some((n) => /unlock|seal|approve/.test(n)), 'no unlock/seal/approve tool may exist');
+  const r = await rpc('tools/call', { name: 'holdout_status', arguments: {} });
+  assert.match(r.result.content[0].text, /SEALED|no holdouts/);
+  assert.ok(!/PF|profit|trades/i.test(r.result.content[0].text), 'holdout_status must never carry results');
+});
+
 await test('tyo_monitoring_status is read-only and honest about NO DATA', async () => {
   const r = await rpc('tools/call', { name: 'tyo_monitoring_status', arguments: {} });
   const text = r.result.content[0].text;

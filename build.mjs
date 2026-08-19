@@ -251,6 +251,15 @@ try {
 }
 const validationQualifies = (v) => v.status === 'PASSED' && v.provenance === 'PROSPECTIVE';
 
+/* Evidence-by-design research protocol (Phase 15): manifests, sealed
+   holdouts, frozen candidates. Rendered on the research log + terminal. */
+let protocol = { research: [], holdouts: [], candidates: [], contamination: [] };
+try {
+  protocol = JSON.parse(await readFile(join(ROOT, 'tools', 'research-protocol.json'), 'utf8'));
+} catch {
+  /* no protocol strategies yet */
+}
+
 /* §45–46: an evidence stage lights only above the minimums — for pipeline
    aggregates the analyzer already computed `qualified`; a manual Phase 9
    record must clear the same bar (trades + days stated in the record). */
@@ -543,7 +552,7 @@ for (const loc of LOCALES) {
           { name: t.nav.terminal, path: ROUTES.terminal() },
         ]),
       ],
-      children: Terminal({ ...ctx, ea, experiments, candidates: researchCandidates }),
+      children: Terminal({ ...ctx, ea, experiments, candidates: researchCandidates, protocol }),
     })
   );
 
@@ -561,7 +570,7 @@ for (const loc of LOCALES) {
           { name: t.nav.research, path: ROUTES.research() },
         ]),
       ],
-      children: ResearchIndex({ ...ctx, experiments, ea, candidates: researchCandidates }),
+      children: ResearchIndex({ ...ctx, experiments, ea, candidates: researchCandidates, protocol }),
     })
   );
 

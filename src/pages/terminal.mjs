@@ -20,7 +20,7 @@ import { experimentStats } from '../data/experiments.mjs';
 const has = (v) => v !== null && v !== undefined && v !== '';
 const num = (n) => (has(n) ? Number(n).toLocaleString('en-US') : '—');
 
-export default function Terminal({ locale, t, ea, experiments, candidates = [] }) {
+export default function Terminal({ locale, t, ea, experiments, candidates = [], protocol = { research: [], holdouts: [], candidates: [] } }) {
   const T = t.terminal;
   const E = t.evidence;
   const F = t.fmon;
@@ -43,6 +43,16 @@ export default function Terminal({ locale, t, ea, experiments, candidates = [] }
      validation sections render. Retrospective records count separately and
      never as "qualified". */
   const allVals = models.flatMap((m) => m.validations || []);
+  /* Evidence-by-design protocol counters (Phase 15 §95) */
+  const protoStats = (protocol.research || []).length
+    ? [
+        [t.proto.sumEbd, protocol.research.length],
+        [t.proto.sumSealed, (protocol.holdouts || []).filter((h) => h.status === 'SEALED').length],
+        [t.proto.sumFrozen, (protocol.candidates || []).filter((c) => c.status === 'FROZEN').length],
+        [t.proto.sumProspective, allVals.filter((v) => v.provenance === 'PROSPECTIVE').length],
+      ]
+    : [];
+
   const valStats = allVals.length
     ? [
         [t.val.sumOOSq, models.filter((m) => m.oosVal).length],
@@ -139,9 +149,9 @@ export default function Terminal({ locale, t, ea, experiments, candidates = [] }
             <span class="emap__chip is-ok"><i aria-hidden="true">✓</i>${T.legendOk}</span>
             <span class="emap__chip is-pending"><i aria-hidden="true">·</i>${T.legendPending}</span>
           </div>
-          ${when(valStats.length, () => html`
+          ${when(valStats.length || protoStats.length, () => html`
             <ul class="labstats labstats--inline" style="margin-top:18px">
-              ${valStats.map(([k, v]) => html`<li><span class="labstats__v">${v}</span><span class="labstats__k">${k}</span></li>`)}
+              ${[...protoStats, ...valStats].map(([k, v]) => html`<li><span class="labstats__v">${v}</span><span class="labstats__k">${k}</span></li>`)}
             </ul>
           `)}
           <p class="fineline">${E.oosNote}</p>

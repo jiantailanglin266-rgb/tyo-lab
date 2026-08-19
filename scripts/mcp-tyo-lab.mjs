@@ -279,6 +279,65 @@ const TOOLS = [
     },
   },
   {
+    name: 'research_protocol_status',
+    description:
+      'Read-only. Evidence-by-design research manifests: data layers, holdout STATUS (never holdout results — no tool exposes those while sealed, §98), quality level, milestones. AI cannot unlock, approve, or reseal anything (§99–100).',
+    inputSchema: { type: 'object', properties: {}, additionalProperties: false },
+    async run() {
+      const p = await readJSON('tools/research-protocol.json', { research: [] });
+      if (!p.research.length) return 'no evidence-by-design strategies yet';
+      return p.research
+        .map((r) => {
+          const h = (p.holdouts || []).find((x) => x.holdoutId === r.finalHoldoutId);
+          return `${r.researchId} ${r.strategyId} [${r.qualityLevel}] dev ${r.researchPeriod.from}→${r.researchPeriod.to} · holdout ${h ? h.status : '—'} · milestones ${JSON.stringify(r.milestones)}`;
+        })
+        .join('\n');
+    },
+  },
+  {
+    name: 'candidate_freezes',
+    description: 'Read-only. Frozen candidates with source/parameter hashes and the search budget consumed at freeze time.',
+    inputSchema: { type: 'object', properties: {}, additionalProperties: false },
+    async run() {
+      const p = await readJSON('tools/research-protocol.json', { candidates: [] });
+      return p.candidates?.length ? JSON.stringify(p.candidates, null, 1) : 'no frozen candidates yet';
+    },
+  },
+  {
+    name: 'holdout_status',
+    description: 'Read-only. Holdout manifest STATES only (DRAFT/SEALED/UNLOCK_APPROVED/UNLOCKED/CONSUMED/INVALIDATED). Holdout RESULTS are never exposed here, and no MCP tool can unlock (§98–99: unlock is a human CLI).',
+    inputSchema: { type: 'object', properties: {}, additionalProperties: false },
+    async run() {
+      const p = await readJSON('tools/research-protocol.json', { holdouts: [] });
+      return p.holdouts?.length
+        ? p.holdouts.map((h) => `${h.holdoutId} ${h.strategyId} ${h.start}→${h.end} ${h.status}`).join('\n')
+        : 'no holdouts yet';
+    },
+  },
+  {
+    name: 'research_budget',
+    description: 'Read-only. Search-budget consumption per research manifest (the count itself is overfitting-risk evidence, §27).',
+    inputSchema: { type: 'object', properties: { researchId: { type: 'string' } }, additionalProperties: false },
+    async run(args) {
+      const p = await readJSON('tools/research-protocol.json', { research: [] });
+      const list = args.researchId ? p.research.filter((r) => r.researchId === args.researchId) : p.research;
+      if (!list.length) return 'no matching research manifest';
+      return list.map((r) => `${r.researchId}: ${JSON.stringify(r.used)} of ${JSON.stringify(r.budget)}`).join('\n');
+    },
+  },
+  {
+    name: 'prospective_validation_status',
+    description: 'Read-only. PROSPECTIVE validations published through the one-shot holdout runner (quality level included). Sealed holdouts have no results to read.',
+    inputSchema: { type: 'object', properties: {}, additionalProperties: false },
+    async run() {
+      const r = await readJSON('tools/validation-results.json', { validations: [] });
+      const pro = r.validations.filter((v) => v.provenance === 'PROSPECTIVE');
+      return pro.length
+        ? pro.map((v) => `${v.validationId} ${v.strategyId} ${v.version} [${v.qualityLevel || 'PROSPECTIVE'}] ${v.status}`).join('\n')
+        : 'no prospective validations yet';
+    },
+  },
+  {
     name: 'tyo_draft_experiment_proposal',
     description:
       'Write a DRAFT experiment proposal derived from a research candidate into tools/experiment-proposals.json. DRAFT only: this never creates or edits an experiment, and promotion requires a human to review the draft, set status APPROVED by hand, and author the experiment (which the Phase 10 human-review gate still guards). The analysis text must state signals, not assert causes.',

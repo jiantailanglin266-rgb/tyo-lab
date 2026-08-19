@@ -1,0 +1,88 @@
+{
+ "_readme": "Evidence-by-design research protocol (Phase 15). Research manifests, sealed holdouts, frozen candidates and the contamination register. Holdout unlock and approvals are HUMAN actions; sealed periods are refused by every research tool (src/lib/holdout-guard.mjs).",
+ "research": [
+  {
+   "researchId": "RES-XAU-001",
+   "strategyId": "XAU_PYRAMID",
+   "displayName": "TYO XAU PYRAMID",
+   "version": "0.1.0",
+   "qualityLevel": "PROCESS_PROSPECTIVE",
+   "researchPeriod": {
+    "from": "2016-02-01",
+    "to": "2023-12-31"
+   },
+   "internalValidationPeriod": {
+    "from": "2024-01-01",
+    "to": "2024-12-31"
+   },
+   "prospectiveOOSPeriod": {
+    "from": "2025-01-01",
+    "to": "2025-12-31"
+   },
+   "finalHoldoutId": "HOLD-XAU-001",
+   "objectives": {
+    "minPF": 1.3,
+    "minAnnualTrades": 2000,
+    "stretchPF": 1.4,
+    "stretchAnnualTrades": 3000
+   },
+   "holdoutPassThresholds": {
+    "minPF": 1.1,
+    "minExpectedPayoff": 0,
+    "minAnnualizedTrades": 1500,
+    "maxDDvsInternalMultiple": 2
+   },
+   "budget": {
+    "maxLogicVariants": 12,
+    "maxExperiments": 30,
+    "maxOptimizationRuns": 10,
+    "maxParameterSets": 5000
+   },
+   "used": {
+    "logicVariants": 0,
+    "experiments": 0,
+    "optimizationRuns": 0,
+    "parameterSets": 0
+   },
+   "milestones": {
+    "baseline": false,
+    "internalValidation": false,
+    "monteCarlo": false
+   },
+   "knownExposure": [
+    {
+     "range": {
+      "from": "2026-01-01",
+      "to": "2026-02-28"
+     },
+     "via": "other systems’ tester reports (JOKER XAUUSD et al.)"
+    }
+   ],
+   "demonTrend": {
+    "source": "JOKER joker tyo mt520.mq5 TrendCheck() — identical structure to NEXUS",
+    "trendTF": "M15",
+    "maPeriod": 50,
+    "maDiff1": 40,
+    "maDiff2": 30,
+    "trendHour": 21
+   },
+   "createdAt": "2026-08-19T20:29:50.726Z"
+  }
+ ],
+ "holdouts": [
+  {
+   "holdoutId": "HOLD-XAU-001",
+   "strategyId": "XAU_PYRAMID",
+   "start": "2026-01-01",
+   "end": "2026-06-30",
+   "purpose": "FINAL_PROSPECTIVE_VALIDATION",
+   "qualityLevel": "PROCESS_PROSPECTIVE",
+   "status": "SEALED",
+   "createdAt": "2026-08-19T20:29:50.728Z",
+   "sealedAt": "2026-08-19T20:29:51.084Z",
+   "manifestHash": "2866e74789aeb6b6db7ff8190ad8f331f0f54be242b543f87bcf4d7834c4f2ff"
+  }
+ ],
+ "candidates": [],
+ "contamination": []
+}

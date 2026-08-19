@@ -1,0 +1,13 @@
+{
+  "_readme": "Baseline input snapshot for XAU_PYRAMID V001 (the compiled defaults). Used by freeze-candidate.mjs as the parameter snapshot; any change is a new version.",
+  "version": "XAU_PYRAMID_V001",
+  "entryTF": "M5",
+  "trendTF": "M15",
+  "demon": { "maPeriod": 50, "diff1": 40, "diff2": 30, "trendHour": 21, "gmtShift": 0 },
+  "entries": { "pullback": true, "breakout": true, "microBreakout": false, "momentum": false, "pullbackEMA": 20, "breakoutBars": 20, "microBreakoutBars": 5, "momentumATR": 1.2 },
+  "volatility": { "atrPeriod": 14, "atrLongTF": "H4", "atrLongPeriod": 50, "relATRMin": 0.6, "relATRMax": 3.0, "maxSpreadPips": 60, "maxSpreadATR": 0.25 },
+  "sessions": { "asia": false, "london": true, "ny": true, "overlap": true, "hours": { "asia": [0, 7], "london": [7, 12], "overlap": [12, 16], "ny": [16, 21] }, "pauseRollover": [23, 1], "blockLateFridayFrom": 20 },
+  "pyramid": { "stepATR": 1.0, "maxLevels": 4, "sizing": "CONSTANT", "factor": 1.0, "capLots": 1.0 },
+  "risk": { "lotMode": "CONSTANT", "lots": 0.1, "riskPercent": 0.25, "slATR": 2.0, "trailATR": 1.5, "maxBasketRiskPct": 3.0, "dailyLossLimitPct": 5.0, "maxPositions": 10, "reentryDelayBars": 3 },
+  "magic": 15150001
+}
