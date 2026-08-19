@@ -4,5 +4,6 @@ node_modules/
 Thumbs.db
 *.log
 
-# Source art (originals kept out of the repo; optimised copies live in public/assets/images/ea/)
-images/
+# Source art staging folder at the repo root only. The leading slash matters:
+# a bare `images/` would also exclude public/assets/images/, which ships.
+/images/
