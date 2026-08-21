@@ -170,6 +170,38 @@ export default function Home({ locale, t, has, mask, ea, stages }) {
       </div>
     </section>
 
+    <!-- 07b ─ TOKYO — where TYO is built (editorial photo spread) ─────── -->
+    <section class="sec sec--tokyo" id="tokyo" data-reveal-root>
+      <div class="wrap tokyo">
+        <div class="tokyo__copy">
+          ${Eyebrow(h.tokyo.eyebrow, '07')}
+          <h2 class="big" data-reveal>
+            <span class="big__l1">${h.tokyo.h1}</span>
+            <span class="big__l2">${h.tokyo.h2}</span>
+          </h2>
+          <p class="lead" data-reveal>${h.tokyo.body}</p>
+          <p class="tokyo__coords" data-reveal aria-hidden="true">35.6762° N · 139.6503° E</p>
+        </div>
+        <div class="tokyo__grid">
+          ${[
+            ['odaiba', 926, 1236],
+            ['alley', 1108, 1478],
+            ['avenue', 1108, 1478],
+            ['tower', 1108, 1478],
+            ['skyline', 1108, 1478],
+          ].map(
+            ([k, w, hh], i) => html`<figure class="tokyo__ph tokyo__ph--${raw(k)}" data-reveal style="--i:${i}">
+              <picture>
+                <source srcset="/assets/images/tokyo/${raw(k)}.webp" type="image/webp" />
+                <img src="/assets/images/tokyo/${raw(k)}.jpg" alt="${h.tokyo.captions[i]}" width="${w}" height="${hh}" loading="lazy" decoding="async" />
+              </picture>
+              <figcaption><span class="tokyo__n">0${i + 1}</span>${h.tokyo.captions[i]}</figcaption>
+            </figure>`
+          )}
+        </div>
+      </div>
+    </section>
+
     <!-- 08 ─ BUILT IN JAPAN / GLOBAL ─────────────────────────── VIDEO_05 -->
     ${CinematicSection({
       id: 'global',

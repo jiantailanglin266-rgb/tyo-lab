@@ -95,6 +95,13 @@ export default {
       },
       source: 'Nguồn: sàn MQL5, tổng lượt tải EA miễn phí.',
     },
+    tokyo: {
+      eyebrow: 'TOKYO',
+      h1: 'Xây dựng tại Tokyo.',
+      h2: 'Những con số đến từ một thành phố thật.',
+      body: 'Thuật toán của TYO được viết trên một chiếc bàn ở Tokyo. Cầu vồng trên Odaiba, con hẻm sau Shinjuku, đại lộ sau nửa đêm — chúng tôi sống ở đây, viết mã khi thị trường mở cửa và kiểm chứng khi thị trường đóng cửa. Nhịp điệu của thành phố này chính là dòng thời gian của TYO.',
+      captions: ['Odaiba — cầu vồng sau cơn mưa', 'Shinjuku — con hẻm sau', 'Shinjuku — đại lộ sau nửa đêm', 'Tòa tháp trên những con phố nhỏ', 'Thành phố về đêm nhìn từ trên cao'],
+    },
     global: {
       eyebrow: 'Cộng đồng toàn cầu',
       h1: 'Xây dựng tại Nhật Bản.',

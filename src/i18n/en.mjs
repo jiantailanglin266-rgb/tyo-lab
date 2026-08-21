@@ -107,6 +107,13 @@ export default {
       source: 'Source: MQL5 marketplace, cumulative free downloads.',
     },
 
+    tokyo: {
+      eyebrow: 'TOKYO',
+      h1: 'Built in Tokyo.',
+      h2: 'Numbers come from a real city.',
+      body: "TYO's algorithms are written at a desk in Tokyo. A rainbow over Odaiba, a Shinjuku back alley, the main road after midnight — we live here, write code while the markets open and verify it when they close. The rhythm of this city is TYO's timeline.",
+      captions: ['Odaiba — rainbow after the rain', 'Shinjuku — the back alley', 'Shinjuku — main road after midnight', 'A tower above the side streets', 'The city at night, seen from above'],
+    },
     global: {
       eyebrow: 'Global Community',
       h1: 'Built in Japan.',

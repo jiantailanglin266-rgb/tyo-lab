@@ -96,6 +96,13 @@ export default {
       },
       source: 'Sumber: marketplace MQL5, total unduhan EA gratis.',
     },
+    tokyo: {
+      eyebrow: 'TOKYO',
+      h1: 'Dibangun di Tokyo.',
+      h2: 'Angka lahir dari kota yang nyata.',
+      body: 'Algoritma TYO ditulis di sebuah meja di Tokyo. Pelangi di Odaiba, gang belakang Shinjuku, jalan utama lewat tengah malam — kami tinggal di sini, menulis kode saat pasar buka dan memverifikasinya saat pasar tutup. Ritme kota ini adalah garis waktu TYO.',
+      captions: ['Odaiba — pelangi setelah hujan', 'Shinjuku — gang belakang', 'Shinjuku — jalan utama lewat tengah malam', 'Menara di atas jalan-jalan kecil', 'Kota di malam hari, dari atas'],
+    },
     global: {
       eyebrow: 'Komunitas Global',
       h1: 'Dibangun di Jepang.',

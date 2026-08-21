@@ -6237,6 +6237,161 @@ table {
   filter: blur(0);
 }
 
+/* TOKYO — editorial photo spread ------------------------------------- */
+/* One continuous ground with the page; the photos carry the colour. The
+   grade is unified (slight desaturation + lift), every frame gets the same
+   1px edge, bottom multiply band for the caption, and a staggered reveal. */
+.sec--tokyo {
+  position: relative;
+  padding: clamp(72px, 10vw, 140px) 0;
+  overflow: clip;
+}
+
+.sec--tokyo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 40% at 80% 20%, rgba(255, 140, 90, 0.1) 0%, transparent 70%),
+    radial-gradient(50% 40% at 15% 85%, rgba(120, 90, 255, 0.1) 0%, transparent 70%);
+}
+
+.tokyo {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: clamp(36px, 6vw, 80px);
+}
+
+.tokyo__copy .lead {
+  max-width: 52ch;
+}
+
+.tokyo__coords {
+  margin-top: 26px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: var(--fg-4);
+}
+
+.tokyo__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas:
+    'odaiba odaiba'
+    'alley avenue'
+    'tower skyline';
+  gap: 12px;
+}
+
+.tokyo__ph {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #0b0b0f;
+  aspect-ratio: 3 / 4;
+  isolation: isolate;
+}
+
+.tokyo__ph--odaiba { grid-area: odaiba; aspect-ratio: 4 / 3; }
+.tokyo__ph--alley { grid-area: alley; }
+.tokyo__ph--avenue { grid-area: avenue; }
+.tokyo__ph--tower { grid-area: tower; }
+.tokyo__ph--skyline { grid-area: skyline; }
+
+.tokyo__ph img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.88) contrast(1.06) brightness(0.96);
+  transform: scale(1.02);
+  transition:
+    transform 1.4s var(--e-out),
+    filter 0.8s var(--e-out);
+}
+
+.tokyo__ph:hover img {
+  transform: scale(1.06);
+  filter: saturate(1) contrast(1.04) brightness(1);
+}
+
+/* unified grade: a cool multiply veil that meets the page ground */
+.tokyo__ph::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(5, 5, 5, 0.08) 0%, transparent 40%, rgba(5, 5, 5, 0.72) 100%),
+    linear-gradient(120deg, rgba(60, 40, 120, 0.16) 0%, transparent 50%, rgba(255, 130, 80, 0.1) 100%);
+  mix-blend-mode: multiply;
+}
+
+.tokyo__ph figcaption {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 12px;
+  z-index: 2;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.82);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+}
+
+.tokyo__n {
+  color: var(--accent, #6cf7c7);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+}
+
+/* staggered reveal — figures share the page's data-reveal transition */
+.js .tokyo__ph[data-reveal] {
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+@media (min-width: 900px) {
+  .tokyo {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: start;
+  }
+  .tokyo__copy {
+    position: sticky;
+    top: calc(var(--hdr-h) + 32px);
+  }
+  .tokyo__grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-areas:
+      'odaiba odaiba odaiba odaiba alley alley'
+      'odaiba odaiba odaiba odaiba alley alley'
+      'avenue avenue tower tower skyline skyline';
+    gap: 14px;
+  }
+  .tokyo__ph--odaiba { aspect-ratio: auto; min-height: 100%; }
+  .tokyo__ph--alley { aspect-ratio: auto; }
+  .tokyo__ph--avenue,
+  .tokyo__ph--tower,
+  .tokyo__ph--skyline { aspect-ratio: 4 / 5; }
+}
+
+@media (min-width: 1200px) {
+  .tokyo__grid {
+    gap: 16px;
+  }
+}
+
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
