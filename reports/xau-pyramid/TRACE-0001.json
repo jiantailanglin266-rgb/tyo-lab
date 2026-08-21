@@ -1,0 +1,91 @@
+{
+ "runId": "TRACE-0001",
+ "report": "TRACE-0001.htm",
+ "period": {
+  "from": "2016-11-15",
+  "to": "2016-11-30"
+ },
+ "serverGmtShift": 3,
+ "metrics": {
+  "trades": 4,
+  "netProfit": -68,
+  "grossProfit": 6.5,
+  "grossLoss": -74.5,
+  "grossTradeProfit": -68,
+  "swap": 0,
+  "commission": 0,
+  "fees": 0,
+  "profitFactor": 0.09,
+  "winRate": 25,
+  "avgWin": 6.5,
+  "avgLoss": -24.83,
+  "payoffRatio": 0.26,
+  "expectedPayoff": -17,
+  "maxDrawdown": 68,
+  "maxDrawdownBasis": "balance",
+  "relativeDrawdownPct": 0.68,
+  "recoveryFactor": -1,
+  "sharpePerTrade": -1,
+  "longTrades": 0,
+  "shortTrades": 4,
+  "longPF": null,
+  "shortPF": 0.09,
+  "avgHoldingHours": null,
+  "swapShareOfGrossPct": null,
+  "commissionShareOfGrossPct": null
+ },
+ "annualTrades": 48,
+ "pyramid": {
+  "avgLevel": 1.25,
+  "maxLevel": 2,
+  "byLevel": {
+   "1": {
+    "entries": 3,
+    "profit": -51
+   },
+   "2": {
+    "entries": 1,
+    "profit": -17
+   }
+  },
+  "losingSideAddViolations": 0,
+  "attributionNote": "FIFO in→out matching per direction; exact for full-basket closes, approximate when SL closes interleave."
+ },
+ "sessions": {
+  "ASIA": null,
+  "LONDON": null,
+  "OVERLAP": {
+   "trades": 2,
+   "profitFactor": 0,
+   "netProfit": -57.5,
+   "expectedPayoff": -28.75
+  },
+  "NEW_YORK": {
+   "trades": 2,
+   "profitFactor": 0.38,
+   "netProfit": -10.5,
+   "expectedPayoff": -5.25
+  },
+  "OFF": null
+ },
+ "hours": {
+  "15": {
+   "trades": 2,
+   "profitFactor": 0,
+   "netProfit": -57.5,
+   "expectedPayoff": -28.75
+  },
+  "19": {
+   "trades": 2,
+   "profitFactor": 0.38,
+   "netProfit": -10.5,
+   "expectedPayoff": -5.25
+  }
+ },
+ "longShort": {
+  "longPF": null,
+  "shortPF": 0.09,
+  "longTrades": 0,
+  "shortTrades": 4
+ }
+}

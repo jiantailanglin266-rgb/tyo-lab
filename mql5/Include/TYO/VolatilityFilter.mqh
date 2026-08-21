@@ -16,6 +16,7 @@ private:
    double m_relMax;
    double m_maxSpreadPips;   // absolute cap, family pip convention
    double m_maxSpreadATR;    // spread / ATR cap (0 = off)
+   double m_tfScale;         // sqrt(longTF/entryTF) bar-time normalization
    string m_sym;
 
 public:
@@ -31,6 +32,12 @@ public:
       m_maxSpreadATR = maxSpreadATR;
       m_atr = iATR(sym, entryTF, atrPeriod);
       m_atrLong = iATR(sym, longTF, atrLongPeriod);
+      // ATR scales ~sqrt(bar duration): without this factor a cross-TF
+      // ratio (e.g. M5/H4 ≈ 0.14) can never reach a band meant for a
+      // normalized regime measure, and the gate blocks every entry.
+      double se = (double)PeriodSeconds(entryTF);
+      double sl = (double)PeriodSeconds(longTF);
+      m_tfScale = (se > 0.0 && sl > 0.0) ? MathSqrt(sl / se) : 1.0;
       return m_atr != INVALID_HANDLE && m_atrLong != INVALID_HANDLE;
      }
 
@@ -56,7 +63,7 @@ public:
       ArraySetAsSeries(b, true);
       if(CopyBuffer(m_atr, 0, 1, 1, a) < 1) return 0.0;
       if(CopyBuffer(m_atrLong, 0, 1, 1, b) < 1) return 0.0;
-      return b[0] > 0.0 ? a[0] / b[0] : 0.0;
+      return b[0] > 0.0 ? (a[0] / b[0]) * m_tfScale : 0.0;
      }
 
    double SpreadPrice() const

@@ -116,6 +116,9 @@ int OnInit()
   {
    g_trade.SetExpertMagicNumber(InpMagic);
    g_trade.SetTypeFillingBySymbol(_Symbol);
+   // trail modifies fire on most ticks; per-call journal lines saturate the
+   // tester's 8MB daily log and stall long runs — log errors only
+   g_trade.LogLevel(LOG_LEVEL_ERRORS);
 
    if(!g_trend.Init(_Symbol, InpTrendTF, InpTrendMAPeriod, InpTrendDiff1, InpTrendDiff2, InpTrendHour, InpGMTShift))
       return INIT_FAILED;

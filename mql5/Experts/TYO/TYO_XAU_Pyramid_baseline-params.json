@@ -1,6 +1,7 @@
 {
   "_readme": "Baseline input snapshot for XAU_PYRAMID V001 (the compiled defaults). Used by freeze-candidate.mjs as the parameter snapshot; any change is a new version.",
   "version": "XAU_PYRAMID_V001",
+  "_fix_2026_08_20": "RelativeATR is now bar-time normalized: rel = (ATR(entryTF)/ATR(longTF)) * sqrt(longTF/entryTF). The original cross-TF ratio sat at ~0.14 and could never enter the [0.6,3.0] band, blocking every entry (BASELINE-0001 = 0 trades in 8y). Parameter VALUES below are unchanged; the fix is in VolatilityFilter.mqh semantics.",
   "entryTF": "M5",
   "trendTF": "M15",
   "demon": { "maPeriod": 50, "diff1": 40, "diff2": 30, "trendHour": 21, "gmtShift": 0 },
