@@ -1,0 +1,118 @@
+{
+ "runId": "EXP-XAU-008-Y2023",
+ "report": "EXP-XAU-008-Y2023.htm",
+ "segments": 1,
+ "period": {
+  "from": "2023-01-01",
+  "to": "2023-12-31"
+ },
+ "serverGmtShift": 3,
+ "metrics": {
+  "trades": 95,
+  "netProfit": -213.7,
+  "grossProfit": 1165,
+  "grossLoss": -1378.7,
+  "grossTradeProfit": -213.7,
+  "swap": 0,
+  "commission": 0,
+  "fees": 0,
+  "profitFactor": 0.84,
+  "winRate": 41.05,
+  "avgWin": 29.87,
+  "avgLoss": -24.62,
+  "payoffRatio": 1.21,
+  "expectedPayoff": -2.25,
+  "maxDrawdown": 573.9,
+  "maxDrawdownBasis": "balance",
+  "relativeDrawdownPct": 5.73,
+  "recoveryFactor": -0.37,
+  "sharpePerTrade": -0.07,
+  "longTrades": 48,
+  "shortTrades": 47,
+  "longPF": 1.2,
+  "shortPF": 0.52,
+  "avgHoldingHours": null,
+  "swapShareOfGrossPct": null,
+  "commissionShareOfGrossPct": null
+ },
+ "annualTrades": 95,
+ "pyramid": {
+  "avgLevel": 1.6,
+  "maxLevel": 4,
+  "byLevel": {
+   "1": {
+    "entries": 56,
+    "profit": 174.5
+   },
+   "2": {
+    "entries": 26,
+    "profit": -157.3
+   },
+   "3": {
+    "entries": 8,
+    "profit": -68.5
+   },
+   "4": {
+    "entries": 5,
+    "profit": -162.4
+   }
+  },
+  "losingSideAddViolations": 0,
+  "attributionNote": "FIFO in→out matching per direction; exact for full-basket closes, approximate when SL closes interleave."
+ },
+ "sessions": {
+  "ASIA": null,
+  "LONDON": null,
+  "OVERLAP": {
+   "trades": 81,
+   "profitFactor": 0.79,
+   "netProfit": -260.5,
+   "expectedPayoff": -3.22
+  },
+  "NEW_YORK": {
+   "trades": 14,
+   "profitFactor": 1.32,
+   "netProfit": 46.8,
+   "expectedPayoff": 3.34
+  },
+  "OFF": null
+ },
+ "hours": {
+  "12": {
+   "trades": 17,
+   "profitFactor": 1.01,
+   "netProfit": 2.3,
+   "expectedPayoff": 0.14
+  },
+  "13": {
+   "trades": 14,
+   "profitFactor": 1.9,
+   "netProfit": 151.2,
+   "expectedPayoff": 10.8
+  },
+  "14": {
+   "trades": 20,
+   "profitFactor": 0.43,
+   "netProfit": -245.5,
+   "expectedPayoff": -12.27
+  },
+  "15": {
+   "trades": 30,
+   "profitFactor": 0.64,
+   "netProfit": -168.5,
+   "expectedPayoff": -5.62
+  },
+  "16": {
+   "trades": 14,
+   "profitFactor": 1.32,
+   "netProfit": 46.8,
+   "expectedPayoff": 3.34
+  }
+ },
+ "longShort": {
+  "longPF": 1.2,
+  "shortPF": 0.52,
+  "longTrades": 48,
+  "shortTrades": 47
+ }
+}

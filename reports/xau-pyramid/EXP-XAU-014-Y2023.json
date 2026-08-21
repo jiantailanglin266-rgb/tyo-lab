@@ -1,0 +1,100 @@
+{
+ "runId": "EXP-XAU-014-Y2023",
+ "report": "EXP-XAU-014-Y2023.htm",
+ "segments": 1,
+ "period": {
+  "from": "2023-01-01",
+  "to": "2023-12-31"
+ },
+ "serverGmtShift": 3,
+ "metrics": {
+  "trades": 5,
+  "netProfit": 275.8,
+  "grossProfit": 336.6,
+  "grossLoss": -60.8,
+  "grossTradeProfit": 275.8,
+  "swap": 0,
+  "commission": 0,
+  "fees": 0,
+  "profitFactor": 5.54,
+  "winRate": 80,
+  "avgWin": 84.15,
+  "avgLoss": -60.8,
+  "payoffRatio": 1.38,
+  "expectedPayoff": 55.16,
+  "maxDrawdown": 60.8,
+  "maxDrawdownBasis": "balance",
+  "relativeDrawdownPct": 0.59,
+  "recoveryFactor": 4.54,
+  "sharpePerTrade": 0.53,
+  "longTrades": 2,
+  "shortTrades": 3,
+  "longPF": null,
+  "shortPF": 0.38,
+  "avgHoldingHours": null,
+  "swapShareOfGrossPct": null,
+  "commissionShareOfGrossPct": null
+ },
+ "annualTrades": 5,
+ "pyramid": {
+  "avgLevel": 1,
+  "maxLevel": 1,
+  "byLevel": {
+   "1": {
+    "entries": 5,
+    "profit": 275.8
+   }
+  },
+  "losingSideAddViolations": 0,
+  "attributionNote": "FIFO in→out matching per direction; exact for full-basket closes, approximate when SL closes interleave."
+ },
+ "sessions": {
+  "ASIA": null,
+  "LONDON": null,
+  "OVERLAP": {
+   "trades": 1,
+   "profitFactor": 0,
+   "netProfit": -60.8,
+   "expectedPayoff": -60.8
+  },
+  "NEW_YORK": {
+   "trades": 4,
+   "profitFactor": null,
+   "netProfit": 336.6,
+   "expectedPayoff": 84.15
+  },
+  "OFF": null
+ },
+ "hours": {
+  "15": {
+   "trades": 1,
+   "profitFactor": 0,
+   "netProfit": -60.8,
+   "expectedPayoff": -60.8
+  },
+  "16": {
+   "trades": 1,
+   "profitFactor": null,
+   "netProfit": 102.8,
+   "expectedPayoff": 102.8
+  },
+  "17": {
+   "trades": 2,
+   "profitFactor": null,
+   "netProfit": 23.3,
+   "expectedPayoff": 11.65
+  },
+  "18": {
+   "trades": 1,
+   "profitFactor": null,
+   "netProfit": 210.5,
+   "expectedPayoff": 210.5
+  }
+ },
+ "longShort": {
+  "longPF": null,
+  "shortPF": 0.38,
+  "longTrades": 2,
+  "shortTrades": 3
+ }
+}

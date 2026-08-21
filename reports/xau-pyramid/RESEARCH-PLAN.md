@@ -46,3 +46,22 @@ written here first, with its number, before it runs.
 
 Budget: 12 experiments of 30; 0 of 12 logic variants; 0 of 10 optimization
 runs. Any combination run (two changes) counts as a new numbered experiment.
+
+## Round 2 — combinations (pre-registered 2026-08-22 06:45 JST, after EXP-001..012)
+
+Single changes with a positive ΔPF on the screening window: 003 (no adds
++0.11), 005 (DEMON 80/60 +0.11), 008 (overlap only +0.17), 010 (relATR ≥ 1.0
++0.08), 006 (trail 2.5 +0.05), 011 (step 2.0 +0.04), 009 (Asia +0.03).
+None ≥ 1.0. Three combination experiments, fixed before running:
+
+| ID | Change vs baseline | What it tests |
+|---|---|---|
+| EXP-XAU-013 | `InpMaxPyramidLevels=1 InpSessionLondon=false InpSessionNY=false` | the two largest positive deltas, both frequency-preserving |
+| EXP-XAU-014 | `InpMaxPyramidLevels=1 InpTrendDiff1=80 InpTrendDiff2=60 InpSessionLondon=false InpSessionNY=false InpRelATRMin=1.0 InpTrail_ATR=2.5` | every positive delta stacked — the upper bound of this family on this window |
+| EXP-XAU-015 | `InpMaxPyramidLevels=1 InpTrendDiff1=80 InpTrendDiff2=60` | quality-only stack without session/regime filters |
+
+Stop rule (written now): if EXP-014 — the most favourable stack — is below PF
+1.0, the family's core entry/exit has negative expectancy on development
+data and no optimization round is run (optimizing a negative-edge core is
+curve fitting). The outcome is then reported as TARGETS NOT MET with no
+candidate frozen.

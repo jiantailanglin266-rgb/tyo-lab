@@ -26,7 +26,12 @@ const baseId = flag('baseline', 'BASELINE-0002-W2020');
 const J = async (id) => JSON.parse(await readFile(join(DIR, `${id}.json`), 'utf8'));
 const base = await J(baseId);
 const plan = await readFile(join(DIR, 'RESEARCH-PLAN.md'), 'utf8').catch(() => '');
-const planRow = (id) => { const m = plan.match(new RegExp(`\\| ${id} \\| ([^|]+) \\| ([^|]+) \\|`)); return m ? { group: m[1].trim(), change: m[2].trim() } : { group: '?', change: '?' }; };
+const planRow = (id) => {
+  const m4 = plan.match(new RegExp(`\\| ${id} \\| ([^|]+) \\| ([^|]+) \\| ([^|]+) \\|`));
+  if (m4) return { group: m4[1].trim(), change: m4[2].trim() };
+  const m3 = plan.match(new RegExp(`\\| ${id} \\| ([^|]+) \\| ([^|]+) \\|`));
+  return m3 ? { group: 'combo', change: m3[1].trim() } : { group: '?', change: '?' };
+};
 
 const files = (await readdir(DIR)).filter((f) => /^EXP-XAU-\d+\.json$/.test(f)).sort();
 const f2 = (v) => (v === null || v === undefined) ? '—' : Number(v).toFixed(2);
@@ -57,6 +62,10 @@ L.push('## Reading');
 L.push('');
 L.push(`- Highest PF among single changes: ${best.map((r) => `${r.id} (${f2(r.pf)}, ${r.tpy}/yr)`).join(', ')}. ${best[0] && best[0].pf < 1.0 ? '**No single change reaches PF 1.0, let alone 1.30.**' : ''}`);
 L.push(`- Experiments meeting both targets: ${rows.filter((r) => r.meets).length}.`);
+const pfOk = rows.filter((r) => r.pf >= 1.3);
+if (pfOk.length) L.push(`- PF ≥ 1.30 appears only in ${pfOk.map((r) => `${r.id} (${r.trades} trades over the whole window, ${r.tpy}/yr)`).join(', ')} — a sample far too small to establish an edge and two orders of magnitude under the frequency target. Filters can only remove trades, so no parameter search can recover frequency from there.`);
+const maxFreq = [...rows].sort((a, b) => b.tpy - a.tpy)[0];
+if (maxFreq) L.push(`- Highest frequency any configuration reached: ${maxFreq.id} at ${maxFreq.tpy}/yr (PF ${f2(maxFreq.pf)}). Frequency ≥ 2,000/yr and PF ≥ 1.0 never coincide in this family on development data.`);
 L.push('- Frequency and quality move in opposite directions across the trend-threshold axis (EXP-004 vs EXP-005): the fixed-pip DEMON gate trades volume for quality but never buys a positive edge.');
 L.push('');
 L.push('## Budget');

@@ -1,0 +1,106 @@
+{
+ "runId": "EXP-XAU-013-Y2023",
+ "report": "EXP-XAU-013-Y2023.htm",
+ "segments": 1,
+ "period": {
+  "from": "2023-01-01",
+  "to": "2023-12-31"
+ },
+ "serverGmtShift": 3,
+ "metrics": {
+  "trades": 56,
+  "netProfit": 174.5,
+  "grossProfit": 831.7,
+  "grossLoss": -657.2,
+  "grossTradeProfit": 174.5,
+  "swap": 0,
+  "commission": 0,
+  "fees": 0,
+  "profitFactor": 1.27,
+  "winRate": 44.64,
+  "avgWin": 33.27,
+  "avgLoss": -21.2,
+  "payoffRatio": 1.57,
+  "expectedPayoff": 3.12,
+  "maxDrawdown": 152.6,
+  "maxDrawdownBasis": "balance",
+  "relativeDrawdownPct": 1.49,
+  "recoveryFactor": 1.14,
+  "sharpePerTrade": 0.09,
+  "longTrades": 27,
+  "shortTrades": 29,
+  "longPF": 1.29,
+  "shortPF": 1.23,
+  "avgHoldingHours": null,
+  "swapShareOfGrossPct": null,
+  "commissionShareOfGrossPct": null
+ },
+ "annualTrades": 56,
+ "pyramid": {
+  "avgLevel": 1,
+  "maxLevel": 1,
+  "byLevel": {
+   "1": {
+    "entries": 56,
+    "profit": 174.5
+   }
+  },
+  "losingSideAddViolations": 0,
+  "attributionNote": "FIFO in→out matching per direction; exact for full-basket closes, approximate when SL closes interleave."
+ },
+ "sessions": {
+  "ASIA": null,
+  "LONDON": null,
+  "OVERLAP": {
+   "trades": 46,
+   "profitFactor": 1.09,
+   "netProfit": 53.2,
+   "expectedPayoff": 1.16
+  },
+  "NEW_YORK": {
+   "trades": 10,
+   "profitFactor": 2.98,
+   "netProfit": 121.3,
+   "expectedPayoff": 12.13
+  },
+  "OFF": null
+ },
+ "hours": {
+  "12": {
+   "trades": 8,
+   "profitFactor": 3.03,
+   "netProfit": 86.2,
+   "expectedPayoff": 10.77
+  },
+  "13": {
+   "trades": 8,
+   "profitFactor": 1.68,
+   "netProfit": 62.4,
+   "expectedPayoff": 7.8
+  },
+  "14": {
+   "trades": 12,
+   "profitFactor": 0.66,
+   "netProfit": -75.9,
+   "expectedPayoff": -6.32
+  },
+  "15": {
+   "trades": 18,
+   "profitFactor": 0.92,
+   "netProfit": -19.5,
+   "expectedPayoff": -1.08
+  },
+  "16": {
+   "trades": 10,
+   "profitFactor": 2.98,
+   "netProfit": 121.3,
+   "expectedPayoff": 12.13
+  }
+ },
+ "longShort": {
+  "longPF": 1.29,
+  "shortPF": 1.23,
+  "longTrades": 27,
+  "shortTrades": 29
+ }
+}
