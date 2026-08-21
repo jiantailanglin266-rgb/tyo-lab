@@ -41,10 +41,19 @@ const model = flag('model', '1');
 if (!runId) { console.error('usage: node scripts/xau-segmented-run.mjs --run ID [...]'); process.exit(1); }
 
 /* ---- §30: one budget entry for the whole run (before any compute) ------- */
-if (type !== 'baseline') {
-  try { console.log('  ' + (await logResearchRun('RES-XAU-001', type === 'optimization' ? 'optimization' : type === 'variant' ? 'variant' : 'experiment', `${runId}: ${note}`))); }
-  catch (e) { console.error(`✗ ${e.message}`); process.exit(1); }
-}
+const ledgerDir = join(ROOT, 'reports', 'xau-pyramid', '_ledger');
+const ledgerMark = join(ledgerDir, `${runId}.logged`);
+let alreadyLogged = false;
+try { await access(ledgerMark, constants.F_OK); alreadyLogged = true; } catch {}
+if (type !== 'baseline' && !alreadyLogged) {
+  try {
+    console.log('  ' + (await logResearchRun('RES-XAU-001', type === 'optimization' ? 'optimization' : type === 'variant' ? 'variant' : 'experiment', `${runId}: ${note}`)));
+    const { mkdir, writeFile } = await import('node:fs/promises');
+    await mkdir(ledgerDir, { recursive: true });
+    await writeFile(ledgerMark, `${new Date().toISOString()} ${type} ${note}
+`, 'utf8'); // resume never double-counts
+  } catch (e) { console.error(`✗ ${e.message}`); process.exit(1); }
+} else if (alreadyLogged) console.log(`  ${runId}: budget entry already recorded — resuming without re-counting`);
 
 /* ---- calendar-year segments ---------------------------------------------- */
 const y0 = Number(from.slice(0, 4)), y1 = Number(to.slice(0, 4));

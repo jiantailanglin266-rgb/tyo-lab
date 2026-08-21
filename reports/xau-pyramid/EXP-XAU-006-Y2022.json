@@ -1,0 +1,211 @@
+{
+ "runId": "EXP-XAU-006-Y2022",
+ "report": "EXP-XAU-006-Y2022.htm",
+ "segments": 1,
+ "period": {
+  "from": "2022-01-01",
+  "to": "2022-12-31"
+ },
+ "serverGmtShift": 3,
+ "metrics": {
+  "trades": 536,
+  "netProfit": -1700.5,
+  "grossProfit": 7994.6,
+  "grossLoss": -9695.1,
+  "grossTradeProfit": -1700.5,
+  "swap": 0,
+  "commission": 0,
+  "fees": 0,
+  "profitFactor": 0.82,
+  "winRate": 33.96,
+  "avgWin": 43.93,
+  "avgLoss": -27.39,
+  "payoffRatio": 1.6,
+  "expectedPayoff": -3.17,
+  "maxDrawdown": 3531.6,
+  "maxDrawdownBasis": "balance",
+  "relativeDrawdownPct": 31.27,
+  "recoveryFactor": -0.48,
+  "sharpePerTrade": -0.07,
+  "longTrades": 231,
+  "shortTrades": 305,
+  "longPF": 1.2,
+  "shortPF": 0.57,
+  "avgHoldingHours": null,
+  "swapShareOfGrossPct": null,
+  "commissionShareOfGrossPct": null
+ },
+ "annualTrades": 538,
+ "pyramid": {
+  "avgLevel": 1.85,
+  "maxLevel": 4,
+  "byLevel": {
+   "1": {
+    "entries": 253,
+    "profit": -3126.2
+   },
+   "2": {
+    "entries": 150,
+    "profit": 1250
+   },
+   "3": {
+    "entries": 93,
+    "profit": 177.1
+   },
+   "4": {
+    "entries": 40,
+    "profit": -1.4
+   }
+  },
+  "losingSideAddViolations": 0,
+  "attributionNote": "FIFO in→out matching per direction; exact for full-basket closes, approximate when SL closes interleave."
+ },
+ "sessions": {
+  "ASIA": {
+   "trades": 2,
+   "profitFactor": null,
+   "netProfit": 159.7,
+   "expectedPayoff": 79.85
+  },
+  "LONDON": {
+   "trades": 150,
+   "profitFactor": 0.67,
+   "netProfit": -819.2,
+   "expectedPayoff": -5.46
+  },
+  "OVERLAP": {
+   "trades": 142,
+   "profitFactor": 0.79,
+   "netProfit": -760.2,
+   "expectedPayoff": -5.35
+  },
+  "NEW_YORK": {
+   "trades": 210,
+   "profitFactor": 0.83,
+   "netProfit": -536.1,
+   "expectedPayoff": -2.55
+  },
+  "OFF": {
+   "trades": 32,
+   "profitFactor": 1.87,
+   "netProfit": 255.3,
+   "expectedPayoff": 7.98
+  }
+ },
+ "hours": {
+  "0": {
+   "trades": 1,
+   "profitFactor": null,
+   "netProfit": 134,
+   "expectedPayoff": 134
+  },
+  "1": {
+   "trades": 1,
+   "profitFactor": null,
+   "netProfit": 25.7,
+   "expectedPayoff": 25.7
+  },
+  "7": {
+   "trades": 15,
+   "profitFactor": 0.2,
+   "netProfit": -301.6,
+   "expectedPayoff": -20.11
+  },
+  "8": {
+   "trades": 22,
+   "profitFactor": 0.76,
+   "netProfit": -68.4,
+   "expectedPayoff": -3.11
+  },
+  "9": {
+   "trades": 34,
+   "profitFactor": 0.45,
+   "netProfit": -307.1,
+   "expectedPayoff": -9.03
+  },
+  "10": {
+   "trades": 42,
+   "profitFactor": 1.46,
+   "netProfit": 281.1,
+   "expectedPayoff": 6.69
+  },
+  "11": {
+   "trades": 37,
+   "profitFactor": 0.34,
+   "netProfit": -423.2,
+   "expectedPayoff": -11.44
+  },
+  "12": {
+   "trades": 47,
+   "profitFactor": 0.47,
+   "netProfit": -522.1,
+   "expectedPayoff": -11.11
+  },
+  "13": {
+   "trades": 31,
+   "profitFactor": 0.34,
+   "netProfit": -602.6,
+   "expectedPayoff": -19.44
+  },
+  "14": {
+   "trades": 30,
+   "profitFactor": 2.04,
+   "netProfit": 812.5,
+   "expectedPayoff": 27.08
+  },
+  "15": {
+   "trades": 34,
+   "profitFactor": 0.56,
+   "netProfit": -448,
+   "expectedPayoff": -13.18
+  },
+  "16": {
+   "trades": 27,
+   "profitFactor": 0.25,
+   "netProfit": -422,
+   "expectedPayoff": -15.63
+  },
+  "17": {
+   "trades": 55,
+   "profitFactor": 0.78,
+   "netProfit": -206.8,
+   "expectedPayoff": -3.76
+  },
+  "18": {
+   "trades": 36,
+   "profitFactor": 0.39,
+   "netProfit": -453.4,
+   "expectedPayoff": -12.59
+  },
+  "19": {
+   "trades": 73,
+   "profitFactor": 2.15,
+   "netProfit": 705.8,
+   "expectedPayoff": 9.67
+  },
+  "20": {
+   "trades": 19,
+   "profitFactor": 0.54,
+   "netProfit": -159.7,
+   "expectedPayoff": -8.41
+  },
+  "22": {
+   "trades": 27,
+   "profitFactor": 1.59,
+   "netProfit": 153.4,
+   "expectedPayoff": 5.68
+  },
+  "23": {
+   "trades": 5,
+   "profitFactor": 4.13,
+   "netProfit": 101.9,
+   "expectedPayoff": 20.38
+  }
+ },
+ "longShort": {
+  "longPF": 1.2,
+  "shortPF": 0.57,
+  "longTrades": 231,
+  "shortTrades": 305
+ }
+}

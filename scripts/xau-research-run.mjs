@@ -92,7 +92,15 @@ await writeFile(iniPath, ini, 'ascii');
 
 /* ---- launch + wait -------------------------------------------------------- */
 const reportPath = join(R, `${runId}.htm`);
-try { await access(reportPath, constants.F_OK); console.error(`✗ ${reportPath} already exists — runs are append-only, pick a new id`); process.exit(1); } catch {}
+let adopt = false; // a report the terminal finished but a killed runner never archived
+try { await access(reportPath, constants.F_OK); adopt = true; } catch {}
+if (adopt) {
+  const archived = join(ROOT, 'reports', 'xau-pyramid', `${runId}.htm`);
+  let isArchived = false;
+  try { await access(archived, constants.F_OK); isArchived = true; } catch {}
+  if (isArchived) { console.error(`✗ ${runId} already archived — runs are append-only, pick a new id`); process.exit(1); }
+  console.log(`  ${runId}: report already present in the research terminal — validating and adopting (no relaunch)`);
+}
 
 /* Local tester agents race third-party listeners on 127.0.0.1:3000 (e.g.
  * Docker port-forwards): the dispatcher can connect to the foreign socket
@@ -133,8 +141,33 @@ function minimizeWindow(pid) {
   w.unref();
 }
 
+/* a forced close can still flush a PARTIAL report (full period in the
+ * header, a fraction of the bars); a port race leaves an EMPTY one —
+ * accept only a plausible report, otherwise discard it for a relaunch */
+async function validateReport() {
+  const raw = await readFile(reportPath, 'utf16le').catch(() => '');
+  const barsM = raw.replace(/<[^>]+>/g, ' ').match(/(?:バー|Bars):\s*([\d\s ,]+)/);
+  const bars = barsM ? Number(barsM[1].replace(/[\s ,]/g, '')) : NaN;
+  const days = (Date.parse(to) - Date.parse(from)) / 86400000 + 1;
+  const expectMin = days * (5 / 7) * 288 * 0.5; // ≥50% of the M5 bars a trading-day calendar implies
+  if (raw.includes('1970.01.01') || !raw.includes('</html>')) {
+    console.error(`  ⚠ empty report (agent race on local port) — discarding and retrying`);
+    await unlink(reportPath).catch(() => {});
+    await new Promise((r) => setTimeout(r, 10000));
+    return false;
+  }
+  if (Number.isFinite(bars) && bars < expectMin) {
+    console.error(`  ⚠ partial report (${bars} bars, expected ≥ ${Math.round(expectMin)} for ${Math.round(days)} days) — terminal was cut short; discarding and retrying`);
+    await unlink(reportPath).catch(() => {});
+    await new Promise((r) => setTimeout(r, 15000));
+    return false;
+  }
+  return true;
+}
+
 let ok = false;
 for (let attempt = 1; attempt <= ATTEMPTS && !ok; attempt++) {
+  if (adopt && attempt === 1) { ok = await validateReport(); if (ok) break; adopt = false; }
   await clearTesterLogs();
   /* a research agent can outlive its terminal by ~90 s and then hold the
    * port the next launch wants — reap OUR OWN zombies only (path-scoped) */
@@ -177,24 +210,7 @@ for (let attempt = 1; attempt <= ATTEMPTS && !ok; attempt++) {
   /* give the terminal a beat to finish writing + shut down */
   await new Promise((r) => setTimeout(r, 8000));
 
-  const raw = await readFile(reportPath, 'utf16le').catch(() => '');
-  /* a forced close can still flush a PARTIAL report (full period in the
-   * header, a fraction of the bars) — sanity-check bar count vs period */
-  const barsM = raw.replace(/<[^>]+>/g, ' ').match(/(?:バー|Bars):\s*([\d\s ,]+)/);
-  const bars = barsM ? Number(barsM[1].replace(/[\s ,]/g, '')) : NaN;
-  const days = (Date.parse(to) - Date.parse(from)) / 86400000 + 1;
-  const expectMin = days * (5 / 7) * 288 * 0.5; // ≥50% of the M5 bars a trading-day calendar implies
-  if (raw.includes('1970.01.01') || !raw.includes('</html>')) {
-    console.error(`  ⚠ empty report (agent race on local port) — discarding and retrying`);
-    await unlink(reportPath).catch(() => {});
-    await new Promise((r) => setTimeout(r, 10000));
-  } else if (Number.isFinite(bars) && bars < expectMin) {
-    console.error(`  ⚠ partial report (${bars} bars, expected ≥ ${Math.round(expectMin)} for ${Math.round(days)} days) — terminal was cut short; discarding and retrying`);
-    await unlink(reportPath).catch(() => {});
-    await new Promise((r) => setTimeout(r, 15000));
-  } else {
-    ok = true;
-  }
+  ok = await validateReport();
 }
 if (!ok) {
   console.error(`✗ RUN_ERROR: ${ATTEMPTS} attempts without a usable report — external kills, agent port conflict, or a tester abort on bad history`);

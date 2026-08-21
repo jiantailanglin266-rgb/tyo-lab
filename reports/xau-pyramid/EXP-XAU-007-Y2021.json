@@ -1,0 +1,188 @@
+{
+ "runId": "EXP-XAU-007-Y2021",
+ "report": "EXP-XAU-007-Y2021.htm",
+ "segments": 1,
+ "period": {
+  "from": "2021-01-01",
+  "to": "2021-12-31"
+ },
+ "serverGmtShift": 3,
+ "metrics": {
+  "trades": 410,
+  "netProfit": -1136.2,
+  "grossProfit": 3252.6,
+  "grossLoss": -4388.8,
+  "grossTradeProfit": -1136.2,
+  "swap": 0,
+  "commission": 0,
+  "fees": 0,
+  "profitFactor": 0.74,
+  "winRate": 31.22,
+  "avgWin": 25.41,
+  "avgLoss": -15.56,
+  "payoffRatio": 1.63,
+  "expectedPayoff": -2.77,
+  "maxDrawdown": 1649.1,
+  "maxDrawdownBasis": "balance",
+  "relativeDrawdownPct": 15.69,
+  "recoveryFactor": -0.69,
+  "sharpePerTrade": -0.09,
+  "longTrades": 149,
+  "shortTrades": 261,
+  "longPF": 0.22,
+  "shortPF": 1.03,
+  "avgHoldingHours": null,
+  "swapShareOfGrossPct": null,
+  "commissionShareOfGrossPct": null
+ },
+ "annualTrades": 411,
+ "pyramid": {
+  "avgLevel": 1.32,
+  "maxLevel": 4,
+  "byLevel": {
+   "1": {
+    "entries": 302,
+    "profit": -651.7
+   },
+   "2": {
+    "entries": 87,
+    "profit": -421.6
+   },
+   "3": {
+    "entries": 18,
+    "profit": 13.7
+   },
+   "4": {
+    "entries": 3,
+    "profit": -76.6
+   }
+  },
+  "losingSideAddViolations": 0,
+  "attributionNote": "FIFO in→out matching per direction; exact for full-basket closes, approximate when SL closes interleave."
+ },
+ "sessions": {
+  "ASIA": null,
+  "LONDON": {
+   "trades": 80,
+   "profitFactor": 0.4,
+   "netProfit": -444.9,
+   "expectedPayoff": -5.56
+  },
+  "OVERLAP": {
+   "trades": 173,
+   "profitFactor": 0.86,
+   "netProfit": -293.9,
+   "expectedPayoff": -1.7
+  },
+  "NEW_YORK": {
+   "trades": 155,
+   "profitFactor": 0.75,
+   "netProfit": -392.1,
+   "expectedPayoff": -2.53
+  },
+  "OFF": {
+   "trades": 2,
+   "profitFactor": 0.64,
+   "netProfit": -5.3,
+   "expectedPayoff": -2.65
+  }
+ },
+ "hours": {
+  "7": {
+   "trades": 14,
+   "profitFactor": 0.42,
+   "netProfit": -76.1,
+   "expectedPayoff": -5.44
+  },
+  "8": {
+   "trades": 15,
+   "profitFactor": 0.41,
+   "netProfit": -72.4,
+   "expectedPayoff": -4.83
+  },
+  "9": {
+   "trades": 14,
+   "profitFactor": 0.15,
+   "netProfit": -128.8,
+   "expectedPayoff": -9.2
+  },
+  "10": {
+   "trades": 19,
+   "profitFactor": 0.81,
+   "netProfit": -27.7,
+   "expectedPayoff": -1.46
+  },
+  "11": {
+   "trades": 18,
+   "profitFactor": 0.26,
+   "netProfit": -139.9,
+   "expectedPayoff": -7.77
+  },
+  "12": {
+   "trades": 41,
+   "profitFactor": 0.61,
+   "netProfit": -163.3,
+   "expectedPayoff": -3.98
+  },
+  "13": {
+   "trades": 39,
+   "profitFactor": 2.02,
+   "netProfit": 419.3,
+   "expectedPayoff": 10.75
+  },
+  "14": {
+   "trades": 52,
+   "profitFactor": 0.82,
+   "netProfit": -133.9,
+   "expectedPayoff": -2.57
+  },
+  "15": {
+   "trades": 41,
+   "profitFactor": 0.17,
+   "netProfit": -416,
+   "expectedPayoff": -10.15
+  },
+  "16": {
+   "trades": 62,
+   "profitFactor": 0.74,
+   "netProfit": -166.3,
+   "expectedPayoff": -2.68
+  },
+  "17": {
+   "trades": 45,
+   "profitFactor": 0.24,
+   "netProfit": -381.9,
+   "expectedPayoff": -8.49
+  },
+  "18": {
+   "trades": 20,
+   "profitFactor": 0.64,
+   "netProfit": -50.4,
+   "expectedPayoff": -2.52
+  },
+  "19": {
+   "trades": 18,
+   "profitFactor": 0.21,
+   "netProfit": -148.9,
+   "expectedPayoff": -8.27
+  },
+  "20": {
+   "trades": 10,
+   "profitFactor": 4.38,
+   "netProfit": 355.4,
+   "expectedPayoff": 35.54
+  },
+  "22": {
+   "trades": 2,
+   "profitFactor": 0.64,
+   "netProfit": -5.3,
+   "expectedPayoff": -2.65
+  }
+ },
+ "longShort": {
+  "longPF": 0.22,
+  "shortPF": 1.03,
+  "longTrades": 149,
+  "shortTrades": 261
+ }
+}
