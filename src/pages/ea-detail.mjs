@@ -170,7 +170,7 @@ export default function EADetail({ locale, t, ea: model, next, stages }) {
         ${when(
           model.media.cover,
           () => html`<div class="eahero__art" aria-hidden="true">
-            <img src="${asset(model.media.cover)}" alt="" loading="eager" fetchpriority="high" decoding="async" width="1200" height="1200" />
+            <img class="eahero__ambient" src="${asset(model.media.cover)}" alt="" loading="eager" decoding="async" width="1200" height="1200" />
           </div>`
         )}
         <div class="wrap">
@@ -181,6 +181,13 @@ export default function EADetail({ locale, t, ea: model, next, stages }) {
           </nav>
 
           <div class="eahero__grid">
+            ${when(
+              model.media.cover,
+              () => html`<figure class="eahero__cover" data-reveal>
+                <img src="${asset(model.media.cover)}" alt="${model.name}" loading="eager" fetchpriority="high" decoding="async" width="1200" height="1200" />
+                <img class="eahero__cover-glow" src="${asset(model.media.cover)}" alt="" aria-hidden="true" loading="eager" decoding="async" width="1200" height="1200" />
+              </figure>`
+            )}
             <div class="eahero__main">
               ${Eyebrow(`EA ${model.number}`)}
               <h1 class="eahero__name" data-reveal>${model.name}</h1>

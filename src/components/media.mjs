@@ -33,6 +33,9 @@ export function CinematicVideo({ video, available, priority = false, label = '' 
   }
 
   if (priority) {
+    // Phones get the light 720p encode first (source order matters: the first
+    // matching <source media> wins), and preload="auto" so autoplay has frames
+    // before the visitor scrolls. The desktop encode stays as the fallback.
     return html`
       <div class="${raw(cls)}" data-video data-video-id="${video.id}">
         <video
@@ -42,10 +45,12 @@ export function CinematicVideo({ video, available, priority = false, label = '' 
           loop
           playsinline
           autoplay
-          preload="metadata"
+          preload="auto"
           aria-label="${label}"
           disablepictureinpicture
         >
+          ${when(av.webmMobile, () => html`<source src="${asset(video.webmMobile)}" type="video/webm" media="(max-width: 768px)" />`)}
+          ${when(av.mp4Mobile, () => html`<source src="${asset(video.mp4Mobile)}" type="video/mp4" media="(max-width: 768px)" />`)}
           ${when(av.webm, () => html`<source src="${asset(video.webm)}" type="video/webm" />`)}
           ${when(av.mp4, () => html`<source src="${asset(video.mp4)}" type="video/mp4" />`)}
         </video>
