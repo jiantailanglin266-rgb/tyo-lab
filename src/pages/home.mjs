@@ -1,5 +1,5 @@
 import { html, raw, when, splitChars, splitWords } from '../lib/html.mjs';
-import { localePath, ROUTES } from '../lib/url.mjs';
+import { localePath, ROUTES, asset } from '../lib/url.mjs';
 import { VIDEOS, BRAND, LINKS } from '../site.config.mjs';
 import { CinematicSection, CinematicVideo } from '../components/media.mjs';
 import {
@@ -192,8 +192,8 @@ export default function Home({ locale, t, has, mask, ea, stages }) {
           ].map(
             ([k, w, hh], i) => html`<figure class="tokyo__ph tokyo__ph--${raw(k)}" data-reveal style="--i:${i}">
               <picture>
-                <source srcset="/assets/images/tokyo/${raw(k)}.webp" type="image/webp" />
-                <img src="/assets/images/tokyo/${raw(k)}.jpg" alt="${h.tokyo.captions[i]}" width="${w}" height="${hh}" loading="lazy" decoding="async" />
+                <source srcset="${asset(`/assets/images/tokyo/${k}.webp`)}" type="image/webp" />
+                <img src="${asset(`/assets/images/tokyo/${k}.jpg`)}" alt="${h.tokyo.captions[i]}" width="${w}" height="${hh}" loading="lazy" decoding="async" />
               </picture>
               <figcaption><span class="tokyo__n">0${i + 1}</span>${h.tokyo.captions[i]}</figcaption>
             </figure>`
