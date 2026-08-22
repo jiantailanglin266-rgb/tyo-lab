@@ -37,3 +37,12 @@ data/validation/
 # tools/research-protocol.json are the public record).
 data/research/
 data/holdout/
+
+# env files (never commit)
+.env
+.env.*
+!.env.example
+
+# upload bundles (generated, never commit)
+/site-upload/
+/tyo-lab-site.zip
