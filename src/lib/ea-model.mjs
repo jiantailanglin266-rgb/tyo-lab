@@ -18,7 +18,7 @@
 
 import { readFile } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
-import { productOf, plansOf } from '../data/commercial/products.mjs';
+import { productOf, planOf, ctaOf } from '../data/commercial/products.mjs';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -280,14 +280,15 @@ export async function buildEAModels(entries) {
       placeholder: !!e.placeholder,
       mql5Url: e.mql5Url || '',
 
-      /* Phase 16: commercial status lives in its own layer and is never
-         blended with researchStatus (§74). `plans` is the display matrix. */
+      /* SaaS Phase 1: commercial status lives in its own layer and is never
+         blended with researchStatus (§22, §74). One status per strategy;
+         the required plan and the CTA variant derive from it. */
       commercial: (() => {
         const prod = productOf(e.slug);
         return {
-          status: prod ? prod.status : 'DRAFT',
-          plans: plansOf(prod),
-          access: prod ? prod.access : { ib: false, pro: false, private: false, directPurchase: false },
+          status: prod ? prod.commercialStatus : 'RESEARCH_ONLY',
+          plan: planOf(prod),
+          cta: ctaOf(prod),
           latestVersion: prod?.latestVersion || '',
           countryAvailability: prod ? prod.countryAvailability : null,
         };

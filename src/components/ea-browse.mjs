@@ -86,7 +86,7 @@ export function BrowseToolbar({ models, t, locale }) {
         ${ChipGroup({
           name: 'access',
           label: t.commercial.filterLabel,
-          options: ['IB', 'PRO', 'PRIVATE'].filter((x) => models.some((m) => (m.commercial?.plans || []).includes(x))).map((x) => ({ value: x, label: t.commercial.filters[x] })),
+          options: ['FREE', 'PRO', 'PARTNER', 'PRIVATE'].filter((x) => models.some((m) => m.commercial?.status === x)).map((x) => ({ value: x, label: t.commercial.filters[x] })),
           t,
         })}
       </div>

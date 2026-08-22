@@ -1,28 +1,31 @@
 /**
  * ============================================================================
- * COMMERCIAL COMPONENTS (Phase 16A)
+ * COMMERCIAL COMPONENTS (SaaS Phase 1)
  * ============================================================================
- * Access badges, plan cards, comparison table, flows, inquiry forms, FAQ.
- * Design rule (§105, §117–119): research-site restraint — mono eyebrows,
- * quiet chips, no urgency. Words: Access / License / Research / Development.
+ * Access badges, plan cards, comparison, flows, inquiry forms, FAQ, and the
+ * per-strategy access panel.
+ *
+ * Design rule (§123–§125): research-site restraint — mono eyebrows, quiet
+ * chips, no urgency. Words: Access / License / Research / Development.
  *
  * Honesty rules enforced here, not in copy:
- *   • a plan marked PLANNED carries a visible "planned" state (§78)
- *   • a form without an endpoint renders DATA_REQUIRED and no mailto (§87)
- *   • DATA_REQUIRED values are printed literally (§1, §127)
+ *   • a PLANNED plan carries a visible planned state (§146)
+ *   • a form without an endpoint renders DATA_REQUIRED and no mailto (§93)
+ *   • DATA_REQUIRED values are printed literally (§119)
+ *   • a strategy with no commercial assignment shows RESEARCH ONLY (§120)
  * ============================================================================
  */
 import { html, raw, when } from '../lib/html.mjs';
 import { localePath, ROUTES } from '../lib/url.mjs';
-import { COMMERCIAL, LINKS } from '../site.config.mjs';
+import { COMMERCIAL, LINKS, FLAGS, BRAND } from '../site.config.mjs';
 import { DATA_REQUIRED } from '../data/commercial/plans.mjs';
 import { Button, Eyebrow } from './sections.mjs';
 
-/* ---- badges (§46) --------------------------------------------------------- */
-export function AccessBadges({ plans, t, pendingLabel = true }) {
+/* ---- badges (§23, §46) ---------------------------------------------------- */
+export function AccessBadge({ status, t }) {
   const A = t.commercial;
-  if (!plans.length) return pendingLabel ? html`<span class="abadge abadge--pending" title="${A.pendingTitle}">${A.pending}</span>` : '';
-  return html`${plans.map((p) => html`<span class="abadge abadge--${raw(p.toLowerCase())}">${A.plans[p]}</span>`)}`;
+  const cls = String(status || 'RESEARCH_ONLY').toLowerCase().replace('_', '-');
+  return html`<span class="abadge abadge--${raw(cls)}" title="${A.statusTitle}">${A.status[status] || status}</span>`;
 }
 
 /* ---- DATA_REQUIRED chip ---------------------------------------------------- */
@@ -33,29 +36,23 @@ export function DataRequired({ t, what = '' }) {
 /* ---- price ----------------------------------------------------------------- */
 export function Price({ price, t }) {
   const A = t.commercial;
+  if (price.unit === 'free') return html`<span class="price"><span class="price__n">$0</span><span class="price__u">${A.forever}</span></span>`;
+  if (price.unit === 'brokerLinked') return html`<span class="price"><span class="price__n">$0</span><span class="price__u">${A.brokerLinked}</span></span>`;
   if (price.amount === null) return html`<span class="price price--quote">${A.quote}</span>`;
-  if (price.unit === 'eaFee') return html`<span class="price"><span class="price__n">${A.eaFee}</span><span class="price__u">$0</span></span>`;
   const n = `$${price.amount.toLocaleString('en-US')}`;
   return html`<span class="price"><span class="price__n">${n}</span><span class="price__u">${price.unit === 'month' ? A.perMonth : A.oneTime}</span></span>`;
 }
 
-/* ---- plan cards (§4, §9, §23) --------------------------------------------- */
-export function PlanCards({ plans, t, locale, selectedSlug = '' }) {
+/* ---- plan cards (§142) ----------------------------------------------------- */
+export function PlanCards({ plans, t, locale }) {
   const A = t.access;
   const C = t.commercial;
-  const p = (r) => localePath(locale, r);
   return html`
     <div class="plans">
       ${plans.map((pl, i) => {
         const P = A.plans[pl.id];
-        const cta =
-          pl.id === 'IB'
-            ? { href: '#ib', label: P.cta, variant: 'ghost', track: 'access_ib_click' }
-            : pl.id === 'PRO'
-              ? { href: '#pro', label: P.cta, variant: 'ghost', track: 'pro_subscribe_click' }
-              : pl.id === 'PRIVATE'
-                ? { href: '#private', label: P.cta, variant: 'ghost', track: 'private_inquiry_click' }
-                : { href: p(ROUTES.development()), label: P.cta, variant: 'primary', track: 'custom_dev_inquiry' };
+        const anchor = { FREE: '#free', PRO: '#pro', PARTNER: '#partner', PRIVATE: '#private' }[pl.id];
+        const track = { FREE: 'signup', PRO: 'pricing_view', PARTNER: 'partner_click', PRIVATE: 'private_inquiry' }[pl.id];
         return html`
           <article class="plan plan--${raw(pl.id.toLowerCase())}" data-reveal style="--d:${i}">
             <header class="plan__head">
@@ -69,8 +66,8 @@ export function PlanCards({ plans, t, locale, selectedSlug = '' }) {
               ${pl.features.map((f) => html`<li>${C.features[f] || f}</li>`)}
             </ul>
             <p class="plan__note">${P.note}</p>
-            <a class="btn btn--${raw(cta.variant)} plan__cta" href="${cta.href}" data-track="${cta.track}">
-              <span class="btn__label">${cta.label}</span><span class="btn__arrow" aria-hidden="true">→</span>
+            <a class="btn btn--ghost plan__cta" href="${anchor}" data-track="${track}">
+              <span class="btn__label">${P.cta}</span><span class="btn__arrow" aria-hidden="true">→</span>
             </a>
           </article>
         `;
@@ -79,11 +76,11 @@ export function PlanCards({ plans, t, locale, selectedSlug = '' }) {
   `;
 }
 
-/* ---- comparison table → cards on mobile (§49, §107) ------------------------ */
+/* ---- comparison table → cards on mobile (§143, §126) ----------------------- */
 export function ComparisonTable({ rows, t }) {
   const A = t.access.compare;
   const C = t.commercial;
-  const cols = ['IB', 'PRO', 'PRIVATE'];
+  const cols = ['FREE', 'PRO', 'PARTNER', 'PRIVATE'];
   return html`
     <div class="tablewrap cmp" data-reveal>
       <table class="dtable cmp__table">
@@ -106,7 +103,7 @@ export function ComparisonTable({ rows, t }) {
   `;
 }
 
-/* ---- vertical flow (§5, §27, §33) ------------------------------------------ */
+/* ---- vertical flow (§88, §89) ---------------------------------------------- */
 export function Flow({ steps, compact = false }) {
   return html`
     <ol class="cflow${raw(compact ? ' cflow--compact' : '')}">
@@ -115,7 +112,7 @@ export function Flow({ steps, compact = false }) {
   `;
 }
 
-/* ---- FAQ (§99–100) --------------------------------------------------------- */
+/* ---- FAQ ------------------------------------------------------------------- */
 export function FAQ({ items }) {
   return html`
     <div class="faq">
@@ -129,12 +126,12 @@ export function FAQ({ items }) {
   `;
 }
 
-/* ---- inquiry form (§28, §38, §87–88) --------------------------------------- */
+/* ---- inquiry form (§90–§93) ------------------------------------------------ */
 /**
- * Renders a real form whose POST target is COMMERCIAL.inquiryEndpoint. While
- * the endpoint is empty the form stays visible but disabled, labelled
+ * A real form whose POST target is COMMERCIAL.inquiryEndpoint. While the
+ * endpoint is empty the form stays visible but disabled, labelled
  * DATA_REQUIRED, and the configured e-mail is offered as the interim channel
- * (only when the owner has confirmed it). No mailto action, ever.
+ * only when the owner has confirmed the mailbox. No mailto action, ever.
  */
 export function InquiryForm({ kind, subject, fields, optional, t, labels }) {
   const C = t.commercial.form;
@@ -170,7 +167,7 @@ export function InquiryForm({ kind, subject, fields, optional, t, labels }) {
       ${when(kind === 'private' || kind === 'development', () => html`<label class="field field--check"><input type="checkbox" name="nda" value="requested" ${raw(live ? '' : 'disabled')} /><span>${C.ndaLabel}</span></label>`)}
       <p class="form__note">${C.privacyNote}</p>
       ${live
-        ? html`<button class="btn btn--primary form__submit" type="submit" data-track="${kind === 'private' ? 'private_inquiry_click' : 'custom_dev_inquiry'}"><span class="btn__label">${C.send}</span><span class="btn__arrow" aria-hidden="true">→</span></button>`
+        ? html`<button class="btn btn--primary form__submit" type="submit" data-track="${kind === 'private' ? 'private_inquiry' : 'custom_development_inquiry'}"><span class="btn__label">${C.send}</span><span class="btn__arrow" aria-hidden="true">→</span></button>`
         : html`<div class="iform__offline">
             ${DataRequired({ t, what: C.endpointMissing })}
             <p>${C.offlineBody}</p>
@@ -180,19 +177,30 @@ export function InquiryForm({ kind, subject, fields, optional, t, labels }) {
   `;
 }
 
-/* ---- IB disclosure (§52–53) ------------------------------------------------ */
-export function IBDisclosure({ t }) {
+/* ---- partner disclosure (§51) ---------------------------------------------- */
+export function PartnerDisclosure({ t }) {
   return html`<aside class="disclosure" role="note" data-reveal>
-    <span class="disclosure__tag">${t.access.ib.disclosureTag}</span>
-    <p>${t.access.ib.disclosure}</p>
+    <span class="disclosure__tag">${t.access.partner.disclosureTag}</span>
+    <p>${t.access.partner.disclosure}</p>
   </aside>`;
 }
 
-/* ---- EA detail access panel (§76–77) --------------------------------------- */
+/* ---- brand strip (§6) ------------------------------------------------------ */
+export function BrandStrip() {
+  return html`<div class="brandstrip" data-reveal aria-hidden="true">
+    <span class="brandstrip__sys">${BRAND.systemName}</span>
+    <span class="brandstrip__claim">${BRAND.claim}</span>
+    <span class="brandstrip__disc">${BRAND.discipline}</span>
+  </div>`;
+}
+
+/* ---- EA detail access panel (§23, §124) ------------------------------------ */
 export function EAAccessPanel({ model, t, locale }) {
   const A = t.commercial;
   const p = (r) => localePath(locale, r);
-  const plans = model.commercial.plans;
+  const status = model.commercial.status;
+  const cta = model.commercial.cta; // FREE | PRO | PARTNER | PRIVATE | RESEARCH_ONLY | NONE
+  const accessHref = `${p(ROUTES.access())}?ea=${model.slug}`;
   return html`
     <section class="block" id="access" data-reveal-root>
       <h2 class="block__title" data-reveal><span class="block__n">A</span><span class="block__bar" aria-hidden="true"></span>${A.howToAccess}</h2>
@@ -200,21 +208,31 @@ export function EAAccessPanel({ model, t, locale }) {
         <div class="eaaccess" data-reveal>
           <div class="eaaccess__row">
             <span class="eaaccess__k">${A.commercialStatus}</span>
-            <span class="eaaccess__v"><span class="cstatus cstatus--${raw(model.commercial.status.toLowerCase())}">${A.status[model.commercial.status]}</span></span>
+            <span class="eaaccess__v">${AccessBadge({ status, t })}</span>
           </div>
           <div class="eaaccess__row">
-            <span class="eaaccess__k">${A.plansLabel}</span>
-            <span class="eaaccess__v">${AccessBadges({ plans, t })}</span>
+            <span class="eaaccess__k">${A.planRequired}</span>
+            <span class="eaaccess__v">${model.commercial.plan ? A.plans[model.commercial.plan] : '—'}</span>
           </div>
           <div class="eaaccess__row">
             <span class="eaaccess__k">${A.researchStatus}</span>
             <span class="eaaccess__v eaaccess__v--muted">${A.researchStatusNote}</span>
           </div>
-          <p class="eaaccess__note">${plans.length ? A.lockedNote.replace('{plans}', plans.map((x) => A.plans[x]).join(' / ')) : A.pendingBody}</p>
+          <p class="eaaccess__note">${A.ctaNote[cta]}</p>
           <div class="eaaccess__cta">
-            ${Button({ href: `${p(ROUTES.access())}?ea=${model.slug}`, label: A.ctaAccess })}
+            ${when(
+              cta !== 'NONE',
+              () => html`<a class="btn btn--primary" href="${cta === 'PRIVATE' ? `${p(ROUTES.access())}#private` : accessHref}" data-track="${cta === 'PRIVATE' ? 'private_inquiry' : 'ea_view'}">
+                <span class="btn__label">${A.cta[cta]}</span><span class="btn__arrow" aria-hidden="true">→</span>
+              </a>`
+            )}
+            ${when(
+              cta === 'RESEARCH_ONLY' && model.mql5Url,
+              () => Button({ href: model.mql5Url, label: t.ui.viewOnMql5, variant: 'ghost', external: true, srNote: t.ui.externalLink })
+            )}
             ${Button({ href: p(ROUTES.access()), label: A.ctaOptions, variant: 'ghost' })}
           </div>
+          ${when(!FLAGS.download, () => html`<p class="fineline">${A.downloadNotLive}</p>`)}
         </div>
       </div>
     </section>

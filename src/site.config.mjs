@@ -20,6 +20,10 @@ export const BASE_PATH = process.env.BASE_PATH || '';
 export const BRAND = {
   name: 'TYO',
   legalName: 'TYO Algorithmic Trading Lab',
+  /** Phase 1 (SaaS §6): system name + claim, used on the commercial surfaces. */
+  systemName: 'TOKYO QUANT SYSTEMS',
+  claim: 'BUILT IN TOKYO. TRADED WORLDWIDE.',
+  discipline: 'AI × QUANT × AUTOMATED TRADING',
   signature: 'powered by TYO',
   /** Swap these two files to replace the logo everywhere. */
   logoFull: '/assets/logo/tyo-logo.svg', // footer / large surfaces
@@ -148,6 +152,31 @@ export const FORM_ENDPOINT = '';
  * The static site never fabricates a backend: while an endpoint is empty
  * the matching form renders as DATA_REQUIRED (no mailto fallback, §87).
  * ------------------------------------------------------------------ */
+/**
+ * Prices are configuration, never literals in a page (SaaS §10). The static
+ * site only DISPLAYS them; billing uses STRIPE_PRO_PRICE_ID server-side.
+ */
+export const PRICING = {
+  currency: 'USD',
+  proMonthly: Number(process.env.PRO_MONTHLY_PRICE || 19),
+  privateOneTime: Number(process.env.PRIVATE_ONE_TIME_PRICE || 5000),
+};
+
+/**
+ * Feature flags (SaaS §112, §146). Everything that needs the account layer
+ * stays false until that layer exists — the site must never show a feature
+ * it cannot deliver.
+ */
+export const FLAGS = {
+  auth: process.env.ENABLE_AUTH === 'true',
+  proBilling: process.env.ENABLE_PRO_BILLING === 'true',
+  download: process.env.ENABLE_DOWNLOAD === 'true',
+  license: process.env.ENABLE_LICENSE === 'true',
+  partner: process.env.ENABLE_PARTNER !== 'false', // the PARTNER model may be described before it is live
+  contentAI: process.env.ENABLE_CONTENT_AI === 'true',
+  performanceUpload: process.env.ENABLE_PERFORMANCE_UPLOAD === 'true',
+};
+
 export const COMMERCIAL = {
   inquiryEndpoint: '', // POST target for Private / Development / IB-verification inquiries (form service or Contact API)
   accountUrl: '', // TYO ACCOUNT app (auth + billing) — Phase 16B; empty = /account/ shows "not live"

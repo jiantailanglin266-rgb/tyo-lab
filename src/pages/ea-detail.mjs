@@ -226,7 +226,7 @@ export default function EADetail({ locale, t, ea: model, next, stages }) {
 
               <div class="eahero__actions" data-reveal>
                 ${when(blocks.some((b) => b.id === 'performance'), () => Button({ href: '#performance', label: S.performance }))}
-                ${Button({ href: `${p(ROUTES.access())}?ea=${model.slug}`, label: t.commercial.ctaAccess, variant: 'ghost' })}
+                ${when(model.commercial.cta !== 'NONE', () => Button({ href: `${p(ROUTES.access())}?ea=${model.slug}`, label: t.commercial.cta[model.commercial.cta], variant: 'ghost' }))}
                 ${when(
                   model.mql5Url,
                   () => Button({ href: model.mql5Url, label: t.ui.viewOnMql5, variant: 'ghost', external: true, srNote: t.ui.externalLink })

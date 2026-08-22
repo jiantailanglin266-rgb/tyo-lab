@@ -1227,21 +1227,23 @@ export default {
     noSupportBody:
       'Chúng tôi không cung cấp tư vấn đầu tư, quản lý tài khoản, dịch vụ tín hiệu hay bảo đảm lợi nhuận, và không thể tư vấn liệu một hệ thống có phù hợp với tình hình tài chính cá nhân của bạn hay không.',
   },
-
-  commercial:   {
+
+  commercial: {
     "plans": {
       "IB": "IB ACCESS",
       "PRO": "TYO PRO",
-      "PRIVATE": "TYO PRIVATE"
+      "PRIVATE": "TYO PRIVATE",
+      "FREE": "FREE",
+      "PARTNER": "PARTNER"
     },
     "filterLabel": "Truy cập",
     "filters": {
       "IB": "Có qua IB",
-      "PRO": "Có trên PRO",
-      "PRIVATE": "Chỉ Private"
+      "PRO": "Trên PRO",
+      "PRIVATE": "Chỉ Private",
+      "FREE": "Miễn phí",
+      "PARTNER": "Đối tác"
     },
-    "pending": "CHƯA GÁN GÓI",
-    "pendingTitle": "TYO chưa quyết định gán gói",
     "dataRequiredTitle": "Chủ sở hữu chưa nhập dữ liệu — không có gì được bịa ra",
     "quote": "Liên hệ báo giá",
     "eaFee": "Phí truy cập EA",
@@ -1268,24 +1270,38 @@ export default {
       "customization": "Tùy chỉnh",
       "builtForClient": "Xây dựng cho khách hàng",
       "researchDriven": "Quy trình dựa trên nghiên cứu",
-      "validationOptional": "OOS / WF / MC / Shadow theo yêu cầu"
+      "validationOptional": "OOS / WF / MC / Shadow theo yêu cầu",
+      "freeLibrary": "Thư viện EA miễn phí",
+      "basicBacktest": "Xem backtest cơ bản",
+      "basicForward": "Dữ liệu forward cơ bản",
+      "tyoAccount": "Tài khoản TYO",
+      "researchAccess": "Truy cập nghiên cứu",
+      "proLibrary": "Thư viện EA PRO",
+      "advancedStrategies": "Truy cập chiến lược nâng cao",
+      "eaUpdates": "Cập nhật EA",
+      "advancedAnalytics": "Phân tích nâng cao",
+      "portfolio": "Danh mục",
+      "enhancedSupport": "Hỗ trợ nâng cao",
+      "partnerAccess": "Truy cập chiến lược đối tác",
+      "privateStrategy": "Chiến lược riêng"
     },
     "status": {
       "DRAFT": "NHÁP",
       "AVAILABLE": "SẴN SÀNG",
       "PAUSED": "TẠM DỪNG",
-      "PRIVATE": "RIÊNG TƯ",
-      "RETIRED": "ĐÃ NGỪNG"
+      "PRIVATE": "PRIVATE",
+      "RETIRED": "ĐÃ NGỪNG",
+      "FREE": "FREE",
+      "PRO": "PRO",
+      "PARTNER": "PARTNER",
+      "RESEARCH_ONLY": "CHỈ NGHIÊN CỨU"
     },
     "ctaAccess": "TRUY CẬP CHIẾN LƯỢC NÀY",
     "ctaOptions": "XEM TÙY CHỌN TRUY CẬP",
     "howToAccess": "Cách truy cập EA này",
     "commercialStatus": "Trạng thái thương mại",
-    "plansLabel": "Gói truy cập",
     "researchStatus": "Trạng thái nghiên cứu",
     "researchStatusNote": "Hiển thị ở phần bằng chứng phía trên — trạng thái nghiên cứu và thương mại được quản lý riêng.",
-    "lockedNote": "Có qua {plans}. Quyền truy cập được cấp qua lớp Tài khoản TYO; không tải được gì từ trang này.",
-    "pendingBody": "TYO chưa gán chiến lược này vào gói truy cập nào. Bằng chứng phía trên vẫn đầy đủ bất kể trạng thái thương mại.",
     "form": {
       "labels": {
         "name": "Họ tên",
@@ -1344,45 +1360,66 @@ export default {
       "endpointMissing": "endpoint yêu cầu",
       "offlineBody": "Biểu mẫu này kết nối với endpoint yêu cầu chưa được cấu hình nên hiện chưa gửi được. Sẽ hoạt động cùng lớp Tài khoản TYO.",
       "interimEmail": "Trong lúc đó, yêu cầu được nhận qua email:"
-    }
+    },
+    "statusTitle": "Trạng thái thương mại — độc lập với trạng thái nghiên cứu ở trên",
+    "cta": {
+      "FREE": "TẢI MIỄN PHÍ",
+      "PRO": "CÓ TRÊN PRO",
+      "PARTNER": "TRUY CẬP ĐỐI TÁC",
+      "PRIVATE": "YÊU CẦU RIÊNG",
+      "RESEARCH_ONLY": "CHỈ NGHIÊN CỨU",
+      "NONE": "CHƯA CUNG CẤP"
+    },
+    "ctaNote": {
+      "FREE": "Thuộc thư viện miễn phí. Tải xuống qua lớp Tài khoản TYO, không phải từ trang này.",
+      "PRO": "Thuộc TYO PRO. Quyền truy cập được cấp qua lớp Tài khoản TYO khi đăng ký còn hiệu lực.",
+      "PARTNER": "Dành cho người dùng đối tác đã xác minh, liên kết qua sàn được hỗ trợ.",
+      "PRIVATE": "Thuộc cấp riêng. Không bán trên trang này — bắt đầu từ một yêu cầu.",
+      "RESEARCH_ONLY": "TYO chưa gán chiến lược này vào gói truy cập. Nghiên cứu và bằng chứng ở trên vẫn đầy đủ; nơi TYO đã công bố trên MQL5 vẫn là cách để có được nó.",
+      "NONE": "Chiến lược này hiện không được phân phối."
+    },
+    "planRequired": "Gói yêu cầu",
+    "downloadNotLive": "Lớp tài khoản và tải xuống chưa hoạt động, nên không thể tải gì từ trang này.",
+    "forever": "mãi mãi",
+    "brokerLinked": "liên kết sàn"
   },
-
-  access:   {
+
+  access: {
     "eyebrow": "EA ACCESS",
     "h1": "CHỌN CÁCH TRUY CẬP CỦA BẠN.",
-    "h2": "Nghiên cứu trước. Rồi đến cách bạn sử dụng.",
+    "h2": "Nghiên cứu trước. Rồi đến cách bạn dùng.",
     "lead": "Các chiến lược đã được nghiên cứu, sẵn sàng theo cách phù hợp với phong cách giao dịch của bạn. Mọi gói đều dẫn ngược về bằng chứng.",
     "modelsTitle": "Bốn mô hình truy cập",
-    "modelsLead": "Từ truy cập liên kết sàn đến giấy phép riêng và phát triển tùy chỉnh hoàn toàn. Không gói nào bán dự đoán — chúng cho bạn cách được cấp phép để chạy chiến lược bạn đã xem xét.",
-    "plannedNote": "DỰ KIẾN nghĩa là mô hình đã được định nghĩa và tài liệu hóa nhưng backend (xác minh, thanh toán, sàng lọc) chưa hoạt động. Không có khoản thu nào trên trang này.",
+    "modelsLead": "Từ tài khoản miễn phí đến giấy phép riêng — và phát triển tùy chỉnh khi không có sẵn thứ phù hợp. Không mô hình nào bán dự đoán; mỗi mô hình cho bạn cách được cấp phép để chạy chiến lược bạn đã xem xét.",
+    "plannedNote": "DỰ KIẾN nghĩa là mô hình đã được định nghĩa và tài liệu hóa, nhưng lớp tài khoản, thanh toán và tải xuống chưa hoạt động. Không có khoản thu nào trên trang này.",
     "plans": {
-      "IB": {
-        "name": "IB ACCESS",
-        "tagline": "Dùng các chiến lược được chọn với phí truy cập EA $0 qua tài khoản giới thiệu của TYO tại sàn được hỗ trợ.",
-        "note": "Chi phí giao dịch của sàn (spread, hoa hồng, swap) vẫn áp dụng. Sàn được hỗ trợ và điều kiện: DATA_REQUIRED.",
-        "cta": "Truy cập IB hoạt động thế nào"
-      },
       "PRO": {
         "name": "TYO PRO",
-        "tagline": "Dành cho trader không muốn đổi sàn nhưng muốn dùng chiến lược nâng cao.",
+        "tagline": "Cho trader muốn bộ chiến lược nâng cao mà vẫn giữ sàn của mình.",
         "note": "Đăng ký hàng tháng bằng USD. Chỉ tải được khi đăng ký còn hiệu lực.",
         "cta": "Về TYO PRO"
       },
       "PRIVATE": {
         "name": "TYO PRIVATE",
-        "tagline": "Giấy phép cấp cao, giới hạn, không thuộc danh mục công khai.",
-        "note": "Không bán trên trang này. Yêu cầu → xem xét mục đích → thỏa thuận.",
+        "tagline": "Giấy phép cấp cao giới hạn, ngoài danh mục công khai.",
+        "note": "Không bán trên trang này. Yêu cầu → sàng lọc → thỏa thuận.",
         "cta": "Yêu cầu truy cập riêng"
       },
-      "CUSTOM": {
-        "name": "CUSTOM DEVELOPMENT",
-        "tagline": "Chiến lược của bạn, viết thành mã — với cùng quy trình nghiên cứu TYO áp dụng cho hệ thống của mình.",
-        "note": "Báo giá theo yêu cầu. Phạm vi được xác định cùng nhau trước khi bắt đầu.",
-        "cta": "Xây dựng EA tùy chỉnh"
+      "FREE": {
+        "name": "FREE",
+        "tagline": "Tài khoản TYO, thư viện EA miễn phí và toàn bộ nghiên cứu.",
+        "note": "Không cần thẻ. Danh sách chiến lược miễn phí do TYO quyết định (DATA_REQUIRED).",
+        "cta": "FREE gồm những gì"
+      },
+      "PARTNER": {
+        "name": "PARTNER",
+        "tagline": "Truy cập cho người dùng đã xác minh, liên kết qua sàn được hỗ trợ.",
+        "note": "TYO duyệt thủ công. Sàn và điều kiện: DATA_REQUIRED.",
+        "cta": "Truy cập đối tác hoạt động thế nào"
       }
     },
-    "matrixTitle": "Chiến lược × gói",
-    "matrixLead": "Chiến lược nào có thể nằm trong gói nào. Bằng chứng luôn đi trước — mở bất kỳ hàng nào để xem backtest, OOS, walk-forward và dữ liệu forward trước khi chọn gói.",
+    "matrixTitle": "Chiến lược × truy cập",
+    "matrixLead": "Chiến lược nào thuộc gói nào. Bằng chứng luôn đi trước — mở bất kỳ hàng nào để đọc backtest, OOS, walk-forward và dữ liệu forward trước khi chọn.",
     "matrix": {
       "ea": "Chiến lược",
       "symbol": "Mã",
@@ -1391,64 +1428,35 @@ export default {
       "evidence": "Bằng chứng",
       "viewEvidence": "Xem bằng chứng",
       "plans": "Gói",
-      "status": "Trạng thái thương mại"
+      "status": "Trạng thái thương mại",
+      "plan": "Gói yêu cầu"
     },
-    "matrixNote": "CHƯA GÁN GÓI: TYO chưa quyết định gói cho chiến lược đó. Trạng thái thương mại độc lập với trạng thái nghiên cứu (một chiến lược có thể đã được xác thực về nghiên cứu nhưng vẫn là nháp về thương mại).",
+    "matrixNote": "CHỈ NGHIÊN CỨU nghĩa là TYO chưa gán chiến lược đó vào gói truy cập. Trạng thái thương mại độc lập với trạng thái nghiên cứu.",
     "focusLabel": "Chiến lược đã chọn",
-    "focusPending": "Chiến lược này chưa được gán gói truy cập. Các trang bằng chứng vẫn đầy đủ.",
-    "focusAssigned": "Chiến lược này có thể nằm trong: {plans}.",
-    "ib": {
-      "title": "IB ACCESS",
-      "lead": "Dùng các chiến lược đủ điều kiện không mất phí truy cập EA qua tài khoản giới thiệu của TYO tại sàn được hỗ trợ.",
-      "body": "Truy cập IB liên kết tài khoản sàn của bạn với TYO qua chương trình giới thiệu. Phí truy cập EA là $0; chi phí giao dịch của sàn áp dụng như bình thường. Quyền truy cập được cấp sau khi xác minh.",
-      "wording": "Phí truy cập EA có thể được miễn cho người dùng đủ điều kiện liên kết qua chương trình giới thiệu của sàn được hỗ trợ. Điều kiện, danh sách sàn và điều khoản do TYO và sàn quy định, có thể khác nhau theo khu vực.",
-      "supportedBroker": "Sàn được hỗ trợ",
-      "eligibility": "Điều kiện",
-      "verification": "Xác minh",
-      "verificationManual": "Thủ công — bạn gửi, TYO xác minh, cấp quyền",
-      "countries": "Quốc gia",
-      "disclosureTag": "CÔNG BỐ IB",
-      "disclosure": "TYO có thể nhận hoa hồng giới thiệu từ sàn được hỗ trợ khi bạn mở tài khoản qua liên kết giới thiệu của TYO. Điều này không thay đổi chi phí giao dịch do sàn quy định.",
-      "flowTitle": "Cách hoạt động",
-      "flow": {
-        "lab": "TYO LAB",
-        "brokerAccount": "Tài khoản sàn",
-        "ibRegistration": "Đăng ký IB TYO",
-        "verification": "Xác minh",
-        "eaAccess": "Truy cập EA"
-      },
-      "statesTitle": "Trạng thái truy cập",
-      "states": {
-        "NOT_CONNECTED": "CHƯA KẾT NỐI",
-        "PENDING_VERIFICATION": "CHỜ XÁC MINH",
-        "VERIFIED": "ĐÃ XÁC MINH",
-        "ACTIVE": "HOẠT ĐỘNG",
-        "SUSPENDED": "TẠM NGƯNG"
-      },
-      "verificationNote": "Xác minh dùng sàn, ID tài khoản hoặc giới thiệu, email và ID người dùng TYO. Trang này không bao giờ yêu cầu hay lưu thông tin đăng nhập tài khoản."
-    },
+    "focusPending": "Chiến lược này chưa có gói truy cập. Các trang nghiên cứu vẫn đầy đủ.",
+    "focusAssigned": "Chiến lược này có qua: {plans}.",
     "pro": {
       "title": "TYO PRO",
       "price": "$10 / month",
-      "lead": "Giữ nguyên sàn của bạn. Đăng ký các chiến lược nâng cao.",
-      "body": "TYO PRO dành cho trader không muốn đổi sàn. Đăng ký hàng tháng bằng USD mở khóa bộ chiến lược nâng cao, bộ tham số cao cấp, cập nhật ưu tiên, preset nghiên cứu và truy cập danh mục — chỉ khi đăng ký còn hiệu lực.",
-      "featuresNote": "Chỉ liệt kê tính năng đã tồn tại; danh sách tăng theo nền tảng, không bao giờ đi trước.",
+      "lead": "Bộ chiến lược nâng cao, trên sàn của chính bạn.",
+      "body": "TYO PRO là đăng ký hàng tháng cho trader không muốn đổi sàn. Mở khóa thư viện EA PRO, cập nhật EA, phân tích nâng cao và công cụ danh mục — chỉ khi đăng ký còn hiệu lực. Đây không phải \"mọi chiến lược\": cấp riêng tách biệt.",
+      "featuresNote": "Chỉ liệt kê tính năng đã có; danh sách tăng theo nền tảng.",
       "billing": "Thanh toán",
       "currency": "Tiền tệ",
       "provider": "Nhà cung cấp thanh toán",
       "cancel": "Hủy",
       "refund": "Chính sách hoàn tiền",
       "states": "Trạng thái đăng ký",
-      "downloadNote": "Tải xuống được cung cấp bởi API tải có chữ ký gắn với đăng ký đang hoạt động — không bao giờ qua URL tệp công khai.",
-      "notLive": "Thanh toán chưa hoạt động. Không thu tiền trên trang này cho đến khi kết nối nhà cung cấp thanh toán (Phase 16C)."
+      "downloadNote": "Tải xuống qua API tải có chữ ký gắn với đăng ký đang hoạt động — không bao giờ qua URL tệp công khai.",
+      "notLive": "Thanh toán chưa hoạt động. Không thu tiền cho đến khi kết nối và bật nhà cung cấp thanh toán."
     },
     "private": {
       "title": "TYO PRIVATE",
-      "lead": "Truy cập chiến lược riêng cho những người vận hành nghiêm túc.",
-      "body": "Giấy phép cấp cao, giới hạn, khác với danh mục công khai. Không mua trên trang này: yêu cầu, xem xét mục đích, họp trực tuyến, điều khoản, thanh toán, rồi bàn giao giấy phép.",
+      "lead": "Truy cập chiến lược riêng cho người vận hành nghiêm túc.",
+      "body": "Giấy phép cấp cao giới hạn, khác danh mục công khai. Không mua trên trang này: yêu cầu, sàng lọc, thỏa thuận, thanh toán, rồi bàn giao giấy phép.",
       "detailsUponInquiry": "Chi tiết cung cấp khi có yêu cầu. Tên, logic, tệp và hiệu suất của chiến lược riêng không được công bố.",
-      "priceExplain": "Mức giá $5,000 phản ánh tính độc quyền, phạm vi giấy phép, hỗ trợ trực tiếp và tùy chỉnh — không phải lời hứa về hiệu suất.",
-      "disclaimer": "Giá cao hơn không có nghĩa lợi nhuận cao hơn hay được đảm bảo. Mọi chiến lược TYO, riêng hay công khai, đều chịu cùng công bố rủi ro.",
+      "priceExplain": "Giá phản ánh tính độc quyền, phạm vi giấy phép, hỗ trợ trực tiếp và tùy chỉnh — không phải lời hứa hiệu suất.",
+      "disclaimer": "Giá cao hơn không nghĩa là lợi nhuận cao hơn hay được đảm bảo. Mọi chiến lược TYO đều chịu cùng công bố rủi ro.",
       "flowTitle": "Quy trình",
       "flow": {
         "inquiry": "Yêu cầu",
@@ -1456,19 +1464,21 @@ export default {
         "meeting": "Họp trực tuyến",
         "terms": "Điều khoản",
         "payment": "Thanh toán",
-        "delivery": "Bàn giao giấy phép"
+        "delivery": "Bàn giao giấy phép",
+        "screening": "Sàng lọc",
+        "agreement": "Thỏa thuận"
       },
       "noCheckout": "Cố ý không có nút mua cho cấp này.",
       "formTitle": "Yêu cầu truy cập riêng"
     },
     "custom": {
       "title": "CUSTOM EA DEVELOPMENT",
-      "lead": "Ý tưởng của bạn, xây thành EA — dựa trên nghiên cứu, tùy chọn xác thực OOS / walk-forward / Monte Carlo / shadow-forward.",
-      "cta": "Xây dựng EA tùy chỉnh"
+      "lead": "Khi không chiến lược nào phù hợp: logic của bạn, viết thành mã với cùng quy trình nghiên cứu.",
+      "cta": "XÂY EA CỦA BẠN"
     },
     "compare": {
       "title": "Tổng quan gói truy cập",
-      "lead": "Chỉ những gì thực sự dự kiến. Trống nghĩa là không cung cấp.",
+      "lead": "Chỉ những gì thực sự dự kiến. Tất cả phụ thuộc lớp tài khoản hoạt động.",
       "heading": "Gói",
       "rows": {
         "cost": "Chi phí",
@@ -1490,40 +1500,99 @@ export default {
         "enhanced": "Nâng cao",
         "direct": "Trực tiếp",
         "brokerLinked": "Liên kết sàn",
-        "subscription": "Đăng ký",
-        "inquiry": "Yêu cầu"
+        "subscription": "Thuê bao",
+        "inquiry": "Yêu cầu",
+        "free0": "$0",
+        "perMonthPro": "$19 / tháng",
+        "oneTimePrivate": "$5,000 một lần",
+        "freeLibrary": "Thư viện miễn phí",
+        "proLibrary": "Thư viện PRO",
+        "partnerLibrary": "Chiến lược đối tác",
+        "privateStrategy": "Chiến lược riêng",
+        "community": "Cộng đồng",
+        "signup": "Đăng ký"
       },
-      "note": "Giá bằng USD. Thuế, nếu có, do nhà cung cấp thanh toán xử lý."
+      "note": "Giá bằng USD, hiển thị từ cấu hình. Thuế, nếu có, do nhà cung cấp thanh toán xử lý."
     },
     "faqTitle": "Câu hỏi về truy cập",
     "faq": [
       {
-        "q": "Truy cập IB là gì?",
-        "a": "Cách dùng các chiến lược đủ điều kiện với phí truy cập EA $0 bằng cách liên kết tài khoản sàn mở qua giới thiệu của TYO với tài khoản TYO của bạn. Chi phí giao dịch bình thường của sàn vẫn áp dụng. Sàn được hỗ trợ chưa công bố (DATA_REQUIRED)."
+        "q": "Gói FREE gồm những gì?",
+        "a": "Tài khoản TYO, thư viện EA miễn phí, xem backtest và forward cơ bản, và truy cập nghiên cứu đầy đủ. Chiến lược nào miễn phí do TYO quyết định và chưa công bố (DATA_REQUIRED)."
       },
       {
-        "q": "TYO PRO khác truy cập IB thế nào?",
-        "a": "PRO là đăng ký $10/tháng không phụ thuộc sàn và mở khóa bộ chiến lược nâng cao. Truy cập IB phụ thuộc sàn được hỗ trợ và bao gồm các chiến lược được chọn."
+        "q": "TYO PRO thêm gì?",
+        "a": "Thư viện EA PRO, cập nhật EA, phân tích nâng cao và công cụ danh mục, trả phí hàng tháng, không phụ thuộc sàn. Cố ý không mô tả là \"mọi chiến lược\" — cấp riêng tách biệt."
       },
       {
-        "q": "Tôi dùng được bao nhiêu chiến lược?",
-        "a": "Ma trận chiến lược × gói phía trên là nguồn chuẩn. Giới hạn tài khoản MT5 và thiết bị theo gói sẽ được nêu khi xác định (DATA_REQUIRED)."
+        "q": "PARTNER khác gì?",
+        "a": "Truy cập đối tác được cấp cho người dùng đã xác minh, liên kết qua chương trình giới thiệu của sàn được hỗ trợ, do TYO duyệt thủ công. Sàn và điều kiện chưa công bố."
       },
       {
-        "q": "Khi hủy thì sao?",
-        "a": "Tải xuống dừng vào cuối kỳ đã thanh toán. Điều khoản hủy và hoàn tiền được công bố cùng nhà cung cấp thanh toán; trước đó được đánh dấu DATA_REQUIRED thay vì hứa hẹn."
+        "q": "Hủy PRO thì sao?",
+        "a": "Truy cập tiếp tục đến hết kỳ đã thanh toán rồi về FREE. Điều khoản hủy và hoàn tiền công bố cùng nhà cung cấp thanh toán; trước đó đánh dấu DATA_REQUIRED."
       },
       {
-        "q": "Giấy phép riêng $5,000 khác gì?",
-        "a": "Tính độc quyền, phạm vi giấy phép, hỗ trợ trực tiếp và tùy chỉnh. Không phải hiệu suất: không chiến lược TYO nào hứa hẹn lợi nhuận."
+        "q": "Giấy phép riêng khác gì?",
+        "a": "Tính độc quyền, phạm vi giấy phép, hỗ trợ trực tiếp và tùy chỉnh. Không phải hiệu suất: không chiến lược TYO nào hứa lợi nhuận."
+      },
+      {
+        "q": "Hôm nay tôi tải EA được không?",
+        "a": "Không từ trang này. Tài khoản, quyền và tải có chữ ký là giai đoạn tiếp theo; không có sản phẩm trả phí nào trong kho công khai."
       }
     ],
     "evidenceLine": "Đọc bằng chứng, so sánh rủi ro, rồi mới chọn cách truy cập. Không bao giờ ngược lại.",
     "backToStrategies": "Về danh sách chiến lược",
-    "backToResearch": "Nhật ký nghiên cứu"
+    "backToResearch": "Nhật ký nghiên cứu",
+    "partner": {
+      "title": "PARTNER",
+      "lead": "Truy cập cho người dùng liên kết qua sàn được hỗ trợ.",
+      "body": "Truy cập đối tác liên kết tài khoản sàn của bạn với TYO qua chương trình giới thiệu. Không có phí truy cập EA; chi phí giao dịch của sàn áp dụng như thường. Quyền truy cập được cấp sau khi TYO xác minh thủ công.",
+      "wording": "Quyền truy cập có thể được cấp cho người dùng đủ điều kiện liên kết qua chương trình giới thiệu của sàn được hỗ trợ. Điều kiện, danh sách sàn và điều khoản do TYO và sàn quy định, có thể khác theo khu vực.",
+      "supportedBroker": "Sàn được hỗ trợ",
+      "eligibility": "Điều kiện",
+      "verification": "Xác minh",
+      "verificationManual": "Thủ công — bạn gửi, TYO xác minh, cấp quyền",
+      "countries": "Quốc gia",
+      "disclosureTag": "CÔNG BỐ ĐỐI TÁC",
+      "disclosure": "TYO có thể nhận hoa hồng giới thiệu từ sàn được hỗ trợ khi bạn mở tài khoản qua liên kết giới thiệu của TYO. Điều này không thay đổi chi phí giao dịch do sàn quy định.",
+      "flowTitle": "Cách hoạt động",
+      "flow": {
+        "lab": "TYO LAB",
+        "brokerAccount": "Tài khoản sàn",
+        "ibRegistration": "Đăng ký IB TYO",
+        "verification": "Xác minh",
+        "eaAccess": "Truy cập EA",
+        "partnerRegistration": "Đăng ký đối tác"
+      },
+      "statesTitle": "Trạng thái đối tác",
+      "states": {
+        "NOT_CONNECTED": "CHƯA KẾT NỐI",
+        "PENDING_VERIFICATION": "CHỜ XÁC MINH",
+        "VERIFIED": "ĐÃ XÁC MINH",
+        "ACTIVE": "HOẠT ĐỘNG",
+        "SUSPENDED": "TẠM NGƯNG",
+        "NONE": "CHƯA",
+        "PENDING": "CHỜ DUYỆT",
+        "EXPIRED": "HẾT HẠN"
+      },
+      "verificationNote": "Xác minh dùng sàn, ID tài khoản hoặc giới thiệu, email và ID người dùng TYO. Không bao giờ yêu cầu hay lưu thông tin đăng nhập.",
+      "approval": "Phê duyệt",
+      "approvalManual": "Thủ công — bạn gửi, TYO xác minh, cấp quyền"
+    },
+    "free": {
+      "title": "FREE",
+      "lead": "Tài khoản, thư viện miễn phí và mọi trang nghiên cứu.",
+      "body": "Tài khoản TYO miễn phí. Gồm thư viện EA miễn phí, xem backtest và forward cơ bản, cùng quyền truy cập đầy đủ nền tảng nghiên cứu — cùng bằng chứng như trang công khai, sắp xếp theo tài khoản.",
+      "cost": "Chi phí",
+      "requires": "Yêu cầu",
+      "requiresValue": "Tài khoản TYO (email hoặc Google)",
+      "eaList": "Danh sách EA miễn phí",
+      "notLive": "Đăng ký chưa hoạt động. Cho đến khi lớp tài khoản ra mắt, các chiến lược đã công bố vẫn có ở nơi TYO công bố."
+    }
   },
-
-  development:   {
+
+  development: {
     "eyebrow": "CUSTOM EA DEVELOPMENT",
     "h1": "CHIẾN LƯỢC CỦA BẠN.",
     "h2": "VIẾT THÀNH MÃ.",
@@ -1687,8 +1756,8 @@ export default {
       "uploadNote": "Tải tệp (mã nguồn, đặc tả) sẽ khả dụng khi backend yêu cầu hoạt động. Trước đó hãy mô tả EA trong tin nhắn."
     }
   },
-
-  account:   {
+
+  account: {
     "eyebrow": "TYO ACCOUNT",
     "h1": "QUYỀN TRUY CẬP CỦA BẠN.",
     "h2": "Ở một nơi.",
@@ -1736,17 +1805,17 @@ export default {
 
   seo: {
     access: {
-      "title": "Truy cập EA — IB, PRO, Private & Tùy chỉnh | TYO",
-      "desc": "Cách sử dụng EA của TYO: truy cập IB, TYO PRO ($10/tháng), giấy phép TYO PRIVATE và phát triển EA tùy chỉnh. Bằng chứng trước, rồi mới đến truy cập EA MT5."
-},
+      "title": "Truy cập EA — FREE / PRO / PARTNER / PRIVATE | TYO",
+      "desc": "Cách dùng EA của TYO: tài khoản miễn phí, TYO PRO $19/tháng, truy cập đối tác qua sàn được hỗ trợ, và giấy phép riêng. Bằng chứng trước, rồi mới truy cập."
+    },
     development: {
       "title": "Phát triển EA tùy chỉnh — MT4 / MT5 | TYO",
       "desc": "Phát triển Expert Advisor MT4/MT5 dựa trên nghiên cứu: EA nguyên bản, chỉnh sửa, di chuyển MT4→MT5, tự động hóa backtest, hệ thống AI × MCP."
 },
     account: {
       "title": "Tài khoản TYO | TYO",
-      "desc": "Gói truy cập, đăng ký, trạng thái IB, tải xuống và giấy phép của bạn."
-},
+      "desc": "Gói truy cập, đăng ký, trạng thái đối tác, tải xuống và giấy phép của bạn."
+    },
     home: {
       title: 'TYO — Algorithmic Trading, Engineered Differently',
       desc:

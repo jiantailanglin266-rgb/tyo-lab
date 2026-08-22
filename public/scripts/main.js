@@ -832,7 +832,7 @@
       if (state.market && card.dataset.market !== state.market) return false;
       if (state.tag && (' ' + (card.dataset.tags || '') + ' ').indexOf(' ' + state.tag + ' ') < 0) return false;
       if (state.risk && card.dataset.risk !== state.risk) return false;
-      if (state.access && (' ' + (card.dataset.access || '') + ' ').indexOf(' ' + state.access + ' ') < 0) return false;
+      if (state.access && card.dataset.access !== state.access) return false;
       if (state.q && (card.dataset.name || '').indexOf(state.q) < 0) return false;
       return true;
     }
@@ -1782,14 +1782,16 @@
     if (!row) return;
     row.classList.add('is-focus');
     var name = $('th a', row);
-    var plans = $('td[data-label] .abadge', row);
-    var badges = $$('.abadge', row).filter(function (b) { return !b.classList.contains('abadge--pending'); });
+    var badge = $('.abadge', row);
+    var planCell = row.cells[5]; // plan column
+    var planText = planCell ? planCell.textContent.trim() : '';
     $('[data-access-focus-name]', box).textContent = name ? name.textContent : slug;
     var pl = $('[data-access-focus-plans]', box);
     pl.innerHTML = '';
-    badges.forEach(function (b) { pl.appendChild(b.cloneNode(true)); });
+    if (badge) pl.appendChild(badge.cloneNode(true));
     var body = $('[data-access-focus-body]', box);
-    body.textContent = badges.length ? body.dataset.assigned.replace('{plans}', badges.map(function (b) { return b.textContent; }).join(' / ')) : body.dataset.pending;
+    var assigned = planText && planText !== '—';
+    body.textContent = assigned ? body.dataset.assigned.replace('{plans}', planText) : body.dataset.pending;
     box.hidden = false;
     box.classList.add('is-in');
     raf(function () { row.scrollIntoView({ block: 'center', behavior: isReduced() ? 'auto' : 'smooth' }); });

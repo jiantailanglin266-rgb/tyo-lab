@@ -6617,6 +6617,47 @@ table {
 }
 
 
+/* ---- SaaS Phase 1: FREE / PRO / PARTNER / PRIVATE ---------------------- */
+.abadge--free { border-color: rgba(108, 247, 199, 0.35); color: #9cf5d6; }
+.abadge--pro { border-color: rgba(160, 140, 255, 0.4); color: #c4b5ff; }
+.abadge--partner { border-color: rgba(120, 190, 255, 0.4); color: #a9d4ff; }
+.abadge--private { border-color: rgba(255, 190, 110, 0.4); color: #ffd49a; }
+.abadge--research-only { color: var(--fg-4); border-style: dashed; }
+.abadge--draft, .abadge--paused, .abadge--retired { color: var(--fg-4); }
+
+.cstatus--free { color: #9cf5d6; }
+.cstatus--pro { color: #c4b5ff; }
+.cstatus--partner { color: #a9d4ff; }
+.cstatus--research-only { color: var(--fg-4); }
+
+.plan--free::before { background: rgba(108, 247, 199, 0.6); }
+.plan--pro::before { background: rgba(160, 140, 255, 0.6); }
+.plan--partner::before { background: rgba(120, 190, 255, 0.6); }
+.plan--private::before { background: rgba(255, 190, 110, 0.6); }
+
+/* brand strip (SaaS §6) — quiet, mono, never a banner */
+.brandstrip {
+  margin-top: clamp(48px, 7vw, 96px);
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  align-items: baseline;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-4);
+}
+.brandstrip__sys { color: var(--fg-2); }
+.brandstrip__claim { color: var(--fg-3); }
+
+/* four-column comparison stays readable on tablets */
+@media (min-width: 721px) and (max-width: 1024px) {
+  .cmp__table th, .cmp__table td { font-size: 0.86rem; padding-inline: 10px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

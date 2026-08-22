@@ -1,37 +1,48 @@
 /**
  * ============================================================================
- * IB / BROKER ACCESS CONFIGURATION (Phase 16 §1, §5–7, §50–54)
+ * PARTNER / BROKER ACCESS CONFIGURATION (SaaS §11, §50–§56)
  * ============================================================================
  * Everything broker-related is owner data. Until it is entered, the site
  * shows DATA_REQUIRED and keeps broker names, URLs and conditions hidden.
- * `enabled` is the master switch so IB wording can be turned off per
- * platform / regional rule without touching templates (§1).
+ * `enabled` (FLAGS.partner) is the master switch so partner wording can be
+ * turned off per platform / regional rule without touching templates.
  * ============================================================================
  */
 import { DATA_REQUIRED } from './plans.mjs';
 
-export const IB_ACCESS = {
-  enabled: true, // render the IB model on /access/ (all wording stays conditional)
-  brokersPublished: false, // /supported-brokers/ stays unpublished until a real contract exists (§51)
-  verificationMethod: 'MANUAL', // MANUAL: user submits → admin verifies → access granted (§82–83) | API
+export const PARTNER_ACCESS = {
+  brokersPublished: false, // /supported-brokers/ stays unpublished until a real contract exists
+  approval: 'MANUAL', // SaaS §54: admin approves; API automation is §55 (adapter)
   brokers: [
-    // { id, name, referralUrl, eligibility, countries: [] } — none entered yet (§128: never invented)
+    // { id, name, logo, country, referralUrl, conditions, countries: [] } — none entered (§118: never invented)
   ],
-  disclosure: true, // referral-compensation disclosure always rendered with the IB model (§52–53)
-  flow: ['lab', 'brokerAccount', 'ibRegistration', 'verification', 'eaAccess'],
-  verificationFields: ['broker', 'accountOrReferralId', 'email', 'tyoUserId'], // field names only, never values (§6)
+  disclosure: true, // referral-compensation disclosure always rendered with the model (§51)
+  flow: ['lab', 'brokerAccount', 'partnerRegistration', 'verification', 'eaAccess'],
+  verificationFields: ['broker', 'accountOrReferralId', 'email', 'tyoUserId'], // field names only, never values
+  clickLog: 'partner_clicks', // §52 — DB table once the app exists
   dataRequired: {
     supportedBroker: DATA_REQUIRED,
-    ibUrls: DATA_REQUIRED,
-    ibEligibility: DATA_REQUIRED,
+    referralUrls: DATA_REQUIRED,
+    eligibility: DATA_REQUIRED,
     countriesSupported: DATA_REQUIRED,
+    accessGranted: DATA_REQUIRED, // which EAs a PARTNER may run
   },
 };
 
-/** Country availability is modelled, not populated (§54): null = DATA_REQUIRED, [] = no restriction, ['JP', …] = allow-list. */
+/** Country availability is modelled, not populated (§56): null = DATA_REQUIRED. */
 export const COUNTRY_AVAILABILITY = {
-  IB: null,
+  FREE: null,
   PRO: null,
+  PARTNER: null,
   PRIVATE: null,
-  CUSTOM: null,
 };
+
+/** Referral sources tracked at signup (§74) — reserved for the app tier. */
+export const REFERRAL_SOURCES = ['TikTok', 'YouTube', 'Instagram', 'X', 'MQL5', 'Google', 'Direct', 'Partner', 'Other'];
+
+/** First-party analytics events (§75) — names reserved now, collector in Phase 10. */
+export const ANALYTICS_EVENTS = [
+  'signup', 'login', 'ea_view', 'ea_download', 'pricing_view', 'checkout_start',
+  'subscription_success', 'partner_click', 'license_activate', 'portfolio_view',
+  'private_inquiry', 'custom_development_inquiry',
+];

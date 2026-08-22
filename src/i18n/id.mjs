@@ -1228,21 +1228,23 @@ export default {
     noSupportBody:
       'Kami tidak memberikan nasihat investasi, pengelolaan dana, langganan sinyal, atau jaminan keuntungan, dan kami tidak dapat menilai apakah sebuah sistem cocok dengan kondisi keuangan pribadi Anda.',
   },
-
-  commercial:   {
+
+  commercial: {
     "plans": {
       "IB": "IB ACCESS",
       "PRO": "TYO PRO",
-      "PRIVATE": "TYO PRIVATE"
+      "PRIVATE": "TYO PRIVATE",
+      "FREE": "FREE",
+      "PARTNER": "PARTNER"
     },
     "filterLabel": "Akses",
     "filters": {
       "IB": "Tersedia via IB",
-      "PRO": "Tersedia di PRO",
-      "PRIVATE": "Hanya Private"
+      "PRO": "Di PRO",
+      "PRIVATE": "Hanya Private",
+      "FREE": "Gratis",
+      "PARTNER": "Partner"
     },
-    "pending": "PAKET BELUM DITETAPKAN",
-    "pendingTitle": "Penetapan paket belum diputuskan TYO",
     "dataRequiredTitle": "Data pemilik belum diisi — tidak ada yang dikarang",
     "quote": "Hubungi untuk penawaran",
     "eaFee": "Biaya akses EA",
@@ -1265,28 +1267,42 @@ export default {
       "privateEA": "Strategi privat",
       "privateUpdates": "Pembaruan privat",
       "directSupport": "Dukungan langsung",
-      "licenseScope": "Cakupan lisensi yang jelas",
+      "licenseScope": "Cakupan lisensi jelas",
       "customization": "Kustomisasi",
       "builtForClient": "Dibangun untuk klien",
       "researchDriven": "Proses berbasis riset",
-      "validationOptional": "OOS / WF / MC / Shadow atas permintaan"
+      "validationOptional": "OOS / WF / MC / Shadow atas permintaan",
+      "freeLibrary": "Pustaka EA gratis",
+      "basicBacktest": "Akses backtest dasar",
+      "basicForward": "Data forward dasar",
+      "tyoAccount": "Akun TYO",
+      "researchAccess": "Akses riset",
+      "proLibrary": "Pustaka EA PRO",
+      "advancedStrategies": "Akses strategi lanjutan",
+      "eaUpdates": "Pembaruan EA",
+      "advancedAnalytics": "Analitik lanjutan",
+      "portfolio": "Portofolio",
+      "enhancedSupport": "Dukungan lebih",
+      "partnerAccess": "Akses strategi partner",
+      "privateStrategy": "Strategi privat"
     },
     "status": {
       "DRAFT": "DRAF",
       "AVAILABLE": "TERSEDIA",
       "PAUSED": "DIJEDA",
-      "PRIVATE": "PRIVAT",
-      "RETIRED": "DIHENTIKAN"
+      "PRIVATE": "PRIVATE",
+      "RETIRED": "DIHENTIKAN",
+      "FREE": "FREE",
+      "PRO": "PRO",
+      "PARTNER": "PARTNER",
+      "RESEARCH_ONLY": "RISET SAJA"
     },
     "ctaAccess": "AKSES STRATEGI INI",
     "ctaOptions": "LIHAT OPSI AKSES",
     "howToAccess": "Cara mengakses EA ini",
     "commercialStatus": "Status komersial",
-    "plansLabel": "Paket akses",
     "researchStatus": "Status riset",
     "researchStatusNote": "Ditampilkan di bagian bukti di atas — status riset dan status komersial dikelola terpisah.",
-    "lockedNote": "Tersedia via {plans}. Akses diberikan melalui lapisan Akun TYO; tidak ada yang bisa diunduh dari halaman ini.",
-    "pendingBody": "TYO belum menetapkan strategi ini ke paket akses. Bukti di atas tetap lengkap apa pun status komersialnya.",
     "form": {
       "labels": {
         "name": "Nama",
@@ -1345,45 +1361,66 @@ export default {
       "endpointMissing": "endpoint pertanyaan",
       "offlineBody": "Formulir ini terhubung ke endpoint pertanyaan yang belum dikonfigurasi, sehingga belum bisa dikirim. Akan aktif bersama lapisan Akun TYO.",
       "interimEmail": "Sementara itu, pertanyaan diterima melalui email:"
-    }
+    },
+    "statusTitle": "Status komersial — terpisah dari status riset di atas",
+    "cta": {
+      "FREE": "UNDUH GRATIS",
+      "PRO": "TERSEDIA DI PRO",
+      "PARTNER": "AKSES PARTNER",
+      "PRIVATE": "PERTANYAAN PRIVAT",
+      "RESEARCH_ONLY": "RISET SAJA",
+      "NONE": "TIDAK TERSEDIA"
+    },
+    "ctaNote": {
+      "FREE": "Termasuk dalam pustaka gratis. Unduhan dilayani lapisan Akun TYO, bukan halaman ini.",
+      "PRO": "Termasuk dalam TYO PRO. Akses diberikan lewat lapisan Akun TYO selama langganan aktif.",
+      "PARTNER": "Tersedia bagi pengguna partner terverifikasi yang tertaut melalui broker yang didukung.",
+      "PRIVATE": "Bagian dari tingkat privat. Tidak dijual di situs ini — akses dimulai dari pertanyaan.",
+      "RESEARCH_ONLY": "TYO belum menetapkan strategi ini ke paket akses. Riset dan bukti di atas tetap lengkap; bila strategi dipublikasikan di MQL5, di sanalah cara memperolehnya.",
+      "NONE": "Strategi ini tidak didistribusikan saat ini."
+    },
+    "planRequired": "Paket yang dibutuhkan",
+    "downloadNotLive": "Lapisan akun dan unduhan belum aktif, jadi tidak ada yang bisa diunduh dari situs ini.",
+    "forever": "selamanya",
+    "brokerLinked": "tertaut broker"
   },
-
-  access:   {
+
+  access: {
     "eyebrow": "EA ACCESS",
     "h1": "PILIH CARA AKSES ANDA.",
     "h2": "Riset dulu. Lalu cara Anda memakainya.",
     "lead": "Strategi yang telah diriset, tersedia dengan cara yang sesuai gaya trading Anda. Setiap paket menautkan kembali ke bukti.",
     "modelsTitle": "Empat model akses",
-    "modelsLead": "Dari akses tertaut broker hingga lisensi privat dan pengembangan kustom penuh. Tak satu pun menjual prediksi — semuanya memberi cara berlisensi untuk menjalankan strategi yang sudah Anda periksa.",
-    "plannedNote": "DIRENCANAKAN berarti model sudah didefinisikan dan didokumentasikan, tetapi backend-nya (verifikasi, penagihan, penyaringan) belum aktif. Tidak ada biaya apa pun di situs ini.",
+    "modelsLead": "Dari akun gratis hingga lisensi privat — dan pengembangan kustom bila tidak ada yang cocok. Tak satu pun menjual prediksi; semuanya memberi cara berlisensi menjalankan strategi yang sudah Anda periksa.",
+    "plannedNote": "DIRENCANAKAN berarti model sudah didefinisikan dan didokumentasikan, tetapi lapisan akun, penagihan dan unduhan belum aktif. Tidak ada pembayaran di situs ini.",
     "plans": {
-      "IB": {
-        "name": "IB ACCESS",
-        "tagline": "Gunakan strategi terpilih dengan biaya akses EA $0 melalui akun rujukan TYO di broker yang didukung.",
-        "note": "Biaya trading broker (spread, komisi, swap) tetap berlaku. Broker yang didukung dan kelayakan: DATA_REQUIRED.",
-        "cta": "Cara kerja akses IB"
-      },
       "PRO": {
         "name": "TYO PRO",
-        "tagline": "Untuk trader yang tidak ingin ganti broker tetapi ingin strategi lanjutan.",
-        "note": "Langganan bulanan dalam USD. Unduhan hanya tersedia selama langganan aktif.",
+        "tagline": "Untuk trader yang ingin set strategi lanjutan dan tetap dengan brokernya.",
+        "note": "Langganan bulanan USD. Unduhan hanya selama langganan aktif.",
         "cta": "Tentang TYO PRO"
       },
       "PRIVATE": {
         "name": "TYO PRIVATE",
-        "tagline": "Lisensi tingkat atas terbatas yang bukan bagian dari katalog publik.",
-        "note": "Tidak dijual di situs ini. Pertanyaan → tinjauan kasus penggunaan → perjanjian.",
+        "tagline": "Lisensi tingkat atas terbatas, di luar katalog publik.",
+        "note": "Tidak dijual di situs ini. Pertanyaan → penyaringan → perjanjian.",
         "cta": "Ajukan akses privat"
       },
-      "CUSTOM": {
-        "name": "CUSTOM DEVELOPMENT",
-        "tagline": "Strategi Anda, dibangun menjadi kode — dengan proses riset yang sama yang TYO terapkan pada sistemnya sendiri.",
-        "note": "Penawaran atas permintaan. Cakupan ditentukan bersama sebelum pekerjaan dimulai.",
-        "cta": "Bangun EA kustom"
+      "FREE": {
+        "name": "FREE",
+        "tagline": "Akun TYO, pustaka EA gratis, dan akses riset penuh.",
+        "note": "Tanpa kartu. Daftar strategi gratis ditentukan TYO (DATA_REQUIRED).",
+        "cta": "Isi paket FREE"
+      },
+      "PARTNER": {
+        "name": "PARTNER",
+        "tagline": "Akses bagi pengguna terverifikasi yang tertaut lewat broker yang didukung.",
+        "note": "Disetujui manual oleh TYO. Broker dan ketentuan: DATA_REQUIRED.",
+        "cta": "Cara kerja akses partner"
       }
     },
-    "matrixTitle": "Strategi × paket",
-    "matrixLead": "Strategi mana yang bisa masuk paket mana. Bukti selalu lebih dulu — buka baris mana pun untuk melihat data backtest, OOS, walk-forward, dan forward sebelum memilih paket.",
+    "matrixTitle": "Strategi × akses",
+    "matrixLead": "Strategi mana milik paket mana. Bukti selalu dulu — buka baris mana pun untuk membaca backtest, OOS, walk-forward dan data forward sebelum memilih model akses.",
     "matrix": {
       "ea": "Strategi",
       "symbol": "Simbol",
@@ -1392,64 +1429,35 @@ export default {
       "evidence": "Bukti",
       "viewEvidence": "Lihat bukti",
       "plans": "Paket",
-      "status": "Status komersial"
+      "status": "Status komersial",
+      "plan": "Paket"
     },
-    "matrixNote": "PAKET BELUM DITETAPKAN: TYO belum memutuskan paket untuk strategi itu. Status komersial independen dari status riset (strategi bisa tervalidasi secara riset namun masih draf secara komersial).",
+    "matrixNote": "RISET SAJA berarti TYO belum menetapkan strategi itu ke paket akses. Status komersial independen dari status riset: strategi bisa tervalidasi riset namun belum didistribusikan di sini.",
     "focusLabel": "Strategi terpilih",
-    "focusPending": "Strategi ini belum memiliki paket akses. Halaman bukti tetap tersedia penuh.",
-    "focusAssigned": "Strategi ini dapat disertakan dalam: {plans}.",
-    "ib": {
-      "title": "IB ACCESS",
-      "lead": "Gunakan strategi yang memenuhi syarat tanpa biaya akses EA melalui akun rujukan TYO di broker yang didukung.",
-      "body": "Akses IB menautkan akun broker Anda ke TYO melalui program rujukan. Biaya akses EA $0; biaya trading broker berlaku seperti biasa. Akses diberikan setelah verifikasi.",
-      "wording": "Biaya akses EA dapat dibebaskan bagi pengguna yang memenuhi syarat dan tertaut melalui program rujukan broker yang didukung. Kelayakan, daftar broker, dan ketentuan ditetapkan oleh TYO dan broker serta dapat berbeda per wilayah.",
-      "supportedBroker": "Broker yang didukung",
-      "eligibility": "Kelayakan",
-      "verification": "Verifikasi",
-      "verificationManual": "Manual — Anda mengajukan, TYO memverifikasi, akses diberikan",
-      "countries": "Negara",
-      "disclosureTag": "PENGUNGKAPAN IB",
-      "disclosure": "TYO dapat menerima kompensasi rujukan dari broker yang didukung saat Anda membuka akun melalui tautan rujukan TYO. Ini tidak mengubah biaya trading yang ditetapkan broker.",
-      "flowTitle": "Cara kerja",
-      "flow": {
-        "lab": "TYO LAB",
-        "brokerAccount": "Akun broker",
-        "ibRegistration": "Pendaftaran IB TYO",
-        "verification": "Verifikasi",
-        "eaAccess": "Akses EA"
-      },
-      "statesTitle": "Status akses",
-      "states": {
-        "NOT_CONNECTED": "BELUM TERHUBUNG",
-        "PENDING_VERIFICATION": "MENUNGGU VERIFIKASI",
-        "VERIFIED": "TERVERIFIKASI",
-        "ACTIVE": "AKTIF",
-        "SUSPENDED": "DITANGGUHKAN"
-      },
-      "verificationNote": "Verifikasi menggunakan broker, ID akun atau rujukan, email, dan ID pengguna TYO. Kredensial akun tidak pernah diminta atau disimpan di situs ini."
-    },
+    "focusPending": "Strategi ini belum punya paket akses. Halaman risetnya tetap tersedia penuh.",
+    "focusAssigned": "Strategi ini tersedia melalui: {plans}.",
     "pro": {
       "title": "TYO PRO",
       "price": "$10 / month",
-      "lead": "Pertahankan broker Anda. Berlangganan strategi lanjutan.",
-      "body": "TYO PRO untuk trader yang tidak ingin ganti broker. Langganan bulanan USD yang membuka set strategi lanjutan, set parameter premium, pembaruan prioritas, preset riset, dan akses portofolio — hanya selama langganan aktif.",
-      "featuresNote": "Hanya fitur yang sudah ada yang dicantumkan; daftar bertambah mengikuti platform, tidak pernah mendahuluinya.",
+      "lead": "Set strategi lanjutan, di broker Anda sendiri.",
+      "body": "TYO PRO adalah langganan bulanan untuk trader yang tidak ingin ganti broker. Membuka pustaka EA PRO, pembaruan EA, analitik lanjutan dan alat portofolio — hanya selama langganan aktif. Ini bukan \"semua strategi\": tingkat privat terpisah.",
+      "featuresNote": "Hanya fitur yang ada yang dicantumkan; daftar bertambah mengikuti platform.",
       "billing": "Penagihan",
       "currency": "Mata uang",
       "provider": "Penyedia pembayaran",
       "cancel": "Pembatalan",
-      "refund": "Kebijakan pengembalian dana",
+      "refund": "Kebijakan pengembalian",
       "states": "Status langganan",
-      "downloadNote": "Unduhan dilayani oleh API unduhan bertanda tangan yang terikat pada langganan aktif — tidak pernah lewat URL file publik.",
-      "notLive": "Penagihan belum aktif. Tidak ada pembayaran di situs ini sampai penyedia pembayaran terhubung (Phase 16C)."
+      "downloadNote": "Unduhan dilayani API unduhan bertanda tangan yang terikat langganan aktif — tidak pernah URL file publik.",
+      "notLive": "Penagihan belum aktif. Tidak ada pembayaran sampai penyedia pembayaran terhubung dan diaktifkan."
     },
     "private": {
       "title": "TYO PRIVATE",
       "lead": "Akses strategi privat untuk operator serius.",
-      "body": "Lisensi tingkat atas terbatas yang berbeda dari katalog publik. Tidak dibeli di situs ini: pertanyaan, tinjauan kasus penggunaan, pertemuan daring, ketentuan, pembayaran, lalu pengiriman lisensi.",
-      "detailsUponInquiry": "Detail tersedia atas permintaan. Nama, logika, file, dan kinerja strategi privat tidak dipublikasikan.",
-      "priceExplain": "Harga $5.000 mencerminkan eksklusivitas, cakupan lisensi, dukungan langsung, dan kustomisasi — bukan janji kinerja.",
-      "disclaimer": "Harga lebih tinggi tidak berarti imbal hasil lebih tinggi atau terjamin. Setiap strategi TYO, privat maupun publik, tunduk pada pengungkapan risiko yang sama.",
+      "body": "Lisensi tingkat atas terbatas, berbeda dari katalog publik. Tidak dibeli di situs ini: pertanyaan, penyaringan, perjanjian, pembayaran, lalu pengiriman lisensi.",
+      "detailsUponInquiry": "Detail tersedia atas permintaan. Nama, logika, file dan kinerja strategi privat tidak dipublikasikan.",
+      "priceExplain": "Harga mencerminkan eksklusivitas, cakupan lisensi, dukungan langsung dan kustomisasi — bukan janji kinerja.",
+      "disclaimer": "Harga lebih tinggi tidak berarti imbal hasil lebih tinggi atau terjamin. Setiap strategi TYO tunduk pada pengungkapan risiko yang sama.",
       "flowTitle": "Proses",
       "flow": {
         "inquiry": "Pertanyaan",
@@ -1457,19 +1465,21 @@ export default {
         "meeting": "Pertemuan daring",
         "terms": "Ketentuan",
         "payment": "Pembayaran",
-        "delivery": "Pengiriman lisensi"
+        "delivery": "Pengiriman lisensi",
+        "screening": "Penyaringan",
+        "agreement": "Perjanjian"
       },
       "noCheckout": "Tidak ada tombol beli untuk tingkat ini, dengan sengaja.",
       "formTitle": "Ajukan akses privat"
     },
     "custom": {
       "title": "CUSTOM EA DEVELOPMENT",
-      "lead": "Ide Anda, dibangun menjadi EA — berbasis riset, dengan validasi OOS / walk-forward / Monte Carlo / shadow-forward opsional.",
-      "cta": "Bangun EA kustom"
+      "lead": "Ketika tidak ada strategi yang cocok: logika Anda, dibangun jadi kode dengan proses riset yang sama.",
+      "cta": "BANGUN EA ANDA"
     },
     "compare": {
       "title": "Paket akses sekilas",
-      "lead": "Hanya yang benar-benar direncanakan. Kosong berarti tidak ditawarkan.",
+      "lead": "Hanya yang benar-benar direncanakan. Semua bergantung pada aktifnya lapisan akun.",
       "heading": "Paket",
       "rows": {
         "cost": "Biaya",
@@ -1492,39 +1502,98 @@ export default {
         "direct": "Langsung",
         "brokerLinked": "Tertaut broker",
         "subscription": "Langganan",
-        "inquiry": "Pertanyaan"
+        "inquiry": "Pertanyaan",
+        "free0": "$0",
+        "perMonthPro": "$19 / bulan",
+        "oneTimePrivate": "$5.000 sekali",
+        "freeLibrary": "Pustaka gratis",
+        "proLibrary": "Pustaka PRO",
+        "partnerLibrary": "Strategi partner",
+        "privateStrategy": "Strategi privat",
+        "community": "Komunitas",
+        "signup": "Daftar"
       },
-      "note": "Harga dalam USD. Pajak, jika berlaku, ditangani oleh penyedia pembayaran."
+      "note": "Harga dalam USD dari konfigurasi. Pajak, bila berlaku, ditangani penyedia pembayaran."
     },
     "faqTitle": "FAQ akses",
     "faq": [
       {
-        "q": "Apa itu akses IB?",
-        "a": "Cara menggunakan strategi yang memenuhi syarat dengan biaya akses EA $0 dengan menautkan akun broker yang dibuka lewat rujukan TYO ke akun TYO Anda. Biaya trading broker tetap berlaku. Broker yang didukung belum dipublikasikan (DATA_REQUIRED)."
+        "q": "Apa isi paket FREE?",
+        "a": "Akun TYO, pustaka EA gratis, tampilan backtest dan forward dasar, serta akses riset penuh. Strategi mana yang gratis ditentukan TYO dan belum dipublikasikan (DATA_REQUIRED)."
       },
       {
-        "q": "Apa beda TYO PRO dan akses IB?",
-        "a": "PRO adalah langganan $10/bulan yang tidak bergantung pada broker dan membuka set strategi lanjutan. Akses IB bergantung pada broker yang didukung dan mencakup strategi terpilih."
+        "q": "Apa tambahan TYO PRO?",
+        "a": "Pustaka EA PRO, pembaruan EA, analitik lanjutan dan alat portofolio, berbayar bulanan, tidak tergantung broker. Sengaja tidak disebut \"semua strategi\" — tingkat privat terpisah."
       },
       {
-        "q": "Berapa strategi yang bisa saya gunakan?",
-        "a": "Matriks strategi × paket di atas adalah acuannya. Batas akun MT5 dan perangkat per paket akan dinyatakan setelah ditetapkan (DATA_REQUIRED)."
+        "q": "Apa beda PARTNER?",
+        "a": "Akses partner diberikan kepada pengguna terverifikasi yang tertaut lewat program rujukan broker yang didukung, disetujui manual oleh TYO. Broker dan ketentuan belum dipublikasikan."
       },
       {
-        "q": "Apa yang terjadi saat saya membatalkan?",
-        "a": "Unduhan berhenti di akhir periode berbayar. Ketentuan pembatalan dan pengembalian dana dipublikasikan bersama penyedia pembayaran; sebelum itu ditandai DATA_REQUIRED, bukan dijanjikan."
+        "q": "Bagaimana jika saya batalkan PRO?",
+        "a": "Akses berlanjut sampai akhir periode berbayar lalu kembali ke FREE. Ketentuan pembatalan dan pengembalian dipublikasikan bersama penyedia pembayaran; sebelum itu ditandai DATA_REQUIRED."
       },
       {
-        "q": "Apa bedanya lisensi privat $5.000?",
-        "a": "Eksklusivitas, cakupan lisensi, dukungan langsung, dan kustomisasi. Bukan kinerja: tidak ada strategi TYO yang menjanjikan imbal hasil."
+        "q": "Apa bedanya lisensi privat?",
+        "a": "Eksklusivitas, cakupan lisensi, dukungan langsung dan kustomisasi. Bukan kinerja: tidak ada strategi TYO yang menjanjikan imbal hasil."
+      },
+      {
+        "q": "Bisakah saya mengunduh EA hari ini?",
+        "a": "Tidak dari situs ini. Akun, hak akses dan unduhan bertanda tangan adalah fase berikutnya; tidak ada artefak berbayar di repositori publik."
       }
     ],
     "evidenceLine": "Baca buktinya, bandingkan risikonya, lalu pilih cara akses. Tidak pernah sebaliknya.",
     "backToStrategies": "Kembali ke strategi",
-    "backToResearch": "Log riset"
+    "backToResearch": "Log riset",
+    "partner": {
+      "title": "PARTNER",
+      "lead": "Akses bagi pengguna yang tertaut lewat broker yang didukung.",
+      "body": "Akses partner menautkan akun broker Anda ke TYO lewat program rujukan. Tidak ada biaya akses EA; biaya trading broker berlaku seperti biasa. Akses diberikan setelah verifikasi manual TYO.",
+      "wording": "Akses dapat diberikan kepada pengguna memenuhi syarat yang tertaut melalui program rujukan broker yang didukung. Kelayakan, daftar broker dan ketentuan ditetapkan TYO dan broker, dan dapat berbeda per wilayah.",
+      "supportedBroker": "Broker yang didukung",
+      "eligibility": "Kelayakan",
+      "verification": "Verifikasi",
+      "verificationManual": "Manual — Anda mengajukan, TYO memverifikasi, akses diberikan",
+      "countries": "Negara",
+      "disclosureTag": "PENGUNGKAPAN PARTNER",
+      "disclosure": "TYO dapat menerima kompensasi rujukan dari broker yang didukung saat Anda membuka akun lewat tautan rujukan TYO. Ini tidak mengubah biaya trading yang ditetapkan broker.",
+      "flowTitle": "Cara kerja",
+      "flow": {
+        "lab": "TYO LAB",
+        "brokerAccount": "Akun broker",
+        "ibRegistration": "Pendaftaran IB TYO",
+        "verification": "Verifikasi",
+        "eaAccess": "Akses EA",
+        "partnerRegistration": "Pendaftaran partner"
+      },
+      "statesTitle": "Status partner",
+      "states": {
+        "NOT_CONNECTED": "BELUM TERHUBUNG",
+        "PENDING_VERIFICATION": "MENUNGGU VERIFIKASI",
+        "VERIFIED": "TERVERIFIKASI",
+        "ACTIVE": "AKTIF",
+        "SUSPENDED": "DITANGGUHKAN",
+        "NONE": "BELUM",
+        "PENDING": "MENUNGGU",
+        "EXPIRED": "KEDALUWARSA"
+      },
+      "verificationNote": "Verifikasi memakai broker, ID akun atau rujukan, email, dan ID pengguna TYO. Kredensial akun tidak pernah diminta atau disimpan.",
+      "approval": "Persetujuan",
+      "approvalManual": "Manual — Anda mengajukan, TYO memverifikasi, akses diberikan"
+    },
+    "free": {
+      "title": "FREE",
+      "lead": "Akun, pustaka gratis, dan seluruh halaman riset.",
+      "body": "Akun TYO gratis. Berisi pustaka EA gratis, tampilan backtest dan forward dasar, serta akses penuh ke platform riset — bukti yang sama seperti halaman publik, tertata per akun.",
+      "cost": "Biaya",
+      "requires": "Membutuhkan",
+      "requiresValue": "Akun TYO (email atau Google)",
+      "eaList": "Daftar EA gratis",
+      "notLive": "Pendaftaran belum aktif. Sampai lapisan akun rilis, strategi yang sudah terbit tetap tersedia di tempat TYO menerbitkannya."
+    }
   },
-
-  development:   {
+
+  development: {
     "eyebrow": "CUSTOM EA DEVELOPMENT",
     "h1": "STRATEGI ANDA.",
     "h2": "DIBANGUN MENJADI KODE.",
@@ -1688,8 +1757,8 @@ export default {
       "uploadNote": "Unggah file (kode sumber, spesifikasi) tersedia setelah backend pertanyaan aktif. Sebelum itu, jelaskan EA dalam pesan."
     }
   },
-
-  account:   {
+
+  account: {
     "eyebrow": "TYO ACCOUNT",
     "h1": "AKSES ANDA.",
     "h2": "Di satu tempat.",
@@ -1737,17 +1806,17 @@ export default {
 
   seo: {
     access: {
-      "title": "Akses EA — IB, PRO, Private & Kustom | TYO",
-      "desc": "Cara menggunakan EA TYO: akses IB, TYO PRO ($10/bulan), lisensi TYO PRIVATE, dan pengembangan EA kustom. Bukti dulu, baru akses EA MT5."
-},
+      "title": "Akses EA — FREE, PRO, PARTNER & PRIVATE | TYO",
+      "desc": "Cara memakai EA TYO: akun gratis, TYO PRO $19/bulan, akses partner lewat broker yang didukung, dan lisensi privat. Bukti dulu, baru akses."
+    },
     development: {
       "title": "Pengembangan EA Kustom — MT4 / MT5 | TYO",
       "desc": "Pengembangan Expert Advisor MT4/MT5 berbasis riset: EA orisinal, modifikasi, migrasi MT4→MT5, otomatisasi backtest, sistem AI × MCP."
 },
     account: {
       "title": "Akun TYO | TYO",
-      "desc": "Paket akses, langganan, status IB, unduhan, dan lisensi Anda."
-},
+      "desc": "Paket akses, langganan, status partner, unduhan, dan lisensi Anda."
+    },
     home: {
       title: 'TYO — Algorithmic Trading, Engineered Differently',
       desc:

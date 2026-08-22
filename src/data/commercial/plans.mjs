@@ -1,72 +1,100 @@
 /**
  * ============================================================================
- * ACCESS PLANS — the four ways to use a TYO strategy (Phase 16 §0, §121)
+ * ACCESS PLANS — FREE / PRO / PARTNER / PRIVATE (SaaS §8–§12, §142)
  * ============================================================================
- * Prices are display values in USD (§56). Nothing here is a live offer:
- * billing, entitlement and download are Phase 16B/16C (see
- * docs/SUBSCRIPTION_ARCHITECTURE.md). Copy lives in i18n under `access`.
+ * Phase 1 of the SaaS expansion. Prices come from site.config PRICING
+ * (env-driven, SaaS §10) — never written as literals in a page. Nothing here
+ * is a live offer: auth, billing, entitlement and download are Phase 2–5
+ * (docs/SAAS_ARCHITECTURE.md).
  *
- * `availability`: 'PLANNED' until the owner turns a plan on; 'AVAILABLE'
- * only once the corresponding backend (IB verification / billing / inquiry
- * screening) actually exists. The UI labels PLANNED honestly.
+ * `availability`: 'PLANNED' until the backend a plan depends on exists.
+ * The UI labels PLANNED honestly and never shows a feature it cannot deliver.
+ *
+ * CUSTOM DEVELOPMENT is a SERVICE, not a plan (SaaS §13) — see development.mjs.
  * ============================================================================
  */
+import { PRICING } from '../../site.config.mjs';
 
 export const DATA_REQUIRED = 'DATA_REQUIRED';
 
 export const PLANS = [
   {
-    id: 'IB',
+    id: 'FREE',
     level: 1,
-    price: { amount: 0, currency: 'USD', unit: 'eaFee' }, // EA access fee 0 — broker trading costs still apply (§4)
-    billing: 'brokerLinked',
-    availability: 'PLANNED',
-    features: ['selectedEA', 'standardUpdates', 'standardSupport', 'setupGuide'],
-    requires: ['supportedBroker', 'ibRegistration', 'verification'],
+    price: { amount: 0, currency: PRICING.currency, unit: 'free' },
+    billing: 'none',
+    availability: 'PLANNED', // needs the account layer (Phase 2–4)
+    features: ['freeLibrary', 'basicBacktest', 'basicForward', 'tyoAccount', 'researchAccess'],
+    requires: ['account'],
     cancel: null,
   },
   {
     id: 'PRO',
     level: 2,
-    price: { amount: 10, currency: 'USD', unit: 'month' },
+    price: { amount: PRICING.proMonthly, currency: PRICING.currency, unit: 'month' },
     billing: 'subscription',
-    availability: 'PLANNED',
-    features: ['advancedEA', 'premiumParameters', 'priorityUpdates', 'researchPresets', 'portfolioAccess'],
+    availability: 'PLANNED', // needs auth + payment provider (Phase 5)
+    features: ['proLibrary', 'advancedStrategies', 'eaUpdates', 'advancedAnalytics', 'portfolio', 'enhancedSupport'],
     requires: ['account', 'paymentProvider'],
-    cancel: DATA_REQUIRED, // "Cancel anytime" only once the provider guarantees it (§58)
+    cancel: DATA_REQUIRED, // "Cancel anytime" only once the provider guarantees it
+  },
+  {
+    id: 'PARTNER',
+    level: 3,
+    price: { amount: 0, currency: PRICING.currency, unit: 'brokerLinked' },
+    billing: 'brokerLinked',
+    availability: 'PLANNED', // needs broker agreement + verification (Phase 8)
+    features: ['partnerAccess', 'standardUpdates', 'standardSupport', 'setupGuide'],
+    requires: ['supportedBroker', 'partnerRegistration', 'manualApproval'],
+    cancel: null,
   },
   {
     id: 'PRIVATE',
-    level: 3,
-    price: { amount: 5000, currency: 'USD', unit: 'oneTime' },
-    billing: 'inquiry', // never direct checkout (§26)
+    level: 4,
+    price: { amount: PRICING.privateOneTime, currency: PRICING.currency, unit: 'oneTime' },
+    billing: 'inquiry', // never direct checkout (SaaS §12, §144)
     availability: 'PLANNED',
-    features: ['privateEA', 'privateUpdates', 'directSupport', 'licenseScope', 'customization'],
+    features: ['privateStrategy', 'privateUpdates', 'directSupport', 'licenseScope', 'customization'],
     requires: ['inquiry', 'screening', 'agreement'],
     cancel: null,
   },
-  {
-    id: 'CUSTOM',
-    level: 4,
-    price: { amount: null, currency: 'USD', unit: 'quote' },
-    billing: 'quote',
-    availability: 'PLANNED',
-    features: ['builtForClient', 'researchDriven', 'validationOptional'],
-    requires: ['inquiry', 'consultation', 'specification'],
-    cancel: null,
-  },
 ];
 
-/** Feature comparison rows (§49) — only what is actually planned. Values are i18n keys. */
+/** Comparison rows (SaaS §143) — only what is actually planned. Values are i18n keys. */
 export const COMPARISON = [
-  { key: 'cost', IB: 'eaFee0', PRO: 'perMonth10', PRIVATE: 'oneTime5000' },
-  { key: 'access', IB: 'selectedEA', PRO: 'advancedEA', PRIVATE: 'privateEA' },
-  { key: 'updates', IB: 'standard', PRO: 'priority', PRIVATE: 'private' },
-  { key: 'support', IB: 'standard', PRO: 'enhanced', PRIVATE: 'direct' },
-  { key: 'purchase', IB: 'brokerLinked', PRO: 'subscription', PRIVATE: 'inquiry' },
+  { key: 'cost', FREE: 'free0', PRO: 'perMonthPro', PARTNER: 'brokerLinked', PRIVATE: 'oneTimePrivate' },
+  { key: 'access', FREE: 'freeLibrary', PRO: 'proLibrary', PARTNER: 'partnerLibrary', PRIVATE: 'privateStrategy' },
+  { key: 'updates', FREE: 'standard', PRO: 'priority', PARTNER: 'standard', PRIVATE: 'private' },
+  { key: 'support', FREE: 'community', PRO: 'enhanced', PARTNER: 'standard', PRIVATE: 'direct' },
+  { key: 'purchase', FREE: 'signup', PRO: 'subscription', PARTNER: 'brokerLinked', PRIVATE: 'inquiry' },
 ];
 
-export const SUBSCRIPTION_STATES = ['TRIAL', 'ACTIVE', 'PAST_DUE', 'CANCELLED', 'EXPIRED'];
-export const IB_STATES = ['NOT_CONNECTED', 'PENDING_VERIFICATION', 'VERIFIED', 'ACTIVE', 'SUSPENDED'];
-export const COMMERCIAL_STATUSES = ['DRAFT', 'AVAILABLE', 'PAUSED', 'PRIVATE', 'RETIRED'];
-export const ACCESS_TYPES = ['IB', 'PRO', 'PRIVATE', 'NOT_AVAILABLE'];
+/* ---- state machines mirrored by the DB (docs/DATABASE_SCHEMA.md) --------- */
+export const SUBSCRIPTION_STATES = ['TRIAL', 'ACTIVE', 'GRACE', 'PAST_DUE', 'CANCELLED', 'EXPIRED'];
+export const PARTNER_STATES = ['NONE', 'PENDING', 'ACTIVE', 'EXPIRED']; // SaaS §53
+export const COMMERCIAL_STATUSES = ['DRAFT', 'FREE', 'PRO', 'PARTNER', 'PRIVATE', 'PAUSED', 'RETIRED', 'RESEARCH_ONLY']; // §22
+export const LICENSE_STATES = ['ACTIVE', 'SUSPENDED', 'EXPIRED', 'REVOKED']; // §34
+
+/** Plans a commercial status maps to (null = nothing downloadable). */
+export const PLAN_OF_STATUS = {
+  FREE: 'FREE',
+  PRO: 'PRO',
+  PARTNER: 'PARTNER',
+  PRIVATE: 'PRIVATE',
+  DRAFT: null,
+  PAUSED: null,
+  RETIRED: null,
+  RESEARCH_ONLY: null,
+};
+
+/** CTA variant per commercial status (SaaS §23). */
+export const CTA_OF_STATUS = {
+  FREE: 'FREE',
+  PRO: 'PRO',
+  PARTNER: 'PARTNER',
+  PRIVATE: 'PRIVATE',
+  RESEARCH_ONLY: 'RESEARCH_ONLY',
+  DRAFT: 'NONE',
+  PAUSED: 'NONE',
+  RETIRED: 'NONE',
+};

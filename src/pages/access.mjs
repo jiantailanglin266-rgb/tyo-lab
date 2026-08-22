@@ -1,30 +1,28 @@
 /**
- * EA ACCESS — the commercial hub (Phase 16 §2–29, §48–50, §76, §100, §115).
- * Evidence first: every EA on this page links back to its evidence; the
- * page sells nothing directly. `?ea=<slug>` is read by main.js to focus the
- * matching row of the strategy matrix (§43).
+ * EA ACCESS — the commercial hub (SaaS §142–§144, §124).
+ * Evidence first: every strategy row links back to its evidence; the page
+ * sells nothing directly. `?ea=<slug>` focuses the matching row (main.js).
  */
 import { html, raw, when } from '../lib/html.mjs';
 import { localePath, ROUTES } from '../lib/url.mjs';
-import { PLANS, COMPARISON, DATA_REQUIRED } from '../data/commercial/plans.mjs';
-import { IB_ACCESS } from '../data/commercial/access.mjs';
-import { PRIVATE_PRODUCT } from '../data/commercial/products.mjs';
+import { FLAGS, PRICING } from '../site.config.mjs';
+import { PLANS, COMPARISON, PARTNER_STATES, SUBSCRIPTION_STATES } from '../data/commercial/plans.mjs';
+import { PARTNER_ACCESS } from '../data/commercial/access.mjs';
 import { PRIVATE_INQUIRY_FIELDS, OPTIONAL_FIELDS, INQUIRY_SUBJECTS } from '../data/commercial/development.mjs';
-import { PageHero, SectionHead, Button, Eyebrow } from '../components/sections.mjs';
-import { PlanCards, ComparisonTable, Flow, FAQ, InquiryForm, IBDisclosure, AccessBadges, DataRequired, Price } from '../components/commercial.mjs';
+import { PageHero, SectionHead, Button } from '../components/sections.mjs';
+import { PlanCards, ComparisonTable, Flow, FAQ, InquiryForm, PartnerDisclosure, AccessBadge, DataRequired, BrandStrip } from '../components/commercial.mjs';
 
 export default function Access({ locale, t, ea }) {
   const A = t.access;
   const C = t.commercial;
   const p = (r) => localePath(locale, r);
   const models = ea.filter((m) => m.slug !== 'ea-template');
-  const ibOn = IB_ACCESS.enabled;
-  const plans = PLANS.filter((pl) => pl.id !== 'IB' || ibOn);
+  const plans = PLANS.filter((pl) => pl.id !== 'PARTNER' || FLAGS.partner);
 
   return html`
     ${PageHero({ eyebrow: A.eyebrow, h1: A.h1, h2: A.h2, lead: A.lead })}
 
-    <!-- the four models -->
+    <!-- the four access models -->
     <section class="sec sec--plans" id="plans" data-reveal-root>
       <div class="wrap">
         ${SectionHead({ eyebrow: '01', title: A.modelsTitle, lead: A.modelsLead })}
@@ -33,7 +31,7 @@ export default function Access({ locale, t, ea }) {
       </div>
     </section>
 
-    <!-- strategy × plan matrix (§8, §46, §76) -->
+    <!-- strategy × access matrix (§20, §23) -->
     <section class="sec sec--tight" id="strategies" data-reveal-root>
       <div class="wrap">
         ${SectionHead({ eyebrow: '02', title: A.matrixTitle, lead: A.matrixLead })}
@@ -46,7 +44,7 @@ export default function Access({ locale, t, ea }) {
                 <th scope="col">${A.matrix.timeframe}</th>
                 <th scope="col">${A.matrix.score}</th>
                 <th scope="col">${A.matrix.evidence}</th>
-                <th scope="col">${A.matrix.plans}</th>
+                <th scope="col">${A.matrix.plan}</th>
                 <th scope="col">${A.matrix.status}</th>
               </tr>
             </thead>
@@ -58,8 +56,8 @@ export default function Access({ locale, t, ea }) {
                   <td data-label="${A.matrix.timeframe}">${m.spec.timeframe || '—'}</td>
                   <td data-label="${A.matrix.score}">${m.score?.total != null ? `${m.score.total}/100` : '—'}</td>
                   <td data-label="${A.matrix.evidence}"><a class="amatrix__ev" href="${p(ROUTES.eaDetail(m.slug))}#evidence">${A.matrix.viewEvidence}</a></td>
-                  <td data-label="${A.matrix.plans}">${AccessBadges({ plans: m.commercial.plans, t })}</td>
-                  <td data-label="${A.matrix.status}"><span class="cstatus cstatus--${raw(m.commercial.status.toLowerCase())}">${C.status[m.commercial.status]}</span></td>
+                  <td data-label="${A.matrix.plan}">${m.commercial.plan ? C.plans[m.commercial.plan] : '—'}</td>
+                  <td data-label="${A.matrix.status}">${AccessBadge({ status: m.commercial.status, t })}</td>
                 </tr>`
               )}
             </tbody>
@@ -75,42 +73,33 @@ export default function Access({ locale, t, ea }) {
       </div>
     </section>
 
-    <!-- IB ACCESS (§4–8, §50–53) -->
-    ${when(
-      ibOn,
-      () => html`<section class="sec sec--ib" id="ib" data-reveal-root>
-        <div class="wrap">
-          ${SectionHead({ eyebrow: 'ACCESS 01', title: A.ib.title, lead: A.ib.lead })}
-          <div class="cols2">
-            <div>
-              <p class="prose" data-reveal>${A.ib.body}</p>
-              <p class="prose" data-reveal>${A.ib.wording}</p>
-              <div class="ckv" data-reveal>
-                <div class="ckv__row"><span class="ckv__k">${A.ib.supportedBroker}</span><span class="ckv__v">${DataRequired({ t })}</span></div>
-                <div class="ckv__row"><span class="ckv__k">${A.ib.eligibility}</span><span class="ckv__v">${DataRequired({ t })}</span></div>
-                <div class="ckv__row"><span class="ckv__k">${A.ib.verification}</span><span class="ckv__v">${A.ib.verificationManual}</span></div>
-                <div class="ckv__row"><span class="ckv__k">${A.ib.countries}</span><span class="ckv__v">${DataRequired({ t })}</span></div>
-              </div>
-              ${IBDisclosure({ t })}
+    <!-- FREE (§9) -->
+    <section class="sec sec--free" id="free" data-reveal-root>
+      <div class="wrap">
+        ${SectionHead({ eyebrow: 'ACCESS 01', title: A.free.title, title2: '$0', lead: A.free.lead })}
+        <div class="cols2">
+          <div>
+            <p class="prose" data-reveal>${A.free.body}</p>
+            <ul class="plan__features plan__features--loose" data-reveal>
+              ${PLANS.find((x) => x.id === 'FREE').features.map((f) => html`<li>${C.features[f]}</li>`)}
+            </ul>
+          </div>
+          <div>
+            <div class="ckv" data-reveal>
+              <div class="ckv__row"><span class="ckv__k">${A.free.cost}</span><span class="ckv__v">$0</span></div>
+              <div class="ckv__row"><span class="ckv__k">${A.free.requires}</span><span class="ckv__v">${A.free.requiresValue}</span></div>
+              <div class="ckv__row"><span class="ckv__k">${A.free.eaList}</span><span class="ckv__v">${DataRequired({ t })}</span></div>
             </div>
-            <div>
-              <p class="statgrid__title" data-reveal>${A.ib.flowTitle}</p>
-              ${Flow({ steps: IB_ACCESS.flow.map((k) => A.ib.flow[k]) })}
-              <p class="statgrid__title" data-reveal>${A.ib.statesTitle}</p>
-              <div class="xdiffs" data-reveal>
-                ${['NOT_CONNECTED', 'PENDING_VERIFICATION', 'VERIFIED', 'ACTIVE', 'SUSPENDED'].map((s) => html`<span class="xdiff">${A.ib.states[s]}</span>`)}
-              </div>
-              <p class="fineline" data-reveal>${A.ib.verificationNote}</p>
-            </div>
+            <p class="fineline" data-reveal>${A.free.notLive}</p>
           </div>
         </div>
-      </section>`
-    )}
+      </div>
+    </section>
 
-    <!-- TYO PRO (§9–14) -->
+    <!-- PRO (§10) -->
     <section class="sec sec--pro" id="pro" data-reveal-root>
       <div class="wrap">
-        ${SectionHead({ eyebrow: 'ACCESS 02', title: A.pro.title, title2: A.pro.price, lead: A.pro.lead })}
+        ${SectionHead({ eyebrow: 'ACCESS 02', title: A.pro.title, title2: `$${PRICING.proMonthly} / ${C.perMonth}`, lead: A.pro.lead })}
         <div class="cols2">
           <div>
             <p class="prose" data-reveal>${A.pro.body}</p>
@@ -121,12 +110,12 @@ export default function Access({ locale, t, ea }) {
           </div>
           <div>
             <div class="ckv" data-reveal>
-              <div class="ckv__row"><span class="ckv__k">${A.pro.billing}</span><span class="ckv__v">$10 / ${C.perMonth}</span></div>
-              <div class="ckv__row"><span class="ckv__k">${A.pro.currency}</span><span class="ckv__v">USD</span></div>
+              <div class="ckv__row"><span class="ckv__k">${A.pro.billing}</span><span class="ckv__v">$${PRICING.proMonthly} / ${C.perMonth}</span></div>
+              <div class="ckv__row"><span class="ckv__k">${A.pro.currency}</span><span class="ckv__v">${PRICING.currency}</span></div>
               <div class="ckv__row"><span class="ckv__k">${A.pro.provider}</span><span class="ckv__v">${DataRequired({ t })}</span></div>
               <div class="ckv__row"><span class="ckv__k">${A.pro.cancel}</span><span class="ckv__v">${DataRequired({ t })}</span></div>
               <div class="ckv__row"><span class="ckv__k">${A.pro.refund}</span><span class="ckv__v">${DataRequired({ t })}</span></div>
-              <div class="ckv__row"><span class="ckv__k">${A.pro.states}</span><span class="ckv__v xdiffs">${['TRIAL', 'ACTIVE', 'PAST_DUE', 'CANCELLED', 'EXPIRED'].map((s) => html`<span class="xdiff">${s}</span>`)}</span></div>
+              <div class="ckv__row"><span class="ckv__k">${A.pro.states}</span><span class="ckv__v xdiffs">${SUBSCRIPTION_STATES.map((s) => html`<span class="xdiff">${s}</span>`)}</span></div>
             </div>
             <p class="fineline" data-reveal>${A.pro.downloadNote}</p>
             <p class="fineline" data-reveal>${A.pro.notLive}</p>
@@ -135,10 +124,42 @@ export default function Access({ locale, t, ea }) {
       </div>
     </section>
 
-    <!-- TYO PRIVATE (§23–29) -->
+    <!-- PARTNER (§11, §50–§54) -->
+    ${when(
+      FLAGS.partner,
+      () => html`<section class="sec sec--partner" id="partner" data-reveal-root>
+        <div class="wrap">
+          ${SectionHead({ eyebrow: 'ACCESS 03', title: A.partner.title, lead: A.partner.lead })}
+          <div class="cols2">
+            <div>
+              <p class="prose" data-reveal>${A.partner.body}</p>
+              <p class="prose" data-reveal>${A.partner.wording}</p>
+              <div class="ckv" data-reveal>
+                <div class="ckv__row"><span class="ckv__k">${A.partner.supportedBroker}</span><span class="ckv__v">${DataRequired({ t })}</span></div>
+                <div class="ckv__row"><span class="ckv__k">${A.partner.eligibility}</span><span class="ckv__v">${DataRequired({ t })}</span></div>
+                <div class="ckv__row"><span class="ckv__k">${A.partner.approval}</span><span class="ckv__v">${A.partner.approvalManual}</span></div>
+                <div class="ckv__row"><span class="ckv__k">${A.partner.countries}</span><span class="ckv__v">${DataRequired({ t })}</span></div>
+              </div>
+              ${PartnerDisclosure({ t })}
+            </div>
+            <div>
+              <p class="statgrid__title" data-reveal>${A.partner.flowTitle}</p>
+              ${Flow({ steps: PARTNER_ACCESS.flow.map((k) => A.partner.flow[k]) })}
+              <p class="statgrid__title" data-reveal>${A.partner.statesTitle}</p>
+              <div class="xdiffs" data-reveal>
+                ${PARTNER_STATES.map((s) => html`<span class="xdiff">${A.partner.states[s]}</span>`)}
+              </div>
+              <p class="fineline" data-reveal>${A.partner.verificationNote}</p>
+            </div>
+          </div>
+        </div>
+      </section>`
+    )}
+
+    <!-- PRIVATE (§12, §144) -->
     <section class="sec sec--private" id="private" data-reveal-root>
       <div class="wrap">
-        ${SectionHead({ eyebrow: 'ACCESS 03', title: A.private.title, title2: '$5,000', lead: A.private.lead })}
+        ${SectionHead({ eyebrow: 'ACCESS 04', title: A.private.title, title2: `$${PRICING.privateOneTime.toLocaleString('en-US')}`, lead: A.private.lead })}
         <div class="cols2">
           <div>
             <p class="prose" data-reveal>${A.private.body}</p>
@@ -149,7 +170,7 @@ export default function Access({ locale, t, ea }) {
             <p class="prose" data-reveal>${A.private.priceExplain}</p>
             <p class="warn" data-reveal>${A.private.disclaimer}</p>
             <p class="statgrid__title" data-reveal>${A.private.flowTitle}</p>
-            ${Flow({ steps: ['inquiry', 'useCaseReview', 'meeting', 'terms', 'payment', 'delivery'].map((k) => A.private.flow[k]), compact: true })}
+            ${Flow({ steps: ['inquiry', 'screening', 'agreement', 'payment', 'delivery'].map((k) => A.private.flow[k]), compact: true })}
             <p class="fineline" data-reveal>${A.private.noCheckout}</p>
           </div>
           <div>
@@ -167,32 +188,32 @@ export default function Access({ locale, t, ea }) {
       </div>
     </section>
 
-    <!-- CUSTOM (§30) — pointer -->
+    <!-- CUSTOM DEVELOPMENT — a service, not a plan (§13, §145) -->
     <section class="sec sec--tight" id="custom" data-reveal-root>
       <div class="wrap">
-        ${SectionHead({ eyebrow: 'ACCESS 04', title: A.custom.title, lead: A.custom.lead })}
+        ${SectionHead({ eyebrow: '03', title: A.custom.title, lead: A.custom.lead })}
         <div class="sec__actions" data-reveal>${Button({ href: p(ROUTES.development()), label: A.custom.cta })}</div>
       </div>
     </section>
 
-    <!-- comparison (§48–49) -->
+    <!-- comparison (§143) -->
     <section class="sec sec--tight" id="compare" data-reveal-root>
       <div class="wrap">
-        ${SectionHead({ eyebrow: '03', title: A.compare.title, lead: A.compare.lead })}
+        ${SectionHead({ eyebrow: '04', title: A.compare.title, lead: A.compare.lead })}
         ${ComparisonTable({ rows: COMPARISON, t })}
         <p class="fineline" data-reveal>${A.compare.note}</p>
       </div>
     </section>
 
-    <!-- FAQ (§100) -->
+    <!-- FAQ -->
     <section class="sec sec--tight" id="faq" data-reveal-root>
       <div class="wrap">
-        ${SectionHead({ eyebrow: '04', title: A.faqTitle })}
+        ${SectionHead({ eyebrow: '05', title: A.faqTitle })}
         ${FAQ({ items: A.faq })}
       </div>
     </section>
 
-    <!-- evidence before sales -->
+    <!-- evidence before sales (§159) -->
     <section class="sec sec--tight" data-reveal-root>
       <div class="wrap">
         <p class="ebs" data-reveal><span class="ebs__k">EVIDENCE BEFORE SALES.</span> ${A.evidenceLine}</p>
@@ -200,6 +221,7 @@ export default function Access({ locale, t, ea }) {
           ${Button({ href: p(ROUTES.ea()), label: A.backToStrategies, variant: 'ghost' })}
           ${Button({ href: p(ROUTES.research()), label: A.backToResearch, variant: 'ghost' })}
         </div>
+        ${BrandStrip()}
       </div>
     </section>
   `;

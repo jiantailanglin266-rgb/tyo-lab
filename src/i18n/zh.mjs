@@ -1212,21 +1212,23 @@ export default {
     noSupportBody:
       '我们不提供投资建议、代客操作、信号订阅或利润保证，也无法判断某套系统是否适合您的个人财务状况。',
   },
-
-  commercial:   {
+
+  commercial: {
     "plans": {
       "IB": "IB ACCESS",
       "PRO": "TYO PRO",
-      "PRIVATE": "TYO PRIVATE"
+      "PRIVATE": "TYO PRIVATE",
+      "FREE": "FREE",
+      "PARTNER": "PARTNER"
     },
     "filterLabel": "访问方式",
     "filters": {
       "IB": "可通过 IB 使用",
-      "PRO": "PRO 可用",
-      "PRIVATE": "仅限 Private"
+      "PRO": "PRO",
+      "PRIVATE": "仅限 Private",
+      "FREE": "免费",
+      "PARTNER": "合作"
     },
-    "pending": "方案待定",
-    "pendingTitle": "TYO 尚未决定方案分配",
     "dataRequiredTitle": "所有者数据尚未录入 — 此处没有任何虚构",
     "quote": "联系报价",
     "eaFee": "EA 使用费",
@@ -1253,24 +1255,38 @@ export default {
       "customization": "定制",
       "builtForClient": "为客户专属开发",
       "researchDriven": "研究驱动流程",
-      "validationOptional": "可选 OOS / WF / MC / Shadow"
+      "validationOptional": "可选 OOS / WF / MC / Shadow",
+      "freeLibrary": "免费 EA 库",
+      "basicBacktest": "基础回测查看",
+      "basicForward": "基础前向数据",
+      "tyoAccount": "TYO 账户",
+      "researchAccess": "研究访问",
+      "proLibrary": "PRO EA 库",
+      "advancedStrategies": "高级策略访问",
+      "eaUpdates": "EA 更新",
+      "advancedAnalytics": "高级分析",
+      "portfolio": "组合",
+      "enhancedSupport": "增强支持",
+      "partnerAccess": "合作策略访问",
+      "privateStrategy": "私有策略"
     },
     "status": {
       "DRAFT": "草稿",
       "AVAILABLE": "可用",
       "PAUSED": "暂停",
-      "PRIVATE": "私有",
-      "RETIRED": "已停止"
+      "PRIVATE": "PRIVATE",
+      "RETIRED": "已停止",
+      "FREE": "FREE",
+      "PRO": "PRO",
+      "PARTNER": "PARTNER",
+      "RESEARCH_ONLY": "仅研究"
     },
     "ctaAccess": "获取此策略",
     "ctaOptions": "查看访问方式",
     "howToAccess": "如何使用此 EA",
     "commercialStatus": "商业状态",
-    "plansLabel": "访问方案",
     "researchStatus": "研究状态",
     "researchStatusNote": "见上方证据部分 — 研究状态与商业状态分开管理。",
-    "lockedNote": "可通过 {plans} 使用。访问权限由 TYO 账户层授予，本页不提供任何下载。",
-    "pendingBody": "TYO 尚未为此策略分配访问方案。无论商业状态如何，上方证据均完整公开。",
     "form": {
       "labels": {
         "name": "姓名",
@@ -1329,45 +1345,66 @@ export default {
       "endpointMissing": "咨询接口",
       "offlineBody": "此表单对接的咨询接口尚未配置，目前无法提交。它将随 TYO 账户层一起上线。",
       "interimEmail": "在此之前，可通过邮件咨询："
-    }
+    },
+    "statusTitle": "商业状态 — 与上方研究状态相互独立",
+    "cta": {
+      "FREE": "免费下载",
+      "PRO": "PRO 可用",
+      "PARTNER": "合作访问",
+      "PRIVATE": "私有咨询",
+      "RESEARCH_ONLY": "仅研究",
+      "NONE": "暂不提供"
+    },
+    "ctaNote": {
+      "FREE": "包含在免费库中。下载通过 TYO 账户层提供，而非本页面。",
+      "PRO": "包含在 TYO PRO 中。订阅有效期内通过 TYO 账户层授予访问权限。",
+      "PARTNER": "面向通过受支持经纪商连接并已验证的合作用户。",
+      "PRIVATE": "属于私有层级。本站不销售，从咨询开始。",
+      "RESEARCH_ONLY": "TYO 尚未为该策略分配访问方案。无论如何，上方研究与证据均完整；已在 MQL5 发布的策略仍以那里为获取途径。",
+      "NONE": "该策略目前不提供分发。"
+    },
+    "planRequired": "所需方案",
+    "downloadNotLive": "账户与下载层尚未上线，本站不提供任何下载。",
+    "forever": "永久",
+    "brokerLinked": "经纪商关联"
   },
-
-  access:   {
+
+  access: {
     "eyebrow": "EA ACCESS",
     "h1": "选择适合你的方式，",
     "h2": "使用 TYO 的 EA。",
     "lead": "经过研究的策略，按你的交易方式选择。每个方案都能回到证据页面。",
     "modelsTitle": "四种访问模式",
-    "modelsLead": "从经纪商关联访问到私有许可与完全定制开发。它们都不出售预测，只提供在许可下运行你已审视过的策略的方式。",
-    "plannedNote": "「筹备中」表示模式已定义并文档化，但其后端（验证、计费、审核）尚未上线。本站不产生任何收费。",
+    "modelsLead": "从免费账户到私有许可，再到没有现成方案时的定制开发。它们都不出售预测，而是提供在许可下运行你已审视过的策略的方式。",
+    "plannedNote": "「筹备中」表示模式已定义并文档化，但账户、计费与下载层尚未上线。本站不产生任何收费。",
     "plans": {
-      "IB": {
-        "name": "IB ACCESS",
-        "tagline": "通过受支持经纪商的 TYO 推荐账户，以 $0 的 EA 使用费使用指定策略。",
-        "note": "经纪商的交易成本（点差、佣金、隔夜利息）照常产生。受支持经纪商与资格：DATA_REQUIRED。",
-        "cta": "IB 访问如何运作"
-      },
       "PRO": {
         "name": "TYO PRO",
-        "tagline": "不想更换经纪商、但想使用高级策略的交易者。",
+        "tagline": "想使用高级策略集又保留自有经纪商的交易者。",
         "note": "以美元计价的月度订阅。仅在订阅有效期内可下载。",
         "cta": "关于 TYO PRO"
       },
       "PRIVATE": {
         "name": "TYO PRIVATE",
         "tagline": "不属于公开目录的限量高阶许可。",
-        "note": "不在本站销售。咨询 → 用途评估 → 协议。",
+        "note": "本站不销售。咨询 → 审核 → 协议。",
         "cta": "申请私有访问"
       },
-      "CUSTOM": {
-        "name": "CUSTOM DEVELOPMENT",
-        "tagline": "把你的策略写成代码 — 采用 TYO 对自身系统同样的研究流程。",
-        "note": "按需求报价。开工前共同确定范围。",
-        "cta": "定制 EA"
+      "FREE": {
+        "name": "FREE",
+        "tagline": "TYO 账户、免费 EA 库与完整研究访问。",
+        "note": "无需信用卡。免费策略清单由 TYO 决定（DATA_REQUIRED）。",
+        "cta": "FREE 包含什么"
+      },
+      "PARTNER": {
+        "name": "PARTNER",
+        "tagline": "面向通过受支持经纪商连接并验证的用户。",
+        "note": "由 TYO 人工审批。经纪商与条件：DATA_REQUIRED。",
+        "cta": "合作访问如何运作"
       }
     },
-    "matrixTitle": "策略 × 方案",
-    "matrixLead": "哪些策略可纳入哪些方案。证据永远在先 — 打开任意一行，先查看回测、OOS、前推与前向数据，再选择方案。",
+    "matrixTitle": "策略 × 访问",
+    "matrixLead": "哪个策略属于哪个方案。证据永远在先 — 打开任意一行，先读回测、OOS、前推与前向数据，再选择访问方式。",
     "matrix": {
       "ea": "策略",
       "symbol": "品种",
@@ -1376,47 +1413,18 @@ export default {
       "evidence": "证据",
       "viewEvidence": "查看证据",
       "plans": "方案",
-      "status": "商业状态"
+      "status": "商业状态",
+      "plan": "所需方案"
     },
-    "matrixNote": "「方案待定」表示 TYO 尚未决定该策略的方案。商业状态独立于研究状态（策略可以已通过研究验证、商业上仍为草稿）。",
+    "matrixNote": "「仅研究」表示 TYO 尚未为该策略分配访问方案。商业状态独立于研究状态：策略可以已通过研究验证，但仍未在此分发。",
     "focusLabel": "选中的策略",
-    "focusPending": "该策略尚未分配访问方案。证据页面完整可用。",
-    "focusAssigned": "该策略可纳入：{plans}。",
-    "ib": {
-      "title": "IB ACCESS",
-      "lead": "通过受支持经纪商的 TYO 推荐账户，免 EA 使用费使用合格策略。",
-      "body": "IB 访问通过推荐计划把你的经纪商账户与 TYO 关联。EA 使用费为 $0；经纪商自身的交易成本照常产生。验证完成后授予访问权限。",
-      "wording": "通过受支持经纪商推荐计划关联的合格用户，可能免除 EA 使用费。资格、经纪商列表与条件由 TYO 与经纪商设定，可能因地区而异。",
-      "supportedBroker": "受支持经纪商",
-      "eligibility": "资格",
-      "verification": "验证",
-      "verificationManual": "人工 — 你提交，TYO 核验，授予访问",
-      "countries": "国家",
-      "disclosureTag": "IB 披露",
-      "disclosure": "当你通过 TYO 推荐链接开户时，TYO 可能从受支持经纪商获得推荐报酬。这不会改变经纪商设定的交易成本。",
-      "flowTitle": "流程",
-      "flow": {
-        "lab": "TYO LAB",
-        "brokerAccount": "经纪商账户",
-        "ibRegistration": "TYO IB 注册",
-        "verification": "验证",
-        "eaAccess": "EA 访问"
-      },
-      "statesTitle": "访问状态",
-      "states": {
-        "NOT_CONNECTED": "未关联",
-        "PENDING_VERIFICATION": "等待验证",
-        "VERIFIED": "已验证",
-        "ACTIVE": "有效",
-        "SUSPENDED": "已暂停"
-      },
-      "verificationNote": "验证使用经纪商、账户或推荐 ID、邮箱与 TYO 用户 ID。本站绝不索取或存储账户凭证。"
-    },
+    "focusPending": "该策略尚未分配访问方案。其研究页面完整可用。",
+    "focusAssigned": "该策略可通过以下方式获得：{plans}。",
     "pro": {
       "title": "TYO PRO",
       "price": "$10 / month",
-      "lead": "保留你的经纪商，订阅高级策略。",
-      "body": "TYO PRO 面向不想更换经纪商的交易者。以美元计价的月度订阅，解锁高级策略集、高级参数集、优先更新、研究预设与组合访问 — 仅在订阅有效期内。",
+      "lead": "在你自己的经纪商上使用高级策略集。",
+      "body": "TYO PRO 是面向不想更换经纪商的交易者的月度订阅。它解锁 PRO EA 库、EA 更新、高级分析与组合工具 — 仅在订阅有效期内。它并非「全部策略」：私有层级另计。",
       "featuresNote": "只列出已存在的功能；列表随平台增长，绝不超前。",
       "billing": "计费",
       "currency": "货币",
@@ -1425,14 +1433,14 @@ export default {
       "refund": "退款政策",
       "states": "订阅状态",
       "downloadNote": "下载由与有效订阅绑定的签名下载 API 提供 — 绝不使用公开文件 URL。",
-      "notLive": "计费尚未上线。在接入支付服务商（Phase 16C）之前，本站不收取任何款项。"
+      "notLive": "计费尚未上线。在接入并启用支付服务商之前，本站不收取任何款项。"
     },
     "private": {
       "title": "TYO PRIVATE",
       "lead": "面向认真运营者的私有策略访问。",
-      "body": "不同于公开目录的限量高阶许可。不在本站购买：咨询、用途评估、线上会议、条款、付款，然后交付许可。",
+      "body": "不同于公开目录的限量高阶许可。不在本站购买：咨询、审核、协议、付款，然后交付许可。",
       "detailsUponInquiry": "详情请咨询。私有策略的名称、逻辑、文件与业绩均不公开。",
-      "priceExplain": "$5,000 的价格体现的是独占性、许可范围、直接支持与定制 — 不是业绩承诺。",
+      "priceExplain": "价格体现独占性、许可范围、直接支持与定制 — 不是业绩承诺。",
       "disclaimer": "价格更高不代表收益更高或有保证。TYO 的每个策略，无论私有或公开，都适用同样的风险披露。",
       "flowTitle": "流程",
       "flow": {
@@ -1441,19 +1449,21 @@ export default {
         "meeting": "线上会议",
         "terms": "条款",
         "payment": "付款",
-        "delivery": "许可交付"
+        "delivery": "许可交付",
+        "screening": "审核",
+        "agreement": "协议"
       },
       "noCheckout": "此层级刻意不设购买按钮。",
       "formTitle": "申请私有访问"
     },
     "custom": {
       "title": "CUSTOM EA DEVELOPMENT",
-      "lead": "把你的想法做成 EA — 研究驱动，可选 OOS / 前推 / 蒙特卡洛 / 影子前向验证。",
-      "cta": "定制 EA"
+      "lead": "当现有策略都不合适时：把你的逻辑写成代码，采用 TYO 对自身系统同样的研究流程。",
+      "cta": "定制你的 EA"
     },
     "compare": {
       "title": "访问方案一览",
-      "lead": "只列实际计划提供的内容。空白表示不提供。",
+      "lead": "只列实际计划提供的内容。全部以账户层上线为前提。",
       "heading": "方案",
       "rows": {
         "cost": "费用",
@@ -1476,39 +1486,98 @@ export default {
         "direct": "直接",
         "brokerLinked": "经纪商关联",
         "subscription": "订阅",
-        "inquiry": "咨询"
+        "inquiry": "咨询",
+        "free0": "$0",
+        "perMonthPro": "$19 / 月",
+        "oneTimePrivate": "$5,000 一次性",
+        "freeLibrary": "免费库",
+        "proLibrary": "PRO 库",
+        "partnerLibrary": "合作策略",
+        "privateStrategy": "私有策略",
+        "community": "社区",
+        "signup": "注册"
       },
-      "note": "价格以美元计。如适用税费，由支付服务商处理。"
+      "note": "价格以美元计，来自配置。如适用税费，由支付服务商处理。"
     },
     "faqTitle": "访问常见问题",
     "faq": [
       {
-        "q": "什么是 IB 访问？",
-        "a": "通过 TYO 推荐开设的经纪商账户关联到 TYO 账户，以 $0 EA 使用费使用合格策略。经纪商的正常交易成本照常产生。受支持经纪商尚未公布（DATA_REQUIRED）。"
+        "q": "FREE 方案包含什么？",
+        "a": "TYO 账户、免费 EA 库、基础回测与前向查看，以及完整研究访问。哪些策略免费由 TYO 决定，尚未公布（DATA_REQUIRED）。"
       },
       {
-        "q": "TYO PRO 与 IB 访问有何不同？",
-        "a": "PRO 是每月 $10 的订阅，不依赖经纪商，解锁高级策略集。IB 访问依赖受支持经纪商，覆盖指定策略。"
+        "q": "TYO PRO 增加了什么？",
+        "a": "PRO EA 库、EA 更新、高级分析与组合工具，按月付费，不依赖经纪商。刻意不写作「全部策略」——私有层级另计。"
       },
       {
-        "q": "可以使用多少个策略？",
-        "a": "以上方策略 × 方案矩阵为准。各方案的 MT5 账户数与设备数上限将在确定后公布（DATA_REQUIRED）。"
+        "q": "PARTNER 有何不同？",
+        "a": "合作访问授予通过受支持经纪商推荐计划连接、并由 TYO 人工审批的用户。经纪商与条件尚未公布。"
       },
       {
-        "q": "取消后会怎样？",
-        "a": "付费周期结束时停止下载。取消与退款条款将与支付服务商一同公布；在此之前标记为 DATA_REQUIRED 而非承诺。"
+        "q": "取消 PRO 会怎样？",
+        "a": "访问持续到付费周期结束，然后回到 FREE。取消与退款条款将与支付服务商一同公布；在此之前标记为 DATA_REQUIRED 而非承诺。"
       },
       {
-        "q": "$5,000 私有许可有何不同？",
+        "q": "私有许可有何不同？",
         "a": "独占性、许可范围、直接支持与定制。不是业绩：没有任何 TYO 策略承诺收益。"
+      },
+      {
+        "q": "今天能下载 EA 吗？",
+        "a": "本站不能。账户、权益与签名下载是下一阶段；任何付费产物都不存放在公开仓库中。"
       }
     ],
     "evidenceLine": "先读证据，再比风险，然后选择访问方式。顺序永不颠倒。",
     "backToStrategies": "返回策略列表",
-    "backToResearch": "研究日志"
+    "backToResearch": "研究日志",
+    "partner": {
+      "title": "PARTNER",
+      "lead": "面向通过受支持经纪商连接的用户的访问。",
+      "body": "合作访问通过推荐计划把你的经纪商账户与 TYO 关联。没有 EA 使用费；经纪商自身的交易成本照常产生。访问在 TYO 人工验证后授予。",
+      "wording": "通过受支持经纪商推荐计划关联的合格用户可能获得访问权限。资格、经纪商列表与条件由 TYO 与经纪商设定，可能因地区而异。",
+      "supportedBroker": "受支持经纪商",
+      "eligibility": "资格",
+      "verification": "验证",
+      "verificationManual": "人工 — 你提交，TYO 核验，授予访问",
+      "countries": "国家",
+      "disclosureTag": "合作披露",
+      "disclosure": "当你通过 TYO 推荐链接开户时，TYO 可能从受支持经纪商获得推荐报酬。这不会改变经纪商设定的交易成本。",
+      "flowTitle": "流程",
+      "flow": {
+        "lab": "TYO LAB",
+        "brokerAccount": "经纪商账户",
+        "ibRegistration": "TYO IB 注册",
+        "verification": "验证",
+        "eaAccess": "EA 访问",
+        "partnerRegistration": "合作注册"
+      },
+      "statesTitle": "合作状态",
+      "states": {
+        "NOT_CONNECTED": "未关联",
+        "PENDING_VERIFICATION": "等待验证",
+        "VERIFIED": "已验证",
+        "ACTIVE": "有效",
+        "SUSPENDED": "已暂停",
+        "NONE": "未连接",
+        "PENDING": "待审批",
+        "EXPIRED": "已过期"
+      },
+      "verificationNote": "验证使用经纪商、账户或推荐 ID、邮箱与 TYO 用户 ID。绝不索取或存储账户凭证。",
+      "approval": "审批",
+      "approvalManual": "人工 — 你提交，TYO 验证，授予访问"
+    },
+    "free": {
+      "title": "FREE",
+      "lead": "账户、免费库与全部研究页面。",
+      "body": "TYO 账户免费。它包含免费 EA 库、基础回测与前向查看，以及对研究平台的完整访问 — 与公开页面相同的证据，按账户组织。",
+      "cost": "费用",
+      "requires": "需要",
+      "requiresValue": "TYO 账户（邮箱或 Google 登录）",
+      "eaList": "免费 EA 清单",
+      "notLive": "注册尚未上线。在账户层交付之前，已发布策略仍在 TYO 发布之处提供。"
+    }
   },
-
-  development:   {
+
+  development: {
     "eyebrow": "CUSTOM EA DEVELOPMENT",
     "h1": "你的策略。",
     "h2": "写进代码。",
@@ -1672,8 +1741,8 @@ export default {
       "uploadNote": "文件上传（源码、规格）将在咨询后端上线后开放。在此之前请在留言中描述 EA。"
     }
   },
-
-  account:   {
+
+  account: {
     "eyebrow": "TYO ACCOUNT",
     "h1": "你的访问，",
     "h2": "集中一处。",
@@ -1721,17 +1790,17 @@ export default {
 
   seo: {
     access: {
-      "title": "EA 访问 — IB / PRO / Private / 定制开发 | TYO",
-      "desc": "使用 TYO EA 的方式：IB 访问、TYO PRO（每月 $10）、TYO PRIVATE 许可与定制 EA 开发。证据优先，再谈 MT5 EA 访问。"
-},
+      "title": "EA 访问 — FREE / PRO / PARTNER / PRIVATE | TYO",
+      "desc": "使用 TYO EA 的方式：免费账户、每月 $19 的 TYO PRO、通过受支持经纪商的合作访问，以及私有许可。证据优先，再谈访问。"
+    },
     development: {
       "title": "定制 EA 开发 — MT4 / MT5 | TYO",
       "desc": "以研究为驱动的 MT4/MT5 EA 开发：原创 EA、现有 EA 修改、MT4→MT5 迁移、回测自动化、AI × MCP 系统。"
 },
     account: {
       "title": "TYO 账户 | TYO",
-      "desc": "您的访问方案、订阅、IB 状态、下载与许可。"
-},
+      "desc": "您的访问方案、订阅、合作状态、下载与许可。"
+    },
     home: {
       title: 'TYO — Algorithmic Trading, Engineered Differently',
       desc:
