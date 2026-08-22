@@ -51,6 +51,9 @@ import LabIndex from './src/pages/lab-index.mjs';
 import LabArticle from './src/pages/lab-article.mjs';
 import About from './src/pages/about.mjs';
 import Contact from './src/pages/contact.mjs';
+import Access from './src/pages/access.mjs';
+import Development from './src/pages/development.mjs';
+import Account from './src/pages/account.mjs';
 import NotFound from './src/pages/notfound.mjs';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
@@ -365,6 +368,19 @@ const articleLd = (a, locale, c) => ({
   author: { '@id': `${SITE_URL}/#organization` },
   publisher: { '@id': `${SITE_URL}/#organization` },
   mainEntityOfPage: absolute(localePath(locale, ROUTES.labArticle(a.slug))),
+});
+
+/** Phase 16 §110: the development service as schema.org Service (no Offer — quote only). */
+const serviceLd = (locale, t) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: t.seo.development.title,
+  description: t.seo.development.desc,
+  serviceType: 'Custom MT4/MT5 Expert Advisor development',
+  provider: { '@id': `${SITE_URL}/#organization` },
+  areaServed: 'Worldwide',
+  inLanguage: (LOCALES.find((l) => l.code === locale) || {}).hreflang,
+  url: absolute(localePath(locale, ROUTES.development())),
 });
 
 /* ------------------------------------------------------------------ *
@@ -692,6 +708,32 @@ for (const loc of LOCALES) {
       children: Contact({ ...ctx }),
     })
   );
+
+  /* ---- Phase 16: commercial layer ---- */
+  for (const [route, title, desc, Page, navKey] of [
+    [ROUTES.access(), t.seo.access.title, t.seo.access.desc, Access, 'access'],
+    [ROUTES.development(), t.seo.development.title, t.seo.development.desc, Development, 'development'],
+    [ROUTES.account(), t.seo.account.title, t.seo.account.desc, Account, 'account'],
+  ]) {
+    await emit(
+      outPath(locale, route),
+      Document({
+        ...ctx,
+        path: route,
+        title,
+        description: desc,
+        noindex: navKey === 'account',
+        jsonLd: [
+          breadcrumb(locale, [
+            { name: t.nav.home, path: ROUTES.home() },
+            { name: t.nav[navKey], path: route },
+          ]),
+          ...(navKey === 'development' ? [serviceLd(locale, t)] : []),
+        ],
+        children: Page({ ...ctx, ea }),
+      })
+    );
+  }
 }
 
 /* ------------------------------------------------------------------ *
@@ -719,6 +761,8 @@ if (FEATURES.labSection) {
 }
 registerSitemap(ROUTES.about(), '0.6', 'yearly');
 registerSitemap(ROUTES.contact(), '0.5', 'yearly');
+registerSitemap(ROUTES.access(), '0.8', 'monthly');
+registerSitemap(ROUTES.development(), '0.7', 'monthly');
 
 const today = new Date().toISOString().slice(0, 10);
 await emit(

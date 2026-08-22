@@ -804,7 +804,7 @@
     var none = $('[data-browse-none]', root);
     var countTpl = count ? count.dataset.tpl || count.textContent.trim() : '';
 
-    var state = { market: '', tag: '', risk: '', q: '', sort: 'score' };
+    var state = { market: '', tag: '', risk: '', access: '', q: '', sort: 'score' };
 
     /* Original order, so "catalogue order" can always be restored. */
     cards.forEach(function (c, i) {
@@ -832,6 +832,7 @@
       if (state.market && card.dataset.market !== state.market) return false;
       if (state.tag && (' ' + (card.dataset.tags || '') + ' ').indexOf(' ' + state.tag + ' ') < 0) return false;
       if (state.risk && card.dataset.risk !== state.risk) return false;
+      if (state.access && (' ' + (card.dataset.access || '') + ' ').indexOf(' ' + state.access + ' ') < 0) return false;
       if (state.q && (card.dataset.name || '').indexOf(state.q) < 0) return false;
       return true;
     }
@@ -1766,5 +1767,54 @@
       });
 
     apply();
+  })();
+
+  /* 16 ─ EA ACCESS hub: focus the strategy named in ?ea= (Phase 16 §43) ─ */
+  (function accessFocus() {
+    var table = $('[data-access-matrix]');
+    var box = $('[data-access-focus]');
+    if (!table || !box) return;
+    var slug = '';
+    try { slug = new URLSearchParams(location.search).get('ea') || ''; } catch (e) {}
+    slug = slug.toLowerCase().replace(/[^a-z0-9-]/g, '');
+    if (!slug) return;
+    var row = $('tr[data-ea="' + slug + '"]', table);
+    if (!row) return;
+    row.classList.add('is-focus');
+    var name = $('th a', row);
+    var plans = $('td[data-label] .abadge', row);
+    var badges = $$('.abadge', row).filter(function (b) { return !b.classList.contains('abadge--pending'); });
+    $('[data-access-focus-name]', box).textContent = name ? name.textContent : slug;
+    var pl = $('[data-access-focus-plans]', box);
+    pl.innerHTML = '';
+    badges.forEach(function (b) { pl.appendChild(b.cloneNode(true)); });
+    var body = $('[data-access-focus-body]', box);
+    body.textContent = badges.length ? body.dataset.assigned.replace('{plans}', badges.map(function (b) { return b.textContent; }).join(' / ')) : body.dataset.pending;
+    box.hidden = false;
+    box.classList.add('is-in');
+    raf(function () { row.scrollIntoView({ block: 'center', behavior: isReduced() ? 'auto' : 'smooth' }); });
+  })();
+
+  /* 17 ─ inquiry forms: post as JSON to the configured endpoint (§87) ──── */
+  (function inquiry() {
+    $$('form[data-inquiry-form]').forEach(function (form) {
+      if (form.classList.contains('iform--offline')) {
+        on(form, 'submit', function (e) { e.preventDefault(); });
+        return;
+      }
+      on(form, 'submit', function (e) {
+        e.preventDefault();
+        if (!form.reportValidity()) return;
+        var data = {};
+        new FormData(form).forEach(function (v, k) { data[k] = v; });
+        data.page = location.pathname;
+        var btn = $('[type="submit"]', form);
+        if (btn) btn.disabled = true;
+        fetch(form.action, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) })
+          .then(function (r) { if (!r.ok) throw new Error(String(r.status)); form.classList.add('is-sent'); form.reset(); })
+          .catch(function () { form.classList.add('is-failed'); })
+          .then(function () { if (btn) btn.disabled = false; });
+      });
+    });
   })();
 })();

@@ -20,6 +20,7 @@ import {
 } from '../components/ea-analytics.mjs';
 import { EvidenceChecklist, ExpStatus } from '../components/research.mjs';
 import { ValidationPanel } from '../components/validation-ui.mjs';
+import { EAAccessPanel } from '../components/commercial.mjs';
 
 /**
  * EA DETAIL 2.0
@@ -225,6 +226,7 @@ export default function EADetail({ locale, t, ea: model, next, stages }) {
 
               <div class="eahero__actions" data-reveal>
                 ${when(blocks.some((b) => b.id === 'performance'), () => Button({ href: '#performance', label: S.performance }))}
+                ${Button({ href: `${p(ROUTES.access())}?ea=${model.slug}`, label: t.commercial.ctaAccess, variant: 'ghost' })}
                 ${when(
                   model.mql5Url,
                   () => Button({ href: model.mql5Url, label: t.ui.viewOnMql5, variant: 'ghost', external: true, srNote: t.ui.externalLink })
@@ -261,6 +263,8 @@ export default function EADetail({ locale, t, ea: model, next, stages }) {
               <div class="block__body">${VideoEmbed({ video: model.media.video, t, title: `${model.name} — ${d.video}` })}</div>
             </section>`
           )}
+
+          ${EAAccessPanel({ model, t, locale })}
 
           <section class="block" id="disclaimer" data-reveal-root>
             <h2 class="block__title" data-reveal>

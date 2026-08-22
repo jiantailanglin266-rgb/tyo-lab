@@ -254,6 +254,8 @@ export default function Home({ locale, t, has, mask, ea, stages }) {
           <p class="final__body" data-reveal>${splitWords(h.final.body, 'final__w')}</p>
           <div class="final__actions" data-reveal>
             ${Button({ href: p(ROUTES.ea()), label: h.final.cta })}
+            ${Button({ href: p(ROUTES.access()), label: t.commercial.ctaOptions, variant: 'ghost' })}
+            ${Button({ href: p(ROUTES.development()), label: t.nav.development, variant: 'ghost' })}
             ${when(
               LINKS.mql5Profile,
               () => Button({ href: LINKS.mql5Profile, label: t.ui.viewOnMql5, variant: 'ghost', external: true, srNote: t.ui.externalLink })

@@ -20,6 +20,9 @@ export const ROUTES = {
   terminal: () => '/terminal/',
   about: () => '/about/',
   contact: () => '/contact/',
+  access: () => '/access/',
+  development: () => '/development/',
+  account: () => '/account/',
 };
 
 /** Absolute site path for a locale, e.g. ('ja','/ea/') → '/ja/ea/' */

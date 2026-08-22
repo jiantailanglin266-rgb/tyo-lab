@@ -60,8 +60,10 @@ function navItems(locale, t) {
     { href: localePath(locale, ROUTES.portfolio()), label: t.nav.portfolio, n: '07', headerHidden: true },
     { href: localePath(locale, ROUTES.research()), label: t.nav.research, n: '08', headerHidden: true },
     { href: localePath(locale, ROUTES.terminal()), label: t.nav.terminal, n: '09', headerHidden: true },
-    { href: localePath(locale, ROUTES.about()), label: t.nav.about, n: '10' },
-    { href: localePath(locale, ROUTES.contact()), label: t.nav.contact, n: '11' },
+    { href: localePath(locale, ROUTES.access()), label: t.nav.access, n: '10', headerHidden: true },
+    { href: localePath(locale, ROUTES.development()), label: t.nav.development, n: '11', headerHidden: true },
+    { href: localePath(locale, ROUTES.about()), label: t.nav.about, n: '12' },
+    { href: localePath(locale, ROUTES.contact()), label: t.nav.contact, n: '13' },
   ];
 }
 

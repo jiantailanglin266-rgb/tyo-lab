@@ -142,3 +142,16 @@ export const FEATURES = {
 
 /** Formspree / Basin / Netlify-compatible endpoint. Empty string = mailto fallback. */
 export const FORM_ENDPOINT = '';
+
+/* ------------------------------------------------------------------ *
+ * 9. Commercial layer (Phase 16) — endpoints are owner data.
+ * The static site never fabricates a backend: while an endpoint is empty
+ * the matching form renders as DATA_REQUIRED (no mailto fallback, §87).
+ * ------------------------------------------------------------------ */
+export const COMMERCIAL = {
+  inquiryEndpoint: '', // POST target for Private / Development / IB-verification inquiries (form service or Contact API)
+  accountUrl: '', // TYO ACCOUNT app (auth + billing) — Phase 16B; empty = /account/ shows "not live"
+  downloadApiUrl: '', // signed-download API — Phase 16B
+  paymentProvider: '', // 'stripe' | 'paddle' | 'lemonsqueezy' — Phase 16C; empty = no checkout anywhere
+  contactEmailConfirmed: false, // owner must confirm LINKS.email is monitored before it is presented as the inquiry channel
+};

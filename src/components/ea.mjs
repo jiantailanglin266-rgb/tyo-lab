@@ -60,6 +60,7 @@ export function EACard({ ea, locale, t, index = 0 }) {
         'data-market': ea.spec.marketKey,
         'data-tags': (ea.spec.strategyTags || []).join(' '),
         'data-risk': ea.spec.risk || '',
+        'data-access': (ea.commercial?.plans || []).join(' '),
         // Searchable text: name, symbol, market and strategy, so "gold" finds a
         // XAUUSD system and "martingale" finds one by its strategy.
         'data-name': [ea.name, ea.spec.symbol, ea.spec.market, ea.spec.marketKey, ea.spec.strategy, (ea.spec.strategyTags || []).join(' ')].filter(Boolean).join(' ').toLowerCase(),
@@ -103,6 +104,7 @@ export function EACard({ ea, locale, t, index = 0 }) {
           <span class="eacard__n">${ea.number}</span>
           <div class="eacard__badges">
             ${badges(ea, t).map((b) => html`<span class="badge ${raw(b.cls)}">${b.label}</span>`)}
+            ${when(ea.commercial?.plans?.length, () => html`${ea.commercial.plans.map((p) => html`<span class="abadge abadge--${raw(p.toLowerCase())}">${t.commercial.plans[p]}</span>`)}`)}
           </div>
         </div>
         <div class="eacard__title">

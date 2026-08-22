@@ -29,6 +29,9 @@ export default {
     lab: 'Backtest Lab',
     about: 'About TYO',
     contact: 'Contact',
+    access: "EA Access",
+    development: "Development",
+    account: "Account",
   },
 
   ui: {
@@ -1284,6 +1287,492 @@ export default {
       'We do not provide investment advice, managed accounts, signal subscriptions or profit guarantees, and we cannot advise on whether a system suits your personal financial situation.',
   },
 
+  commercial:   {
+    "plans": {
+      "IB": "IB ACCESS",
+      "PRO": "TYO PRO",
+      "PRIVATE": "TYO PRIVATE"
+    },
+    "filterLabel": "Access",
+    "filters": {
+      "IB": "Available via IB",
+      "PRO": "Available on PRO",
+      "PRIVATE": "Private only"
+    },
+    "pending": "PLAN PENDING",
+    "pendingTitle": "Plan assignment pending — not yet decided by TYO",
+    "dataRequiredTitle": "Owner data not entered yet — nothing is invented here",
+    "quote": "Contact for quote",
+    "eaFee": "EA access fee",
+    "perMonth": "month",
+    "oneTime": "one-time",
+    "availability": {
+      "PLANNED": "PLANNED",
+      "AVAILABLE": "AVAILABLE"
+    },
+    "features": {
+      "selectedEA": "Selected strategies",
+      "standardUpdates": "Standard updates",
+      "standardSupport": "Standard support",
+      "setupGuide": "Setup guide",
+      "advancedEA": "Advanced strategy access",
+      "premiumParameters": "Premium parameter sets",
+      "priorityUpdates": "Priority updates",
+      "researchPresets": "Research presets",
+      "portfolioAccess": "Portfolio access",
+      "privateEA": "Private strategy",
+      "privateUpdates": "Private updates",
+      "directSupport": "Direct support",
+      "licenseScope": "Defined license scope",
+      "customization": "Customization",
+      "builtForClient": "Built for the client",
+      "researchDriven": "Research-driven process",
+      "validationOptional": "OOS / WF / MC / Shadow on request"
+    },
+    "status": {
+      "DRAFT": "DRAFT",
+      "AVAILABLE": "AVAILABLE",
+      "PAUSED": "PAUSED",
+      "PRIVATE": "PRIVATE",
+      "RETIRED": "RETIRED"
+    },
+    "ctaAccess": "ACCESS THIS STRATEGY",
+    "ctaOptions": "VIEW ACCESS OPTIONS",
+    "howToAccess": "How to access this EA",
+    "commercialStatus": "Commercial status",
+    "plansLabel": "Access plans",
+    "researchStatus": "Research status",
+    "researchStatusNote": "Shown in the evidence sections above — research status and commercial status are kept separate.",
+    "lockedNote": "Available via {plans}. Access is granted through the TYO Account layer; nothing is downloadable from this page.",
+    "pendingBody": "TYO has not assigned this strategy to an access plan yet. The evidence above is complete regardless of commercial status.",
+    "form": {
+      "labels": {
+        "name": "Name",
+        "company": "Company",
+        "country": "Country",
+        "email": "Email",
+        "platform": "Trading platform",
+        "experience": "Experience",
+        "capitalRange": "Capital range",
+        "preferredMarket": "Preferred market",
+        "purpose": "Purpose",
+        "message": "Message",
+        "symbol": "Symbol",
+        "timeframe": "Timeframe",
+        "strategyType": "Strategy type",
+        "existingSource": "Existing source code",
+        "desiredFeatures": "Desired features",
+        "budgetRange": "Budget range",
+        "deadline": "Deadline"
+      },
+      "optional": "optional",
+      "preferNotToSay": "Prefer not to say",
+      "experienceOptions": [
+        "Under 1 year",
+        "1–3 years",
+        "3–10 years",
+        "10+ years",
+        "Professional / institutional"
+      ],
+      "rangeOptions": [
+        "Under $5,000",
+        "$5,000 – $25,000",
+        "$25,000 – $100,000",
+        "$100,000 – $500,000",
+        "Over $500,000"
+      ],
+      "strategyTypes": [
+        "Trend following",
+        "Mean reversion",
+        "Scalping",
+        "Breakout",
+        "Grid / pyramid",
+        "Arbitrage / statistical",
+        "Portfolio / multi-strategy",
+        "Other"
+      ],
+      "sourceOptions": [
+        "No existing code",
+        "I have .mq4 / .mq5 source",
+        "I only have .ex4 / .ex5",
+        "Specification document only"
+      ],
+      "ndaLabel": "I would like to discuss an NDA before sharing details.",
+      "privacyNote": "Do not include account numbers, investor passwords or API keys. Capital and budget fields are optional.",
+      "send": "Send inquiry",
+      "endpointMissing": "inquiry endpoint",
+      "offlineBody": "This form is wired to an inquiry endpoint that has not been configured yet, so it cannot be submitted. It will go live with the TYO Account layer.",
+      "interimEmail": "Until then, inquiries are accepted by e-mail:"
+    }
+  },
+
+  access:   {
+    "eyebrow": "EA ACCESS",
+    "h1": "CHOOSE YOUR ACCESS.",
+    "h2": "Research first. Then the way you use it.",
+    "lead": "Researched strategies, available in the way that fits how you trade. Every plan links back to the evidence.",
+    "modelsTitle": "Four access models",
+    "modelsLead": "From broker-linked access to a private license and fully custom development. None of them sells you a prediction — they give you a licensed way to run a strategy you have already examined.",
+    "plannedNote": "PLANNED means the model is defined and documented but its backend (verification, billing, screening) is not live yet. Nothing is charged on this site.",
+    "plans": {
+      "IB": {
+        "name": "IB ACCESS",
+        "tagline": "Use selected strategies with an EA access fee of $0 through a TYO-referred account at a supported broker.",
+        "note": "Broker trading costs (spreads, commissions, swaps) still apply. Supported brokers and eligibility: DATA_REQUIRED.",
+        "cta": "How IB access works"
+      },
+      "PRO": {
+        "name": "TYO PRO",
+        "tagline": "For traders who do not want to change broker but want the advanced strategies.",
+        "note": "Monthly subscription in USD. Downloads are available only while the subscription is active.",
+        "cta": "About TYO PRO"
+      },
+      "PRIVATE": {
+        "name": "TYO PRIVATE",
+        "tagline": "A limited, higher-tier license that is not part of the public catalogue.",
+        "note": "Not sold on this site. Inquiry → use-case review → agreement.",
+        "cta": "Request private access"
+      },
+      "CUSTOM": {
+        "name": "CUSTOM DEVELOPMENT",
+        "tagline": "Your strategy, built into code — with the same research process TYO applies to its own systems.",
+        "note": "Quote on request. Scope is defined together before any work starts.",
+        "cta": "Build a custom EA"
+      }
+    },
+    "matrixTitle": "Strategies × plans",
+    "matrixLead": "Which strategies can be included in which plan. Evidence always comes first — open any row to see backtest, OOS, walk-forward and forward data before choosing a plan.",
+    "matrix": {
+      "ea": "Strategy",
+      "symbol": "Symbol",
+      "timeframe": "TF",
+      "score": "TYO Score",
+      "evidence": "Evidence",
+      "viewEvidence": "View evidence",
+      "plans": "Plans",
+      "status": "Commercial status"
+    },
+    "matrixNote": "PLAN PENDING: TYO has not decided the plan for that strategy yet. Commercial status is independent of research status (a strategy can be research-validated and commercially draft).",
+    "focusLabel": "Selected strategy",
+    "focusPending": "This strategy has no access plan assigned yet. The evidence pages remain fully available.",
+    "focusAssigned": "This strategy can be included in: {plans}.",
+    "ib": {
+      "title": "IB ACCESS",
+      "lead": "Use eligible strategies with no EA access fee through a TYO-referred account at a supported broker.",
+      "body": "IB access links your broker account to TYO through a referral program. The EA access fee is $0; the broker's own trading costs apply as usual. Access is granted after verification.",
+      "wording": "EA access fees may be waived for eligible users linked through supported broker referral programs. Eligibility, broker list and conditions are set by TYO and the broker and may differ by region.",
+      "supportedBroker": "Supported broker",
+      "eligibility": "Eligibility",
+      "verification": "Verification",
+      "verificationManual": "Manual — you submit, TYO verifies, access is granted",
+      "countries": "Countries",
+      "disclosureTag": "IB DISCLOSURE",
+      "disclosure": "TYO may receive referral compensation from supported brokers when you open an account through a TYO referral link. This does not change your trading costs as set by the broker.",
+      "flowTitle": "How it works",
+      "flow": {
+        "lab": "TYO LAB",
+        "brokerAccount": "Broker account",
+        "ibRegistration": "TYO IB registration",
+        "verification": "Verification",
+        "eaAccess": "EA access"
+      },
+      "statesTitle": "Access status",
+      "states": {
+        "NOT_CONNECTED": "NOT CONNECTED",
+        "PENDING_VERIFICATION": "PENDING VERIFICATION",
+        "VERIFIED": "VERIFIED",
+        "ACTIVE": "ACTIVE",
+        "SUSPENDED": "SUSPENDED"
+      },
+      "verificationNote": "Verification uses broker, account or referral ID, e-mail and TYO user ID. No account credentials are ever requested or stored on this site."
+    },
+    "pro": {
+      "title": "TYO PRO",
+      "price": "$10 / month",
+      "lead": "Keep your broker. Subscribe to the advanced strategies.",
+      "body": "TYO PRO is for traders who do not want to change broker. It is a monthly USD subscription that unlocks the advanced strategy set, premium parameter sets, priority updates, research presets and portfolio access — only while the subscription is active.",
+      "featuresNote": "Only features that exist are listed; the list grows with the platform, never ahead of it.",
+      "billing": "Billing",
+      "currency": "Currency",
+      "provider": "Payment provider",
+      "cancel": "Cancellation",
+      "refund": "Refund policy",
+      "states": "Subscription states",
+      "downloadNote": "Downloads are served by a signed-download API tied to an active subscription — never by a public file URL.",
+      "notLive": "Billing is not live. No payment is taken on this site until a payment provider is connected (Phase 16C)."
+    },
+    "private": {
+      "title": "TYO PRIVATE",
+      "lead": "Private strategy access for serious operators.",
+      "body": "A limited, higher-tier license that is different from the public catalogue. It is not purchased on this site: inquiry, use-case review, online meeting, terms, payment, then license delivery.",
+      "detailsUponInquiry": "Details available upon inquiry. No name, logic, file or performance of the private strategy is published.",
+      "priceExplain": "The $5,000 price reflects exclusivity, license scope, direct support and customization — not a promise of performance.",
+      "disclaimer": "A higher price does not mean higher or guaranteed returns. Every TYO strategy, private or public, carries the same risk disclosure.",
+      "flowTitle": "Process",
+      "flow": {
+        "inquiry": "Inquiry",
+        "useCaseReview": "Use-case review",
+        "meeting": "Online meeting",
+        "terms": "Terms",
+        "payment": "Payment",
+        "delivery": "License delivery"
+      },
+      "noCheckout": "There is deliberately no checkout button for this tier.",
+      "formTitle": "Request private access"
+    },
+    "custom": {
+      "title": "CUSTOM EA DEVELOPMENT",
+      "lead": "Your idea, built into an EA — research-driven, with optional OOS / walk-forward / Monte Carlo / shadow-forward validation.",
+      "cta": "Build a custom EA"
+    },
+    "compare": {
+      "title": "Access plans at a glance",
+      "lead": "Only what is actually planned. Empty means not offered.",
+      "heading": "Plan",
+      "rows": {
+        "cost": "Cost",
+        "access": "Access",
+        "updates": "Updates",
+        "support": "Support",
+        "purchase": "How you get it"
+      },
+      "values": {
+        "eaFee0": "EA fee $0",
+        "perMonth10": "$10 / month",
+        "oneTime5000": "$5,000 one-time",
+        "selectedEA": "Selected strategies",
+        "advancedEA": "Advanced strategies",
+        "privateEA": "Private strategy",
+        "standard": "Standard",
+        "priority": "Priority",
+        "private": "Private",
+        "enhanced": "Enhanced",
+        "direct": "Direct",
+        "brokerLinked": "Broker-linked",
+        "subscription": "Subscription",
+        "inquiry": "Inquiry"
+      },
+      "note": "Prices in USD. Taxes, where applicable, are handled by the payment provider."
+    },
+    "faqTitle": "Access FAQ",
+    "faq": [
+      {
+        "q": "What is IB access?",
+        "a": "A way to use eligible strategies with an EA access fee of $0 by linking a broker account opened through a TYO referral to your TYO account. The broker's normal trading costs still apply. Supported brokers are not published yet (DATA_REQUIRED)."
+      },
+      {
+        "q": "How is TYO PRO different from IB access?",
+        "a": "PRO is a $10/month subscription that does not depend on your broker and unlocks the advanced strategy set. IB access depends on a supported broker and covers the selected strategies."
+      },
+      {
+        "q": "How many strategies can I use?",
+        "a": "The strategy × plan matrix above is the source of truth. Per-plan limits on MT5 accounts and devices will be stated once set (DATA_REQUIRED)."
+      },
+      {
+        "q": "What happens when I cancel?",
+        "a": "Downloads stop at the end of the paid period. Cancellation and refund terms will be published together with the payment provider; until then they are marked DATA_REQUIRED rather than promised."
+      },
+      {
+        "q": "What is different about the $5,000 private license?",
+        "a": "Exclusivity, license scope, direct support and customization. Not performance: no TYO strategy promises returns."
+      }
+    ],
+    "evidenceLine": "Read the evidence, compare the risk, then choose how to access. Never the other way round.",
+    "backToStrategies": "Back to strategies",
+    "backToResearch": "Research log"
+  },
+
+  development:   {
+    "eyebrow": "CUSTOM EA DEVELOPMENT",
+    "h1": "YOUR STRATEGY.",
+    "h2": "BUILT INTO CODE.",
+    "lead": "Research-driven MT4 / MT5 Expert Advisor development — from a one-line idea or an existing EA to a validated system.",
+    "ctaRequest": "Request a quote",
+    "ctaModify": "I already have an EA",
+    "why": {
+      "h1": "We do not stop at coding.",
+      "h2": "We test the logic.",
+      "body1": "Any developer can turn a description into an EA. TYO builds it and then puts it through the same evidence pipeline used for its own systems: backtest, out-of-sample, walk-forward, Monte Carlo, shadow forward.",
+      "body2": "You receive code and the evidence about that code — including the honest result when a logic does not hold."
+    },
+    "scope": {
+      "title": "What we build",
+      "lead": "MetaTrader 4 and 5. Strategy code, infrastructure around it, and research tooling.",
+      "items": {
+        "originalEA": {
+          "k": "Original EA",
+          "v": "From your rules to a working system"
+        },
+        "existingEAModification": {
+          "k": "EA modification",
+          "v": "Filters, risk, exits, fixes"
+        },
+        "mt4ToMt5Migration": {
+          "k": "MT4 → MT5",
+          "v": "Migration with behaviour checks"
+        },
+        "indicators": {
+          "k": "Indicators",
+          "v": "Custom MQL4 / MQL5 indicators"
+        },
+        "riskManagement": {
+          "k": "Risk systems",
+          "v": "Position sizing, daily limits, basket control"
+        },
+        "portfolioTools": {
+          "k": "Portfolio tools",
+          "v": "Multi-strategy allocation and monitoring"
+        },
+        "tradingDashboards": {
+          "k": "Dashboards",
+          "v": "On-chart and external monitoring"
+        },
+        "backtestAutomation": {
+          "k": "Backtest automation",
+          "v": "Batch runs, report parsing, metrics"
+        },
+        "aiMt5Integration": {
+          "k": "AI × MT5",
+          "v": "Model-assisted research and monitoring"
+        },
+        "mcpIntegration": {
+          "k": "MCP integration",
+          "v": "Read-only AI tooling over your terminal data"
+        }
+      }
+    },
+    "types": {
+      "title": "Development types",
+      "lead": "Scope is chosen together; each type is quoted on its requirements.",
+      "items": {
+        "BASIC": {
+          "name": "BASIC DEVELOPMENT",
+          "body": "Your specification is final. We implement, test for correctness and deliver."
+        },
+        "RESEARCH": {
+          "name": "RESEARCH DEVELOPMENT",
+          "body": "Logic research included: we examine the idea, propose variants and report what holds on development data."
+        },
+        "ADVANCED_QUANT": {
+          "name": "ADVANCED QUANT DEVELOPMENT",
+          "body": "Full validation: OOS, walk-forward, Monte Carlo and shadow forward under the Evidence-by-Design protocol."
+        },
+        "AI_SYSTEM": {
+          "name": "AI TRADING SYSTEM",
+          "body": "AI / MCP / data-pipeline systems around MT5 — research assistants, monitoring, reporting."
+        }
+      },
+      "note": "Prices depend on requirements and are quoted per project. No fixed price list is published."
+    },
+    "process": {
+      "title": "Research process",
+      "lead": "Seven steps for every build; the advanced track adds the validation engines from TYO LAB.",
+      "standardTitle": "Standard flow",
+      "steps": {
+        "consultation": "Consultation",
+        "strategyDesign": "Strategy design",
+        "specification": "Specification",
+        "development": "Development",
+        "backtest": "Backtest",
+        "revision": "Revision",
+        "delivery": "Delivery"
+      },
+      "advancedTitle": "Advanced validation (optional)",
+      "advanced": {
+        "research": "Research",
+        "oos": "Out-of-sample",
+        "walkForward": "Walk-forward",
+        "monteCarlo": "Monte Carlo",
+        "shadowForward": "Shadow forward"
+      },
+      "advancedNote": "The same engines and rules documented on the Research page — including a sealed holdout the developer cannot touch.",
+      "seeProtocol": "See the protocol"
+    },
+    "stack": {
+      "title": "Tech stack",
+      "lead": "Only what is used in this lab today."
+    },
+    "modify": {
+      "title": "I already have an EA",
+      "lead": "Modification and migration requests are welcome — with or without source code.",
+      "examples": {
+        "sltp": "Add SL / TP logic",
+        "martingaleControl": "Add martingale control or removal",
+        "trendFilter": "Add a trend filter",
+        "mt4ToMt5": "Convert MT4 to MT5",
+        "sessionFilter": "Add a session filter",
+        "newsFilter": "Add a news filter",
+        "portfolioControl": "Add portfolio control",
+        "aiMonitoring": "Add AI monitoring"
+      },
+      "cta": "Request a modification"
+    },
+    "cases": {
+      "title": "Case studies",
+      "lead": "Only real, published research counts as a case study here.",
+      "none": "No client case studies are published. TYO's own research log — including experiments that failed their targets — is the reference for how work is done.",
+      "cta": "Open the research log"
+    },
+    "faqTitle": "Development FAQ",
+    "faq": [
+      {
+        "q": "MT4 or MT5?",
+        "a": "Both. New systems are built for MT5 by default; MT4 and MT4→MT5 migration are supported."
+      },
+      {
+        "q": "Can you modify an existing EA?",
+        "a": "Yes, with .mq4 / .mq5 source. Without source, rebuilding from a specification is usually the realistic path — we will say so up front."
+      },
+      {
+        "q": "Is it possible without source code?",
+        "a": "An .ex4 / .ex5 cannot be edited. We can re-implement from your description and verify behaviour against the original in the tester."
+      },
+      {
+        "q": "What do I receive?",
+        "a": "Compiled EA, set files, documentation and — depending on the agreed scope — source code and the validation reports."
+      },
+      {
+        "q": "Is backtesting included?",
+        "a": "Correctness testing is always included. Research-grade validation (OOS / walk-forward / Monte Carlo / shadow forward) is the advanced track."
+      },
+      {
+        "q": "Confidentiality, ownership, rights?",
+        "a": "NDA can be agreed before details are shared. Source ownership, commercial rights and redistribution rights are defined in the contract for each project."
+      }
+    ],
+    "form": {
+      "title": "Request a quote",
+      "lead": "Tell us what you want to build. Budget and deadline are optional; they help us propose the right scope.",
+      "uploadNote": "File upload (source code, specifications) becomes available once the inquiry backend is live. Until then describe the EA in the message."
+    }
+  },
+
+  account:   {
+    "eyebrow": "TYO ACCOUNT",
+    "h1": "YOUR ACCESS.",
+    "h2": "In one place.",
+    "leadLive": "Your plan, subscription, IB status, downloads and licenses.",
+    "leadNotLive": "The account layer — sign-in, billing, entitlements and signed downloads — is a separate application that is not live yet.",
+    "open": "Open TYO Account",
+    "notLiveTag": "account layer",
+    "notLiveBody": "There is no login on this site on purpose: a static research site cannot protect downloads or handle payments, and TYO does not imitate features that do not exist.",
+    "willShowTitle": "What the account will show",
+    "willShowLead": "Defined now, implemented in Phase 16B.",
+    "sections": {
+      "accessPlan": "Access plan",
+      "subscriptionStatus": "Subscription status",
+      "ibStatus": "IB status",
+      "availableEAs": "Available EAs",
+      "downloads": "Downloads",
+      "licenses": "Licenses",
+      "settings": "Account settings"
+    },
+    "loginTitle": "Sign-in",
+    "loginLead": "Passwordless by design.",
+    "loginNote": "Planned: e-mail magic link and Google sign-in through a mature auth provider. TYO will not implement its own password storage.",
+    "backToAccess": "Back to EA Access"
+  },
+
   footer: {
     tagline: 'Algorithmic Trading Lab',
     navTitle: 'Navigation',
@@ -1305,6 +1794,18 @@ export default {
   },
 
   seo: {
+    access: {
+      "title": "EA Access — IB, PRO, Private & Custom | TYO",
+      "desc": "How to use TYO Expert Advisors: IB access, TYO PRO ($10/month), TYO PRIVATE license and custom EA development. MT5 EA access with evidence first."
+},
+    development: {
+      "title": "Custom EA Development — MT4 / MT5 | TYO",
+      "desc": "Research-driven custom Expert Advisor development for MetaTrader 4 and 5: original EAs, modifications, MT4→MT5 migration, backtest automation, AI × MCP systems."
+},
+    account: {
+      "title": "TYO Account | TYO",
+      "desc": "Your TYO access plan, subscription, IB status, downloads and licenses."
+},
     home: {
       title: 'TYO — Algorithmic Trading, Engineered Differently',
       desc:

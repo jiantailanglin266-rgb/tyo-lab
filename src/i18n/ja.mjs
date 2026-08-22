@@ -25,6 +25,9 @@ export default {
     lab: 'バックテストラボ',
     about: 'TYOについて',
     contact: 'お問い合わせ',
+    access: "EAアクセス",
+    development: "EA開発",
+    account: "アカウント",
   },
 
   ui: {
@@ -1226,6 +1229,492 @@ export default {
       '投資助言、資金運用の受託、シグナル配信、利益の保証は行っていません。また、特定のシステムがお客様の資産状況に適合するかどうかの判断も行えません。',
   },
 
+  commercial:   {
+    "plans": {
+      "IB": "IB ACCESS",
+      "PRO": "TYO PRO",
+      "PRIVATE": "TYO PRIVATE"
+    },
+    "filterLabel": "アクセス",
+    "filters": {
+      "IB": "IBで利用可",
+      "PRO": "PROで利用可",
+      "PRIVATE": "Private限定"
+    },
+    "pending": "プラン未割当",
+    "pendingTitle": "プラン割当はTYOが未決定",
+    "dataRequiredTitle": "オーナー側のデータ未入力 — 捏造はしていません",
+    "quote": "見積もり",
+    "eaFee": "EA利用料",
+    "perMonth": "月",
+    "oneTime": "買い切り",
+    "availability": {
+      "PLANNED": "準備中",
+      "AVAILABLE": "提供中"
+    },
+    "features": {
+      "selectedEA": "対象EA",
+      "standardUpdates": "標準アップデート",
+      "standardSupport": "標準サポート",
+      "setupGuide": "セットアップガイド",
+      "advancedEA": "上位EAへのアクセス",
+      "premiumParameters": "プレミアムパラメータ",
+      "priorityUpdates": "優先アップデート",
+      "researchPresets": "リサーチプリセット",
+      "portfolioAccess": "ポートフォリオアクセス",
+      "privateEA": "プライベート戦略",
+      "privateUpdates": "プライベートアップデート",
+      "directSupport": "ダイレクトサポート",
+      "licenseScope": "明確なライセンス範囲",
+      "customization": "カスタマイズ",
+      "builtForClient": "クライアント専用に開発",
+      "researchDriven": "リサーチ駆動のプロセス",
+      "validationOptional": "OOS / WF / MC / Shadow（希望時）"
+    },
+    "status": {
+      "DRAFT": "DRAFT",
+      "AVAILABLE": "提供中",
+      "PAUSED": "一時停止",
+      "PRIVATE": "PRIVATE",
+      "RETIRED": "提供終了"
+    },
+    "ctaAccess": "このEAを利用する",
+    "ctaOptions": "利用方法を見る",
+    "howToAccess": "このEAの利用方法",
+    "commercialStatus": "提供ステータス",
+    "plansLabel": "アクセスプラン",
+    "researchStatus": "リサーチステータス",
+    "researchStatusNote": "上の証拠セクションに表示 — リサーチステータスと提供ステータスは分けて管理しています。",
+    "lockedNote": "{plans} で利用可能。アクセス権はTYOアカウント層で付与されます。このページから直接ダウンロードはできません。",
+    "pendingBody": "このEAはまだアクセスプランに割り当てられていません。提供ステータスに関わらず、上の証拠は完全に公開されています。",
+    "form": {
+      "labels": {
+        "name": "お名前",
+        "company": "会社名",
+        "country": "国",
+        "email": "メールアドレス",
+        "platform": "取引プラットフォーム",
+        "experience": "取引経験",
+        "capitalRange": "運用資金の範囲",
+        "preferredMarket": "希望する市場",
+        "purpose": "目的",
+        "message": "メッセージ",
+        "symbol": "通貨ペア / 銘柄",
+        "timeframe": "時間足",
+        "strategyType": "戦略タイプ",
+        "existingSource": "既存ソースコード",
+        "desiredFeatures": "希望する機能",
+        "budgetRange": "予算の範囲",
+        "deadline": "希望納期"
+      },
+      "optional": "任意",
+      "preferNotToSay": "回答しない",
+      "experienceOptions": [
+        "1年未満",
+        "1〜3年",
+        "3〜10年",
+        "10年以上",
+        "プロ / 機関投資家"
+      ],
+      "rangeOptions": [
+        "$5,000未満",
+        "$5,000〜$25,000",
+        "$25,000〜$100,000",
+        "$100,000〜$500,000",
+        "$500,000以上"
+      ],
+      "strategyTypes": [
+        "トレンドフォロー",
+        "平均回帰",
+        "スキャルピング",
+        "ブレイクアウト",
+        "グリッド / ピラミッド",
+        "アービトラージ / 統計的",
+        "ポートフォリオ / マルチ戦略",
+        "その他"
+      ],
+      "sourceOptions": [
+        "既存コードなし",
+        ".mq4 / .mq5 ソースあり",
+        ".ex4 / .ex5 のみ",
+        "仕様書のみ"
+      ],
+      "ndaLabel": "詳細を共有する前にNDAについて相談したい",
+      "privacyNote": "口座番号・投資家パスワード・APIキーは記入しないでください。資金・予算の項目は任意です。",
+      "send": "問い合わせを送る",
+      "endpointMissing": "問い合わせ送信先",
+      "offlineBody": "このフォームは問い合わせ用エンドポイントに接続する設計ですが、送信先が未設定のため現在は送信できません。TYOアカウント層と同時に有効化されます。",
+      "interimEmail": "それまでの間、お問い合わせはメールで受け付けています："
+    }
+  },
+
+  access:   {
+    "eyebrow": "EA ACCESS",
+    "h1": "あなたに合った方法で、",
+    "h2": "TYOのEAを。",
+    "lead": "研究されたEAを、利用スタイルに合わせて選べる。どのプランも、証拠のページへ戻れます。",
+    "modelsTitle": "4つのアクセスモデル",
+    "modelsLead": "ブローカー連携のアクセスから、プライベートライセンス、完全カスタム開発まで。どれも予測を売るものではなく、すでに検証内容を確認した戦略を、ライセンスのもとで運用する方法です。",
+    "plannedNote": "「準備中」は、モデルが定義・文書化済みだがバックエンド（認証・課金・審査）が未稼働であることを意味します。このサイト上で課金は発生しません。",
+    "plans": {
+      "IB": {
+        "name": "IB ACCESS",
+        "tagline": "対象ブローカーのTYO紹介口座を利用することで、対象EAをEA利用料0で利用できるプラン。",
+        "note": "ブローカー側の取引コスト（スプレッド・手数料・スワップ）は通常どおり発生します。対象ブローカー・適用条件：DATA_REQUIRED。",
+        "cta": "IBアクセスの仕組み"
+      },
+      "PRO": {
+        "name": "TYO PRO",
+        "tagline": "ブローカーを変更せずに、TYOの上位EAを利用したい方へ。",
+        "note": "USD建ての月額制。ダウンロードは契約有効中のみ。",
+        "cta": "TYO PROについて"
+      },
+      "PRIVATE": {
+        "name": "TYO PRIVATE",
+        "tagline": "一般公開版とは異なる、限定提供の上位ライセンス。",
+        "note": "サイト上では販売しません。問い合わせ → 用途確認 → 契約。",
+        "cta": "導入について問い合わせる"
+      },
+      "CUSTOM": {
+        "name": "CUSTOM DEVELOPMENT",
+        "tagline": "あなたのアイデアを、EAにする。TYOが自社システムに適用するのと同じリサーチプロセスで。",
+        "note": "要件に応じて見積もり。作業前にスコープを一緒に確定します。",
+        "cta": "カスタムEAを依頼する"
+      }
+    },
+    "matrixTitle": "戦略 × プラン",
+    "matrixLead": "どの戦略がどのプランに含まれ得るか。必ず証拠が先です — 各行からバックテスト・OOS・ウォークフォワード・フォワードのデータを確認してからプランを選んでください。",
+    "matrix": {
+      "ea": "戦略",
+      "symbol": "銘柄",
+      "timeframe": "時間足",
+      "score": "TYO Score",
+      "evidence": "証拠",
+      "viewEvidence": "証拠を見る",
+      "plans": "プラン",
+      "status": "提供ステータス"
+    },
+    "matrixNote": "「プラン未割当」はTYOがその戦略のプランをまだ決めていない状態です。提供ステータスはリサーチステータスとは独立しています（検証済みでも提供はDRAFT、ということがあります）。",
+    "focusLabel": "選択中の戦略",
+    "focusPending": "この戦略にはまだアクセスプランが割り当てられていません。証拠ページはすべて閲覧できます。",
+    "focusAssigned": "この戦略は {plans} に含めることができます。",
+    "ib": {
+      "title": "IB ACCESS",
+      "lead": "対象ブローカーのTYO紹介口座を通じて、対象EAをEA利用料なしで利用する。",
+      "body": "IBアクセスは、紹介プログラムを通じてブローカー口座とTYOを連携する仕組みです。EA利用料は0で、ブローカー自身の取引コストは通常どおり発生します。アクセス権は認証完了後に付与されます。",
+      "wording": "対象ブローカーの紹介プログラムを通じて連携した適格ユーザーについては、EA利用料が免除される場合があります。適格条件・ブローカー一覧・条件はTYOとブローカーが定め、地域により異なることがあります。",
+      "supportedBroker": "対象ブローカー",
+      "eligibility": "適用条件",
+      "verification": "認証",
+      "verificationManual": "手動 — 利用者が申請、TYOが確認、アクセス付与",
+      "countries": "対象国",
+      "disclosureTag": "IBに関する開示",
+      "disclosure": "TYOは、TYOの紹介リンクを通じて口座が開設された場合、対象ブローカーから紹介報酬を受け取ることがあります。これにより、ブローカーが定める取引コストが変わることはありません。",
+      "flowTitle": "流れ",
+      "flow": {
+        "lab": "TYO LAB",
+        "brokerAccount": "ブローカー口座",
+        "ibRegistration": "TYO IB登録",
+        "verification": "認証",
+        "eaAccess": "EAアクセス"
+      },
+      "statesTitle": "アクセス状態",
+      "states": {
+        "NOT_CONNECTED": "未連携",
+        "PENDING_VERIFICATION": "認証待ち",
+        "VERIFIED": "認証済み",
+        "ACTIVE": "有効",
+        "SUSPENDED": "停止中"
+      },
+      "verificationNote": "認証にはブローカー、口座またはリファラルID、メールアドレス、TYOユーザーIDを使用します。口座の認証情報をこのサイトで求めたり保存したりすることはありません。"
+    },
+    "pro": {
+      "title": "TYO PRO",
+      "price": "$10 / month",
+      "lead": "ブローカーはそのまま。上位EAをサブスクリプションで。",
+      "body": "TYO PROはブローカーを変更したくない方向けのプランです。USD建ての月額制で、上位EAセット、プレミアムパラメータ、優先アップデート、リサーチプリセット、ポートフォリオアクセスが、契約有効中に限り利用できます。",
+      "featuresNote": "存在する機能のみを掲載しています。リストはプラットフォームの実装に合わせて増え、先行して掲載することはありません。",
+      "billing": "課金",
+      "currency": "通貨",
+      "provider": "決済プロバイダ",
+      "cancel": "解約",
+      "refund": "返金ポリシー",
+      "states": "サブスクリプション状態",
+      "downloadNote": "ダウンロードは有効なサブスクリプションに紐づく署名付きダウンロードAPIから提供します。公開ファイルURLでは配布しません。",
+      "notLive": "課金は未稼働です。決済プロバイダが接続されるまで（Phase 16C）、このサイトで支払いが発生することはありません。"
+    },
+    "private": {
+      "title": "TYO PRIVATE",
+      "lead": "本気で運用する方のための、プライベート戦略アクセス。",
+      "body": "一般公開版とは異なる、限定提供の上位ライセンスです。サイト上で購入するものではなく、問い合わせ → 用途確認 → オンライン面談 → 契約条件 → 支払い → ライセンス提供、の順に進みます。",
+      "detailsUponInquiry": "詳細はお問い合わせください。プライベート戦略の名称・ロジック・ファイル・成績は公開していません。",
+      "priceExplain": "$5,000という価格は、限定性・ライセンス範囲・ダイレクトサポート・カスタマイズを反映したものであり、成績の約束ではありません。",
+      "disclaimer": "高額であることは、より高い、あるいは保証された収益を意味しません。TYOの戦略は公開版・プライベート版を問わず、同じリスク開示の対象です。",
+      "flowTitle": "プロセス",
+      "flow": {
+        "inquiry": "問い合わせ",
+        "useCaseReview": "用途確認",
+        "meeting": "オンライン面談",
+        "terms": "契約条件",
+        "payment": "支払い",
+        "delivery": "ライセンス提供"
+      },
+      "noCheckout": "このティアには意図的に購入ボタンを置いていません。",
+      "formTitle": "プライベートアクセスを問い合わせる"
+    },
+    "custom": {
+      "title": "CUSTOM EA DEVELOPMENT",
+      "lead": "あなたのアイデアをEAにする — リサーチ駆動で、希望に応じてOOS / ウォークフォワード / モンテカルロ / シャドーフォワード検証まで。",
+      "cta": "カスタムEAを依頼する"
+    },
+    "compare": {
+      "title": "アクセスプラン比較",
+      "lead": "実際に提供予定の内容のみ。空欄は非提供です。",
+      "heading": "プラン",
+      "rows": {
+        "cost": "費用",
+        "access": "アクセス",
+        "updates": "アップデート",
+        "support": "サポート",
+        "purchase": "利用方法"
+      },
+      "values": {
+        "eaFee0": "EA利用料 $0",
+        "perMonth10": "$10 / 月",
+        "oneTime5000": "$5,000 買い切り",
+        "selectedEA": "対象EA",
+        "advancedEA": "上位EA",
+        "privateEA": "プライベート戦略",
+        "standard": "標準",
+        "priority": "優先",
+        "private": "プライベート",
+        "enhanced": "強化",
+        "direct": "ダイレクト",
+        "brokerLinked": "ブローカー連携",
+        "subscription": "サブスクリプション",
+        "inquiry": "問い合わせ"
+      },
+      "note": "価格はUSD表示。適用される税は決済プロバイダ側で処理します。"
+    },
+    "faqTitle": "アクセスに関するFAQ",
+    "faq": [
+      {
+        "q": "IB ACCESSとは？",
+        "a": "TYOの紹介を通じて開設したブローカー口座をTYOアカウントに連携し、対象EAをEA利用料0で利用する方法です。ブローカーの通常の取引コストは発生します。対象ブローカーは未公開です（DATA_REQUIRED）。"
+      },
+      {
+        "q": "$10プランとの違いは？",
+        "a": "PROは月額$10のサブスクリプションで、ブローカーに依存せず上位EAセットを利用できます。IB ACCESSは対象ブローカーが前提で、対象EAが範囲です。"
+      },
+      {
+        "q": "EAはいくつ利用できる？",
+        "a": "上の「戦略 × プラン」表が基準です。プランごとのMT5口座数・デバイス数の上限は決まり次第掲載します（DATA_REQUIRED）。"
+      },
+      {
+        "q": "解約するとどうなる？",
+        "a": "支払い済み期間の終了時点でダウンロードが停止します。解約・返金の条件は決済プロバイダと同時に公開します。それまでは約束ではなくDATA_REQUIREDとして表示しています。"
+      },
+      {
+        "q": "$5,000版との違いは？",
+        "a": "限定性・ライセンス範囲・ダイレクトサポート・カスタマイズです。成績ではありません。TYOのどの戦略も収益を約束しません。"
+      }
+    ],
+    "evidenceLine": "証拠を読み、リスクを比べ、それから利用方法を選ぶ。順番は逆になりません。",
+    "backToStrategies": "EA一覧へ",
+    "backToResearch": "リサーチログ"
+  },
+
+  development:   {
+    "eyebrow": "CUSTOM EA DEVELOPMENT",
+    "h1": "あなたのアイデアを、",
+    "h2": "EAにする。",
+    "lead": "リサーチ駆動のMT4 / MT5 EA開発 — 一行のアイデアや既存EAから、検証済みのシステムまで。",
+    "ctaRequest": "見積もりを依頼する",
+    "ctaModify": "既存のEAがある",
+    "why": {
+      "h1": "ただコードを書くのではなく、",
+      "h2": "ロジックを検証する。",
+      "body1": "説明をEAにするだけなら誰にでもできます。TYOは開発したうえで、自社システムと同じ証拠パイプライン — バックテスト、アウトオブサンプル、ウォークフォワード、モンテカルロ、シャドーフォワード — にかけます。",
+      "body2": "納品されるのはコードと、そのコードに関する証拠です。ロジックが成立しなかった場合の正直な結果も含めて。"
+    },
+    "scope": {
+      "title": "開発対象",
+      "lead": "MetaTrader 4 / 5。戦略コード、その周辺インフラ、リサーチツール。",
+      "items": {
+        "originalEA": {
+          "k": "オリジナルEA",
+          "v": "ルールから動くシステムへ"
+        },
+        "existingEAModification": {
+          "k": "既存EA改修",
+          "v": "フィルタ・リスク・決済・不具合修正"
+        },
+        "mt4ToMt5Migration": {
+          "k": "MT4 → MT5",
+          "v": "挙動チェック付きの移行"
+        },
+        "indicators": {
+          "k": "インジケーター",
+          "v": "カスタムMQL4 / MQL5"
+        },
+        "riskManagement": {
+          "k": "リスク管理",
+          "v": "ロット計算・日次制限・バスケット制御"
+        },
+        "portfolioTools": {
+          "k": "ポートフォリオツール",
+          "v": "マルチ戦略の配分と監視"
+        },
+        "tradingDashboards": {
+          "k": "ダッシュボード",
+          "v": "チャート上・外部の監視"
+        },
+        "backtestAutomation": {
+          "k": "バックテスト自動化",
+          "v": "一括実行・レポート解析・指標"
+        },
+        "aiMt5Integration": {
+          "k": "AI × MT5",
+          "v": "モデル支援のリサーチと監視"
+        },
+        "mcpIntegration": {
+          "k": "MCP連携",
+          "v": "端末データに対する読み取り専用AIツール"
+        }
+      }
+    },
+    "types": {
+      "title": "開発タイプ",
+      "lead": "スコープは一緒に決め、要件に応じて見積もります。",
+      "items": {
+        "BASIC": {
+          "name": "BASIC DEVELOPMENT",
+          "body": "仕様確定済みのEA。実装し、正しさを検証して納品します。"
+        },
+        "RESEARCH": {
+          "name": "RESEARCH DEVELOPMENT",
+          "body": "ロジック研究込み。アイデアを検討し、変種を提案し、開発データで成立する内容を報告します。"
+        },
+        "ADVANCED_QUANT": {
+          "name": "ADVANCED QUANT DEVELOPMENT",
+          "body": "完全検証。Evidence-by-Designプロトコルに基づくOOS、ウォークフォワード、モンテカルロ、シャドーフォワード。"
+        },
+        "AI_SYSTEM": {
+          "name": "AI TRADING SYSTEM",
+          "body": "MT5を中心としたAI / MCP / データパイプラインのシステム — リサーチ支援、監視、レポート。"
+        }
+      },
+      "note": "費用は要件に依存し、案件ごとに見積もります。固定価格表は公開していません。"
+    },
+    "process": {
+      "title": "リサーチプロセス",
+      "lead": "すべての開発に7ステップ。上位トラックではTYO LABの検証エンジンを追加します。",
+      "standardTitle": "標準フロー",
+      "steps": {
+        "consultation": "相談",
+        "strategyDesign": "戦略設計",
+        "specification": "仕様確定",
+        "development": "開発",
+        "backtest": "バックテスト",
+        "revision": "修正",
+        "delivery": "納品"
+      },
+      "advancedTitle": "上位検証（オプション）",
+      "advanced": {
+        "research": "リサーチ",
+        "oos": "アウトオブサンプル",
+        "walkForward": "ウォークフォワード",
+        "monteCarlo": "モンテカルロ",
+        "shadowForward": "シャドーフォワード"
+      },
+      "advancedNote": "リサーチページに文書化されたものと同じエンジンとルール — 開発者が触れない封印済みホールドアウトを含みます。",
+      "seeProtocol": "プロトコルを見る"
+    },
+    "stack": {
+      "title": "技術スタック",
+      "lead": "このラボで現在使っているものだけ。"
+    },
+    "modify": {
+      "title": "既存のEAがある",
+      "lead": "改修・移行の依頼を受け付けています — ソースコードの有無を問いません。",
+      "examples": {
+        "sltp": "SL / TPロジックの追加",
+        "martingaleControl": "マーチンゲール制御の追加・除去",
+        "trendFilter": "トレンドフィルタの追加",
+        "mt4ToMt5": "MT4からMT5への変換",
+        "sessionFilter": "セッションフィルタの追加",
+        "newsFilter": "ニュースフィルタの追加",
+        "portfolioControl": "ポートフォリオ制御の追加",
+        "aiMonitoring": "AI監視の追加"
+      },
+      "cta": "改修を依頼する"
+    },
+    "cases": {
+      "title": "事例",
+      "lead": "ここでは、実在し公開されたリサーチだけを事例として扱います。",
+      "none": "顧客事例は公開していません。目標未達に終わった実験を含むTYO自身のリサーチログが、仕事の進め方の参照先です。",
+      "cta": "リサーチログを開く"
+    },
+    "faqTitle": "開発に関するFAQ",
+    "faq": [
+      {
+        "q": "MT4 / MT5どちらに対応？",
+        "a": "両方です。新規システムは標準でMT5向けに開発し、MT4およびMT4→MT5移行にも対応します。"
+      },
+      {
+        "q": "既存EAを修正できる？",
+        "a": ".mq4 / .mq5ソースがあれば可能です。ソースがない場合は、仕様からの再実装が現実的な道になることが多く、その旨を最初にお伝えします。"
+      },
+      {
+        "q": "ソースがなくても可能？",
+        "a": ".ex4 / .ex5は編集できません。説明をもとに再実装し、テスターで元のEAと挙動を照合することは可能です。"
+      },
+      {
+        "q": "納品形式は？",
+        "a": "コンパイル済みEA、setファイル、ドキュメント、そして合意したスコープに応じてソースコードと検証レポートです。"
+      },
+      {
+        "q": "バックテスト対応？",
+        "a": "正しさの検証は常に含まれます。リサーチ水準の検証（OOS / ウォークフォワード / モンテカルロ / シャドーフォワード）は上位トラックです。"
+      },
+      {
+        "q": "秘密保持・所有権・権利は？",
+        "a": "詳細共有の前にNDAを締結できます。ソースの所有権、商用権、再配布権は案件ごとに契約で定めます。"
+      }
+    ],
+    "form": {
+      "title": "見積もりを依頼する",
+      "lead": "作りたいものを教えてください。予算と納期は任意ですが、適切なスコープ提案の助けになります。",
+      "uploadNote": "ファイルアップロード（ソースコード・仕様書）は問い合わせバックエンド稼働後に利用可能になります。それまではメッセージ内でEAを説明してください。"
+    }
+  },
+
+  account:   {
+    "eyebrow": "TYO ACCOUNT",
+    "h1": "あなたのアクセスを、",
+    "h2": "ひとつの場所に。",
+    "leadLive": "プラン、サブスクリプション、IBステータス、ダウンロード、ライセンス。",
+    "leadNotLive": "アカウント層 — サインイン、課金、権利管理、署名付きダウンロード — は別アプリケーションで、まだ稼働していません。",
+    "open": "TYOアカウントを開く",
+    "notLiveTag": "アカウント層",
+    "notLiveBody": "このサイトに意図的にログインはありません。静的なリサーチサイトではダウンロード保護や決済は扱えず、TYOは存在しない機能を装いません。",
+    "willShowTitle": "アカウントに表示される内容",
+    "willShowLead": "現時点で定義済み、Phase 16Bで実装。",
+    "sections": {
+      "accessPlan": "アクセスプラン",
+      "subscriptionStatus": "サブスクリプション状態",
+      "ibStatus": "IBステータス",
+      "availableEAs": "利用可能なEA",
+      "downloads": "ダウンロード",
+      "licenses": "ライセンス",
+      "settings": "アカウント設定"
+    },
+    "loginTitle": "サインイン",
+    "loginLead": "設計上パスワードレス。",
+    "loginNote": "予定：成熟した認証プロバイダによるメールのマジックリンクとGoogleサインイン。TYOが独自にパスワードを保存することはありません。",
+    "backToAccess": "EAアクセスへ戻る"
+  },
+
   footer: {
     tagline: 'Algorithmic Trading Lab',
     navTitle: 'ナビゲーション',
@@ -1247,6 +1736,18 @@ export default {
   },
 
   seo: {
+    access: {
+      "title": "EAアクセス — IB / PRO / Private / カスタム開発 | TYO",
+      "desc": "TYOのEAを利用する方法：IBアクセス、TYO PRO（月額$10）、TYO PRIVATEライセンス、カスタムEA開発。証拠を先に、その上でMT5 EAへのアクセスを。"
+},
+    development: {
+      "title": "カスタムEA開発 — MT4 / MT5 | TYO",
+      "desc": "リサーチ駆動のMT4/MT5 EA開発。オリジナルEA、既存EA改修、MT4→MT5移行、バックテスト自動化、AI × MCPシステム。"
+},
+    account: {
+      "title": "TYOアカウント | TYO",
+      "desc": "アクセスプラン、サブスクリプション、IBステータス、ダウンロード、ライセンス。"
+},
     home: {
       title: 'TYO — Algorithmic Trading, Engineered Differently',
       desc:
